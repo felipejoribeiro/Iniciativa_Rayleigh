@@ -1,0 +1,693 @@
+\documentclass[xcolor=dvipsnames,10pt,aspectratio=169]{beamer}
+%\documentclass[xcolor=dvipsnames,10pt]{beamer}
+\usepackage{etex}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage[absolute,overlay]{textpos} 
+%\usepackage{algorithm}
+\usepackage{amsmath,amssymb}
+\usepackage[utf8]{inputenc} 
+\usepackage{colortbl}
+\usepackage{graphicx} 
+\usepackage[brazil]{babel}
+\usepackage{tabularx} 
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{listings}
+%\usepackage{multimedia}
+\usepackage{animate}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{caption}
+\usetheme{Madrid} 
+\usepackage{amsmath}
+\usepackage{movie15}
+
+
+\lstset{ %
+%	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+%	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	basicstyle=\scriptsize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=t,                    % sets the caption-position to bottom
+	commentstyle=\color{mygreen},    % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+%	frame=single,                    % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+%	language=make,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+%	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+%	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\usecolortheme{beaver}
+\newcommand{\ul}{\underline}
+\setbeamertemplate{footline}{\scriptsize{\vspace*{0.3cm}\hspace*{15cm}\insertframenumber\,/\,\inserttotalframenumber}}
+\setbeamertemplate{caption}[numbered]
+\setbeamerfont{caption}{size=\fontsize{8}{5}}
+
+\setbeamercolor{block title}{	bg=Sepia , fg = White}
+\setbeamercolor{block body}{bg=Brown!15, fg=Sepia }
+\setbeamercolor{item projected}{bg=Sepia, fg=White}
+\setbeamercolor{number projected}{bg = Black}
+
+%declara as imagens usadas no layout do slide
+\pgfdeclareimage[height=0.8cm]{mflab}{figuras/logo_mflab_transparente.png}
+\pgfdeclareimage[height=1.0cm]{logoufu}{figuras/logo_ufu.jpg}
+\pgfdeclareimage[height=1.0cm]{petro}{figuras/petrobras_2.png}
+
+%posiciona o logotipo do MFLab
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\newcommand{\placelogomflab} 
+{ 
+	\begin{textblock}{13}(150.0,0.0)
+		\pgfuseimage{mflab} 
+	\end{textblock} 
+	
+% 	\begin{textblock}{13}(128.0,1.0)
+% 		\pgfuseimage{logoufu} 
+% 	\end{textblock} 
+	
+	\begin{textblock}{13}(150.0,70.0)
+		\pgfuseimage{petro} 
+	\end{textblock} 
+}
+%posiciona o logotipo do MFLab
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\newcommand{\placelogo} 
+{ 
+	\begin{textblock}{13}(150.0,0.0)
+		\pgfuseimage{mflab} 
+	\end{textblock} 
+	
+% 	\begin{textblock}{13}(128.0,1.0)
+% 		\pgfuseimage{logoufu} 
+% 	\end{textblock} 
+	
+	\begin{textblock}{13}(0.0,80.0)
+		\pgfuseimage{petro} 
+	\end{textblock} 
+}
+
+% \setlength{\TPHorizModule}{1mm}
+% \setlength{\TPVertModule}{1mm}
+% \newcommand{\placelogomflab_titulo} 
+% { 
+% 	\begin{textblock}{13}(150.0,0.0)
+% 		\pgfuseimage{mflab} 
+% 	\end{textblock} 
+% 	
+% 	\begin{textblock}{13}(0.0,0.0)
+% 		\pgfuseimage{lmest} 
+% 	\end{textblock} 
+% 	
+% % 	\begin{textblock}{13}(128.0,1.0)
+% % 		\pgfuseimage{logoufu} 
+% % 	\end{textblock} 
+% 	
+% 	\begin{textblock}{13}(75.0,80.0)
+% 		\pgfuseimage{petro} 
+% 	\end{textblock} 
+% }
+
+
+
+%insere o logotipo da ufu em todos os slides
+% \logo{\includegraphics[height=0.8cm]{figuras/layout_slide/petrobras.png}}
+
+\title{Revisão do método de simulação térmica bidimensional e tridimensional, com implementação de novas rotinas de otimização}
+
+\author{ Felipe J. O. Ribeiro \\ \and \\ Orientador: Prof. Dr. Aristeu da Silveira Neto}
+
+%\date{\tiny{02 de dezembro de 2015}}
+\date{\tiny{\today}}
+% \newcolumntype{M}[1]{>{\raggedright\arraybackslash}b{#1}}
+% \newcolumntype{N}{@{}m{0pt}@{}}	
+% \newcolumntype{M}{>{\begin{minipage}[b]{3cm}\raggedright{}}c<{\end{minipage}\minrowheight}}
+% \setlength\extrarowheight{5pt}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+
+\begin{document}
+
+	\begin{frame}\placelogomflab
+		\frametitle 
+		{ \vfill
+			\centering
+			{
+			\small{Universidade Federal de Uberlândia}\\
+%			\small{Programa de Pós-Graduação em Engenharia Mecânica}\\
+			\small{Laboratório de Mecânica dos Fluidos}\\
+			}
+		}
+		\maketitle
+	\end{frame}
+
+	\section<presentation>*{Sumário}
+
+		\AtBeginSection[]
+		{
+		 \begin{frame}<beamer>
+		  \frametitle{Sumário}\placelogomflab 
+		  {\scriptsize \tableofcontents[current,currentsection]}
+		 \end{frame}
+		}
+
+		\AtBeginSubsection[]
+		{
+		 \begin{frame}<beamer>
+		  \frametitle{Sumário}\placelogomflab 
+		  {\scriptsize \tableofcontents[current,currentsubsection]}
+		 \end{frame}
+		}
+
+
+	\section{Introdução}
+	
+	
+	
+	
+	
+	
+		\begin{frame}
+		\frametitle{Análise térmica bidimensional e tridimensional}
+			\begin{minipage}[h!]{0.49\textwidth}
+			$\bullet$ O estudo do comportamento térmico de escoamentos é de suma importância ao desenvolvimento científico atual. A medida que o maquinário industrial é aperfeiçoado, também cresce o consumo energético no mundo. Grande parte deste custo surge das transformações energéticas dentro do sistema, em sua maioria, resultando em manifestações térmicas. Assim surge uma grande necessidade de mecanismos de gerenciamento térmico. Como a difusão é um processo muito lento, o meio mais utilizado para se resfriar maquinários industriais é o advectivo, onde uma interface fluido-estrutura carrega energia térmica para fora do sistema. Estudar estes fenômenos é essencial para que hajam cada vez máquinas mais eficientes, assim assegurando um desenvolvimento sustentável. 
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1.7cm 2cm 0 1cm}, clip , angle=0, scale=0.60]{turbulence}
+				\caption{Temperatura e turbulência.}
+			\end{figure}
+		\end{minipage}
+		\end{frame}
+
+
+
+
+
+	\section{Modelo físico}
+	
+	
+	
+	
+
+	
+	\section{Modelo matemático diferencial}
+	
+
+	
+	
+
+	
+	
+	\section{Modelo numérico}
+		
+	
+	
+	
+		
+		\begin{frame}
+			\frametitle{Discretização do espaço}
+			\begin{minipage}[h!]{0.5\textwidth}
+			$\bullet$ Para discretizar o espaço, foi formulado um domínio Euleriano. Para a velocidade foi aplicado um Runge-kutta de quarta ordem, enquanto a temperatura foi arranjada em um sistema de diferenças centradas que teve de ser resolvido implicitamente. O domínio dinâmico foi resolvido primeiro, e seu resultado numérico fora utilizado no desenvolvimento do perfil térmico. Quanto à localização das células, foi determinado um centro de célula na parede, e um ponto entre células no centro do canal, sendo o restante das unidades de espaço distribuídas uniformemente para todo o canal.
+			\end{minipage}\hfill
+			\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=90, scale=0.06]{canalvermelho}
+				\caption{Representação gráfica do domínio do sistema.}
+				\label{sistema}
+			\end{figure}
+			\end{minipage}\\
+		\end{frame}
+	
+	
+	
+	
+	
+			\begin{frame}
+		\begin{figure}
+			\centering
+			\includegraphics[angle=0, scale=0.42]{convergnciaprimeira}
+			\caption{Convergência e independência de malha.}
+			\label{convergencia}
+		\end{figure}
+	\end{frame}
+		
+	
+	
+	
+		
+	\section{Resultados}
+		\begin{frame}
+			\frametitle{Simulações preliminares: $Pr_t= 0.71$ , $A = 26 $}
+				$\bullet$ Inicialmente utilizou-se o Prandtl turbulento como um valor da literatura, de 0.71, onde se obteve os seguintes resultados:\\
+			\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.28]{150orto}
+				\caption{Resultado para $Re_\tau = 150$. L2 = 1.36 }
+			\end{figure}
+			\end{minipage}\hfill
+				\begin{minipage}[h!]{0.45\textwidth}
+				\begin{figure}
+					\centering
+					\includegraphics[angle=0, scale=0.28]{1020orto}
+					\caption{Resultado para $Re_\tau = 1020$. L2 = 1.77}
+				\end{figure}
+			\end{minipage}		
+		\end{frame}
+	
+	
+	
+	
+		
+		\begin{frame}
+		\frametitle{Estudo do número de Prandtl turbulento fornecido por DNS}
+		\begin{minipage}[h!]{0.45\textwidth}
+			$\bullet$ Observou-se o resultado para quando o número de Prandtl turbulento do DNS era utilizado, obtendo-se uma norma L2 de $0.19$ para $Re_t = 640$. Assim se identificou que o problema estava na parametrização do Prandtl turbulento que passou a ser o foco da pesquisa. 
+		\end{minipage}\hfill
+		\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.12]{perfisPrandtlturb_Ret_Pt}
+				\caption{Vetor com o número de Prandtl turbulento em função da coordenada $ y $ no canal.}
+			\end{figure}
+		\end{minipage}	\\
+		Assim iniciou-se o esforço de se propor uma parametrização ajustada para o número de Prandtl turbulento.
+		Nesse sentido procurou-se ajustar um valor para o qual o erro fosse mínimo quando feita a comparação da simulação com DNS.
+		\end{frame}
+	
+	
+		\begin{frame}
+		\frametitle{Ajustando um valor de Prandtl turbulento}
+		\begin{minipage}[h!]{0.45\textwidth}
+			$\bullet$ Escreveu-se um algoritmo que buscava um erro mínimo para a função, considerando o número de Prandtl turbulento como uma variável editável e o erro menor como o padrão de interesse. 
+			
+			Obteve-se um número de Prandtl turbulento ajustado de $ 0.905 $ Para o número de Reynolds turbulento de $1020$.
+			
+			Tal valor foi aplicado a todo o domínio.
+		\end{minipage}
+			\begin{minipage}[h!]{0.2\textwidth}
+			\end{minipage}
+			\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.32]{oloco}
+				\caption{Resultado para $Re_\tau = 1020$. L2 = 0.151}
+			\end{figure}
+		\end{minipage}	
+		\end{frame}
+		
+		
+		
+		
+		
+		\begin{frame}
+		\frametitle{Ajuste de um valor fixo ideal: $Pr_t = 0.905$ , $A = 26$}
+		$\bullet$Simulações com o número de Prandtl turbulento ajustado fixo em $Re_\tau = 1020$:  \\
+		\begin{minipage}[h!]{0.45\textwidth}
+			 \begin{figure}
+			 	\centering
+			 	\includegraphics[angle=0, scale=0.22]{150segundo}
+			 	\caption{Resultado para $Re_\tau = 150$. L2 = 0.341}
+			 \end{figure}
+			 \begin{figure}
+			 	\centering
+			 	\includegraphics[angle=0, scale=0.22]{395segundo}
+			 	\caption{Resultado para $Re_\tau = 395$. L2 = 0.23}
+			 \end{figure}
+		\end{minipage}\hfill
+		\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.22]{640segundo}
+				\caption{Resultado para $Re_\tau = 640$. L2 = 0.192}
+			\end{figure}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.22]{1020segundo}
+				\caption{Resultado para $Re_\tau = 1020$. L2 = 0.151}
+			\end{figure}
+		\end{minipage}		
+		\end{frame}	
+	
+	
+	
+	
+		
+		\begin{frame}
+		\frametitle{Algoritmo de otimização}
+		$\bullet$ Para se obter uma curva que contemplasse os números de Reynolds em todo o domínio, se desenvolveu-se um algoritmo que otimizava a um Prandtl turbulento ideal para cada número de Reynolds turbulento disponível em DNS.\\
+		\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.22]{convergnciacima}
+				\caption{Algoritmo para valores ótimos. Com início abaixo do valor estimado.}
+			\end{figure}
+		\end{minipage}\hfill
+		\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.22]{convergnciabaixo}
+				\caption{Algoritmo para valores ótimos. Com início acima do valor estimado.}
+			\end{figure}
+		\end{minipage}\\
+		Como forma de se ter certeza de ter se chegado a um mínimo global, executou-se o algorítimo a partir de um ponto acima e de um ponto abaixo do inferido. 		
+		\end{frame}	
+	
+	
+	
+	
+		\begin{frame}
+		\frametitle{Ajuste dos valores obtidos}
+		\begin{minipage}[h!]{0.45\textwidth}
+			$\bullet$ Executando um ajuste de curva polinomial, obteve-se a seguinte relação:
+			\begin{equation}
+			\begin{split}
+			Pr_t = 1,3 * 10^{-11} Re_\tau^3 - 7,1 * 10^{-8} Re_\tau^2 \\ + 0,0001 Re_\tau + 0,87 
+			\end{split}
+			\end{equation}
+			Assim, desenvolveu-se um modelo ajustado para o número de Prandtl turbulento em função do número de Reynolds turbulento.
+		\end{minipage}\hfill
+		\begin{minipage}[h!]{0.45\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[angle=0, scale=0.41]{ajustePrandtl}
+				\caption{Ajuste de um modelo para $Pr_t$ variável.}
+			\end{figure}
+		\end{minipage}\\
+		\end{frame}	
+		
+		
+		
+	
+	
+		\begin{frame}
+		\frametitle{Ajuste do valor de Cebeci}
+		\begin{minipage}[h!]{0.45\textwidth}
+			$\bullet$ A partir dos pontos resultantes do algoritmo de otimização, se desenvolveu o modelo ajustado para o valor de Cebeci. Como segue:
+			\begin{equation}
+			A = \frac{Re_\tau ^{0.0451 * \ln(Re_\tau)} *e ^ {5.2753} }{Re_\tau ^{0.6094}}
+			\end{equation}
+		\end{minipage}\hfill
+		\begin{minipage}[h!]{0.45\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[angle=0, scale=0.42]{ajustecebeci}
+			\caption{Ajuste de um modelo para um número de Cebeci variável.}
+		\end{figure}
+		\end{minipage}
+		\end{frame}	
+
+	
+	
+	
+	
+		\begin{frame}
+		\frametitle{Análise quanto à influencia do número de Prandtl}
+		\begin{minipage}[h!]{0.45\textwidth}
+		$\bullet$ Estudou-se a influencia do número de Prandtl molecular e observou-se que ele também era uma variável com influencias no erro do método, assim iniciou-se um estudo com o objetivo de se adicionar a influência do valor do número de Prandtl à parametrização do número de Prandtl turbulento. Para isso propôs-se o seguinte modelo:
+		\end{minipage}\hfill
+		\begin{minipage}[h!]{0.45\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[angle=0, scale=0.38]{analisepr}
+			\caption{Observação quanto à influência do número de Prandtl.}
+		\end{figure}
+		\end{minipage}\\
+		\begin{equation}
+	\begin{split}
+	Pr_t = \left( 1,3 * 10^{-11} Re_\tau^3 - 7,1 * 10^{-8} Re_\tau^2 + 0,0001 Re_\tau + 0,87 \right) \left(  \frac{Pr}{0,71}\right) ^{v}
+	\end{split}
+	\end{equation}
+		\end{frame}
+	
+	
+	
+	
+			\begin{frame}
+	\frametitle{Algoritmo genético de otimização}
+	$\bullet$ No ajuste do expoente na expansão da parametrização do número de Prandtl turbulento, utilizou-se um algoritmo evolutivo, que a partir de uma população inicial de casos convergiu para o valor mínimo.\\ 
+	\begin{minipage}[h!]{0.24\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[angle=0, scale=0.20]{A100}
+			\caption{Algoritmo para valores ótimos, com malha de 100 unidades.}
+		\end{figure}
+	\end{minipage}\hfill
+	\begin{minipage}[h!]{0.24\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[angle=0, scale=0.20]{A400}
+			\caption{Algoritmo para valores ótimos, com malha de 400 unidades.}
+		\end{figure}
+	\end{minipage}\hfill
+\begin{minipage}[h!]{0.24\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[angle=0, scale=0.20]{A400zoon}
+		\caption{Algoritmo para valores ótimos, com malha de 400 unidades, segunda geração.}
+	\end{figure}
+\end{minipage}	
+	\begin{equation}
+\begin{split}
+Pr_t = \left( 1,3 * 10^{-11} Re_\tau^3 - 7,1 * 10^{-8} Re_\tau^2 + 0,0001 Re_\tau + 0,87 \right) \left(  \frac{Pr}{0,71}\right) ^{-0.008}
+\end{split}
+\end{equation}	
+\end{frame}	
+	
+	
+	
+	
+	
+	
+	
+		\begin{frame}
+		\frametitle{Resultados gerais}
+		\begin{minipage}[h!]{0.45\textwidth}
+		\animategraphics[trim = {1.7cm 2cm 0 1cm} , scale=2 , loop,controls = true,width=\linewidth]{10}{plot/plot_}{001}{180}
+		\end{minipage}\hfill
+		\end{frame}
+	
+	
+	
+	
+	
+		\begin{frame}
+		\frametitle{Comparação entre os métodos}
+		$\bullet$ Seguem alguns recortes do gráfico anterior, explicitando os erros obtidos para um Ret fixo de 395, e um Pr fixo de 0.71.\\
+		\begin{minipage}[h!]{0.47\textwidth}
+			\begin{figure}
+	\centering
+	\includegraphics[angle=0, scale=0.39]{finaispr}
+	\caption{Resultados gerais para $Re_\tau = 395$}
+\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.47\textwidth}
+		\begin{figure}
+			\centering
+			\includegraphics[angle=0, scale=0.39]{finaisRey}
+			\caption{Resultados gerais para $Pr = 0.71$}
+		\end{figure}
+		\end{minipage}\\
+		\end{frame}
+		
+	
+	
+	
+	
+	
+	
+	\section{Agradecimentos}
+		
+		
+		
+		
+		
+			\begin{frame}
+				\placelogomflab 
+				\frametitle{Agradecimentos}
+				\begin{figure}
+					\begin{center}
+						\begin{tabular}{c c}
+							{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras/petrobras.png}}&{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras/logo_mflab.png}}\\
+							{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras/cnpq.png}}&{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras/CAPES.png}}\\
+							{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras/FAPEMIG.jpg}}&{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras/UFU_black.jpg}}\\
+						\end{tabular}
+					\end{center}
+				\end{figure}
+			\end{frame}
+			
+			
+			
+			
+			
+			\begin{frame}
+				\placelogomflab 
+				\frametitle{Agradecimentos}
+				\fontsize{44pt}{7.2}\selectfont
+				\begin{center}
+					Obrigado.
+				\end{center}
+			\end{frame}
+		
+		
+		
+		
+\end{document}
+
+
+
+
+		
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens		
+%		\begin{frame}
+%			\frametitle{Adição de fronteiras extras}
+%			\begin{tabular}{c c}
+%				
+%				{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,loop,height=0.5\textheight]{figuras/filtration_depois.png}}&{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,loop,height=0.4\textheight]{figuras/filtration_depois_zoom.png}}\\
+%				
+%			\end{tabular}
+%			
+%		\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens		
+%		\begin{frame}
+%			\frametitle{Agora}
+%			\centering
+%			\begin{tabular}{c}
+%				
+%				{\includegraphics[trim=0.00cm 2.0cm 0.0cm 2.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51f.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999g.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999y.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999b.png}}
+%				
+%			\end{tabular}
+%			
+%		\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Formatação de equações:		
+%		\begin{frame}
+%			\frametitle{Newton-Raphson}
+%			
+%			\flushleft
+%			Método de interface com jacobiano composto:
+%			
+%			\centering
+%			\begin{equation}\label{forte_eqNewton}
+%			K(D+\Delta D) \approx K(D)+\Delta D \, J(D)
+%			\end{equation}
+%			\begin{equation}\label{forte_eqNewton2}
+%			K(D) =  Estrutura(Fluido(D))-D =  0
+%			\end{equation}
+%			\begin{equation}\label{forte_eqNewton3}
+%			J(D) =  Estrutura'(Fluido(D)) \, Fluido'(D)-I
+%			\end{equation}
+%			\begin{equation}\label{forte_eqNewton4}
+%			Fluido(D): \mathbb{R}^{n} \to \mathbb{R}^{m}
+%			\end{equation}
+%			
+%			\flushleft
+%			$Fluido'(D)$ é de tamanho $m x n$
+%			
+%			\centering
+%			
+%			\begin{equation}\label{forte_eqNewton5}
+%			Estrutura(F): \mathbb{R}^{m} \to \mathbb{R}^{n}
+%			\end{equation}
+%			
+%			\flushleft
+%			$Estrutura'(F)$ é de tamanho $n x m$\\
+%			$Estrutura'(Fluido(D)) \, Fluido'(D)$ e $I$ é de tamanho $n x n$
+%		\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Vários exemplos de formatação textual:		
+
+
+%		\begin{frame}
+%			\frametitle{Conveniência do método de Multi Direct Forcing}
+%			
+%			\flushleft
+%			\textbf{Fraco:}\\
+%			$\bullet$ Predição da velocidade.\\
+%			$\bullet$ MDF. (Imposição da condição de dirichlet na interface e cálculo da força)\\
+%			$\bullet$ Estrutura.\\
+%			$\bullet$ Poisson.\\
+%			$\bullet$ Correção de velocidade e pressão.\\ \\
+%
+%			\textbf{Forte:}\\
+%			$\bullet$ Predição da velocidade.\\
+%			while \\
+%			\quad	$\longrightarrow$ MDF.\\
+%			\quad	$\longrightarrow$ Estrutura.\\
+%			end\\
+%			$\bullet$ Poisson.\\
+%			$\bullet$ Correção de velocidade e pressão.\\
+%
+%		\end{frame}
+
+		
+
+%		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Modelo duas fotos lado a lado:
+
+
+%		\begin{frame}
+%		\frametitle{Limite do fraco}
+%			ct=121
+%			mi=200
+%			\begin{tabular}{c c}
+%			{\includegraphics[width=0.45\linewidth]{../../simulacoes_Estudo_dirigido2/fraco_mi_200_0_15_ct141/figuras/estrutura/vel_151}}&
+%		   {\includegraphics[width=0.45\linewidth]{../../simulacoes_Estudo_dirigido2/fraco_mi_200_0_15_ct141/figuras/estrutura/vel_251}}\\
+%		   {(a) Velocidade em linha centro da estrutura} & {(b) Velocidade transversal centro da estrutura}
+%		\end{tabular}
+%		\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Modelo tabela :
+
+%		\begin{frame}
+%			\frametitle{Comparação número de iterações}
+%			\begin{tabular}{c c c c}
+%				\hline
+%				Método & Mínimo     &    Máximo &  Média\\ \hline
+%				FPI MDF variável & 8     &    101 &  8.9764764764764760\\
+%				FPI MDF fixo & 8     &     11 &  8.9099099099099099\\
+%				QN Primeiro método de Broyden MDF variável & 18    &     101 &  18.281281281281281 \\ \hline
+%			\end{tabular}
+%		\end{frame}	
+
+
+
+
