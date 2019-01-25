@@ -188,334 +188,112 @@
 	
 		\begin{frame}
 		\frametitle{Análise térmica bidimensional e tridimensional}
-			\begin{minipage}[h!]{0.49\textwidth}
-			$\bullet$ O estudo do comportamento térmico de escoamentos é de suma importância ao desenvolvimento científico atual. A medida que o maquinário industrial é aperfeiçoado, também cresce o consumo energético no mundo. Grande parte deste custo surge das transformações energéticas dentro do sistema, em sua maioria, resultando em manifestações térmicas. Assim surge uma grande necessidade de mecanismos de gerenciamento térmico. Como a difusão é um processo muito lento, o meio mais utilizado para se resfriar maquinários industriais é o advectivo, onde uma interface fluido-estrutura carrega energia térmica para fora do sistema. Estudar estes fenômenos é essencial para que hajam cada vez máquinas mais eficientes, assim assegurando um desenvolvimento sustentável. 
-		\end{minipage}
-		\begin{minipage}[h!]{0.49\textwidth}
-			\begin{figure}[h!]
+			$\bullet$ A advecção natural é um fenômeno de turbulência clássico. Ele apresenta muitos exemplos tanto industriais quanto práticos do dia a dia. 
+			Para se simular tal fenômeno um domínio bi ou tridimensional é necessário (tridimensional se modelos de turbulência são implementados). Dessa forma torna-se uma extensão natural do trabalho desenvolvido até o momento. Apesar de lidar com mudanças de massa dos fluidos, ainda não se chega a se tratar de compressibilidade. Dessa forma, nesse trabalho espera-se:
+			
+			- Desenvolver modelos 2D e 3D representativos.
+			
+			- Implementar-se métodos de otimização conforme necessários, como mpi e opengl.
+			
+			- Desenvolver método de apresentação visual integrado ao fortran. 
+			
+				\begin{figure}[h!]
 				\centering
-				\includegraphics[trim = {1.7cm 2cm 0 1cm}, clip , angle=0, scale=0.60]{turbulence}
-				\caption{Temperatura e turbulência.}
-			\end{figure}
-		\end{minipage}
-		\end{frame}
-
-
-
-
-
-	\section{Modelo físico}
-	
-	
-	
-	
-
-	
-	\section{Modelo matemático diferencial}
-	
-
-	
-	
-
-	
-	
-	\section{Modelo numérico}
-		
-	
-	
-	
-		
-		\begin{frame}
-			\frametitle{Discretização do espaço}
-			\begin{minipage}[h!]{0.5\textwidth}
-			$\bullet$ Para discretizar o espaço, foi formulado um domínio Euleriano. Para a velocidade foi aplicado um Runge-kutta de quarta ordem, enquanto a temperatura foi arranjada em um sistema de diferenças centradas que teve de ser resolvido implicitamente. O domínio dinâmico foi resolvido primeiro, e seu resultado numérico fora utilizado no desenvolvimento do perfil térmico. Quanto à localização das células, foi determinado um centro de célula na parede, e um ponto entre células no centro do canal, sendo o restante das unidades de espaço distribuídas uniformemente para todo o canal.
-			\end{minipage}\hfill
-			\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=90, scale=0.06]{canalvermelho}
-				\caption{Representação gráfica do domínio do sistema.}
-				\label{sistema}
-			\end{figure}
-			\end{minipage}\\
-		\end{frame}
-	
-	
-	
-	
-	
-			\begin{frame}
-		\begin{figure}
-			\centering
-			\includegraphics[angle=0, scale=0.42]{convergnciaprimeira}
-			\caption{Convergência e independência de malha.}
-			\label{convergencia}
-		\end{figure}
-	\end{frame}
-		
-	
-	
-	
-		
-	\section{Resultados}
-		\begin{frame}
-			\frametitle{Simulações preliminares: $Pr_t= 0.71$ , $A = 26 $}
-				$\bullet$ Inicialmente utilizou-se o Prandtl turbulento como um valor da literatura, de 0.71, onde se obteve os seguintes resultados:\\
-			\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.28]{150orto}
-				\caption{Resultado para $Re_\tau = 150$. L2 = 1.36 }
-			\end{figure}
-			\end{minipage}\hfill
-				\begin{minipage}[h!]{0.45\textwidth}
-				\begin{figure}
-					\centering
-					\includegraphics[angle=0, scale=0.28]{1020orto}
-					\caption{Resultado para $Re_\tau = 1020$. L2 = 1.77}
+				\includegraphics[trim = {1.7cm 2cm 0 1cm}, clip , angle=0, scale=0.50]{NaturalConvectionFromNet}
+				\caption{Convecção natural.}
 				\end{figure}
-			\end{minipage}		
-		\end{frame}
-	
-	
-	
-	
-		
-		\begin{frame}
-		\frametitle{Estudo do número de Prandtl turbulento fornecido por DNS}
-		\begin{minipage}[h!]{0.45\textwidth}
-			$\bullet$ Observou-se o resultado para quando o número de Prandtl turbulento do DNS era utilizado, obtendo-se uma norma L2 de $0.19$ para $Re_t = 640$. Assim se identificou que o problema estava na parametrização do Prandtl turbulento que passou a ser o foco da pesquisa. 
-		\end{minipage}\hfill
-		\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.12]{perfisPrandtlturb_Ret_Pt}
-				\caption{Vetor com o número de Prandtl turbulento em função da coordenada $ y $ no canal.}
-			\end{figure}
-		\end{minipage}	\\
-		Assim iniciou-se o esforço de se propor uma parametrização ajustada para o número de Prandtl turbulento.
-		Nesse sentido procurou-se ajustar um valor para o qual o erro fosse mínimo quando feita a comparação da simulação com DNS.
-		\end{frame}
-	
-	
-		\begin{frame}
-		\frametitle{Ajustando um valor de Prandtl turbulento}
-		\begin{minipage}[h!]{0.45\textwidth}
-			$\bullet$ Escreveu-se um algoritmo que buscava um erro mínimo para a função, considerando o número de Prandtl turbulento como uma variável editável e o erro menor como o padrão de interesse. 
-			
-			Obteve-se um número de Prandtl turbulento ajustado de $ 0.905 $ Para o número de Reynolds turbulento de $1020$.
-			
-			Tal valor foi aplicado a todo o domínio.
-		\end{minipage}
-			\begin{minipage}[h!]{0.2\textwidth}
-			\end{minipage}
-			\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.32]{oloco}
-				\caption{Resultado para $Re_\tau = 1020$. L2 = 0.151}
-			\end{figure}
-		\end{minipage}	
-		\end{frame}
-		
-		
-		
-		
-		
-		\begin{frame}
-		\frametitle{Ajuste de um valor fixo ideal: $Pr_t = 0.905$ , $A = 26$}
-		$\bullet$Simulações com o número de Prandtl turbulento ajustado fixo em $Re_\tau = 1020$:  \\
-		\begin{minipage}[h!]{0.45\textwidth}
-			 \begin{figure}
-			 	\centering
-			 	\includegraphics[angle=0, scale=0.22]{150segundo}
-			 	\caption{Resultado para $Re_\tau = 150$. L2 = 0.341}
-			 \end{figure}
-			 \begin{figure}
-			 	\centering
-			 	\includegraphics[angle=0, scale=0.22]{395segundo}
-			 	\caption{Resultado para $Re_\tau = 395$. L2 = 0.23}
-			 \end{figure}
-		\end{minipage}\hfill
-		\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.22]{640segundo}
-				\caption{Resultado para $Re_\tau = 640$. L2 = 0.192}
-			\end{figure}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.22]{1020segundo}
-				\caption{Resultado para $Re_\tau = 1020$. L2 = 0.151}
-			\end{figure}
-		\end{minipage}		
-		\end{frame}	
-	
-	
-	
-	
-		
-		\begin{frame}
-		\frametitle{Algoritmo de otimização}
-		$\bullet$ Para se obter uma curva que contemplasse os números de Reynolds em todo o domínio, se desenvolveu-se um algoritmo que otimizava a um Prandtl turbulento ideal para cada número de Reynolds turbulento disponível em DNS.\\
-		\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.22]{convergnciacima}
-				\caption{Algoritmo para valores ótimos. Com início abaixo do valor estimado.}
-			\end{figure}
-		\end{minipage}\hfill
-		\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.22]{convergnciabaixo}
-				\caption{Algoritmo para valores ótimos. Com início acima do valor estimado.}
-			\end{figure}
-		\end{minipage}\\
-		Como forma de se ter certeza de ter se chegado a um mínimo global, executou-se o algorítimo a partir de um ponto acima e de um ponto abaixo do inferido. 		
-		\end{frame}	
-	
-	
-	
-	
-		\begin{frame}
-		\frametitle{Ajuste dos valores obtidos}
-		\begin{minipage}[h!]{0.45\textwidth}
-			$\bullet$ Executando um ajuste de curva polinomial, obteve-se a seguinte relação:
-			\begin{equation}
-			\begin{split}
-			Pr_t = 1,3 * 10^{-11} Re_\tau^3 - 7,1 * 10^{-8} Re_\tau^2 \\ + 0,0001 Re_\tau + 0,87 
-			\end{split}
-			\end{equation}
-			Assim, desenvolveu-se um modelo ajustado para o número de Prandtl turbulento em função do número de Reynolds turbulento.
-		\end{minipage}\hfill
-		\begin{minipage}[h!]{0.45\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[angle=0, scale=0.41]{ajustePrandtl}
-				\caption{Ajuste de um modelo para $Pr_t$ variável.}
-			\end{figure}
-		\end{minipage}\\
-		\end{frame}	
-		
-		
-		
-	
-	
-		\begin{frame}
-		\frametitle{Ajuste do valor de Cebeci}
-		\begin{minipage}[h!]{0.45\textwidth}
-			$\bullet$ A partir dos pontos resultantes do algoritmo de otimização, se desenvolveu o modelo ajustado para o valor de Cebeci. Como segue:
-			\begin{equation}
-			A = \frac{Re_\tau ^{0.0451 * \ln(Re_\tau)} *e ^ {5.2753} }{Re_\tau ^{0.6094}}
-			\end{equation}
-		\end{minipage}\hfill
-		\begin{minipage}[h!]{0.45\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[angle=0, scale=0.42]{ajustecebeci}
-			\caption{Ajuste de um modelo para um número de Cebeci variável.}
-		\end{figure}
-		\end{minipage}
-		\end{frame}	
 
+		\end{frame}
+
+
+
+
+
+	\section{Parte 1 : Modelo 2D representativo}
+	
+	
+	\begin{frame} 
+	\frametitle{Domínio bidimensional com advecção imposta}
+	\begin{minipage}[h!]{0.49\textwidth}
+	$\bullet$ Converter código bidimensional antigo em MatLab para c++.\\
+	$\bullet$ Desenvolver advecção, com velocidades em $x$ e $y$ impostas para todo o domínio.\\
+	$\bullet$ Desenvolver biblioteca visual para este estudo com openGL.\\
+	$\bullet$ Converter para o fortran os códigos.\\
+	$\bullet$ Experimentar plataforma openGL com fortran.\\
+	$\bullet$ Estudar acoplamento velocidade pressão.\\
+	\end{minipage}
+	\begin{minipage}[h!]{0.49\textwidth}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[trim = {0cm 1cm 0 1cm}, clip , angle=0, scale=0.15]{ImagemProfessor1}
+		\caption{Esquema do professor.}
+	\end{figure}
+	\end{minipage}
+	\end{frame}
 	
 	
 	
 	
-		\begin{frame}
-		\frametitle{Análise quanto à influencia do número de Prandtl}
-		\begin{minipage}[h!]{0.45\textwidth}
-		$\bullet$ Estudou-se a influencia do número de Prandtl molecular e observou-se que ele também era uma variável com influencias no erro do método, assim iniciou-se um estudo com o objetivo de se adicionar a influência do valor do número de Prandtl à parametrização do número de Prandtl turbulento. Para isso propôs-se o seguinte modelo:
-		\end{minipage}\hfill
-		\begin{minipage}[h!]{0.45\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[angle=0, scale=0.38]{analisepr}
-			\caption{Observação quanto à influência do número de Prandtl.}
-		\end{figure}
-		\end{minipage}\\
-		\begin{equation}
+	\begin{frame} 
+	\frametitle{Modelo matemático diferencial}
+%	\begin{minipage}[h!]{0.49\textwidth}
+		$\bullet$ Foi utilizada a equação da energia térmica como base, com termos advectivos.\\
+		$\bullet$ Foi ignorada a dimensão em $z$, considerando-se auto similaridade neste eixo.\\
+		
+%	\end{minipage}
+%	\begin{minipage}[h!]{0.49\textwidth}
+	
+	\begin{equation}
+	\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right] 
+	\end{equation}
+	
+%	\end{minipage}
+	\end{frame}
+
+
+
+
+	\begin{frame} 
+	\frametitle{Modelo numérico}
+	%	\begin{minipage}[h!]{0.49\textwidth}
+	$\bullet$ Todas as derivadas parciais de primeira ordem foram discretizadas pelo método de Newton.\\
+	$\bullet$ Todas as derivadas parciais de segunda ordem foram discretizadas utilizando-se o método das diferenças centradas.\\
+	
+	%	\end{minipage}
+	%	\begin{minipage}[h!]{0.49\textwidth}
+	
+	\begin{equation}
 	\begin{split}
-	Pr_t = \left( 1,3 * 10^{-11} Re_\tau^3 - 7,1 * 10^{-8} Re_\tau^2 + 0,0001 Re_\tau + 0,87 \right) \left(  \frac{Pr}{0,71}\right) ^{v}
+	\frac{T_i^{(j,k)} - T_{i -1}^{(j,k)} }{\Delta t} + u \frac{T_{i -1}^{(j,k)} - T_{i -1}^{(j - 1,k)}}{\Delta x} + v \frac{T_{i -1}^{(j,k)} - T_{i -1}^{(j,k - 1)}}{\Delta y}  \\ 
+	= \alpha \left[  \frac{T_{i -1}^{(j+1,k)} - 2 T_{i -1}^{(j,k)} + T_{i -1}^{(j - 1,k)} }{\Delta x^2} + \frac{T_{i -1}^{(j,k + 1)} - 2 T_{i -1}^{(j,k)} + T_{i -1}^{(j,k - 1)}}{\Delta y^2}   \right] 
 	\end{split}
 	\end{equation}
-		\end{frame}
 	
-	
-	
-	
-			\begin{frame}
-	\frametitle{Algoritmo genético de otimização}
-	$\bullet$ No ajuste do expoente na expansão da parametrização do número de Prandtl turbulento, utilizou-se um algoritmo evolutivo, que a partir de uma população inicial de casos convergiu para o valor mínimo.\\ 
-	\begin{minipage}[h!]{0.24\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[angle=0, scale=0.20]{A100}
-			\caption{Algoritmo para valores ótimos, com malha de 100 unidades.}
-		\end{figure}
-	\end{minipage}\hfill
-	\begin{minipage}[h!]{0.24\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[angle=0, scale=0.20]{A400}
-			\caption{Algoritmo para valores ótimos, com malha de 400 unidades.}
-		\end{figure}
-	\end{minipage}\hfill
-\begin{minipage}[h!]{0.24\textwidth}
-	\begin{figure}
-		\centering
-		\includegraphics[angle=0, scale=0.20]{A400zoon}
-		\caption{Algoritmo para valores ótimos, com malha de 400 unidades, segunda geração.}
-	\end{figure}
-\end{minipage}	
+	%	\end{minipage}
+	\end{frame}
+
+
+
+		\begin{frame} 
+	\frametitle{Modelo numérico}
+	$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
 	\begin{equation}
-\begin{split}
-Pr_t = \left( 1,3 * 10^{-11} Re_\tau^3 - 7,1 * 10^{-8} Re_\tau^2 + 0,0001 Re_\tau + 0,87 \right) \left(  \frac{Pr}{0,71}\right) ^{-0.008}
-\end{split}
-\end{equation}	
-\end{frame}	
+	\begin{split}
+	T_i^{(j,k)} = T_{i -1}^{(j,k)} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2} - \frac{(u + v) \Delta t}{\Delta s}\right) + T_{i -1}^{(j-1,k)} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{\Delta s} \right)\\
+	+ T_{i -1}^{(j,k-1)} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{\Delta s} \right) +  T_{i-1}^{(j + 1,k)} \left( \alpha \frac{\Delta t}{\Delta s^2}\right) +  T_{i-1}^{(j,k+1)} \left( \alpha \frac{\Delta t}{\Delta s^2}\right)
+	\end{split}
+	\end{equation}
+	
+	\end{frame}
 	
 	
 	
+
+	
+	\section{Parte 2 : Modelo 3D representativo}
 	
 	
-	
-	
-		\begin{frame}
-		\frametitle{Resultados gerais}
-		\begin{minipage}[h!]{0.45\textwidth}
-		\animategraphics[trim = {1.7cm 2cm 0 1cm} , scale=2 , loop,controls = true,width=\linewidth]{10}{plot/plot_}{001}{180}
-		\end{minipage}\hfill
-		\end{frame}
-	
-	
-	
-	
-	
-		\begin{frame}
-		\frametitle{Comparação entre os métodos}
-		$\bullet$ Seguem alguns recortes do gráfico anterior, explicitando os erros obtidos para um Ret fixo de 395, e um Pr fixo de 0.71.\\
-		\begin{minipage}[h!]{0.47\textwidth}
-			\begin{figure}
-	\centering
-	\includegraphics[angle=0, scale=0.39]{finaispr}
-	\caption{Resultados gerais para $Re_\tau = 395$}
-\end{figure}
-		\end{minipage}
-		\begin{minipage}[h!]{0.47\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[angle=0, scale=0.39]{finaisRey}
-			\caption{Resultados gerais para $Pr = 0.71$}
-		\end{figure}
-		\end{minipage}\\
-		\end{frame}
-		
-	
-	
-	
-	
+
 	
 	
 	\section{Agradecimentos}

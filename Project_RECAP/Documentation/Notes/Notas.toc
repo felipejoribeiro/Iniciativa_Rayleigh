@@ -1,7 +1,5 @@
 \babel@toc {brazil}{}
 \beamer@sectionintoc {2}{Introdu\IeC {\c c}\IeC {\~a}o}{2}{0}{1}
-\beamer@sectionintoc {3}{Modelo f\IeC {\'\i }sico}{4}{0}{2}
-\beamer@sectionintoc {4}{Modelo matem\IeC {\'a}tico diferencial}{5}{0}{3}
-\beamer@sectionintoc {5}{Modelo num\IeC {\'e}rico}{6}{0}{4}
-\beamer@sectionintoc {6}{Resultados}{9}{0}{5}
-\beamer@sectionintoc {7}{Agradecimentos}{21}{0}{6}
+\beamer@sectionintoc {3}{Parte 1 : Modelo 2D representativo}{4}{0}{2}
+\beamer@sectionintoc {4}{Parte 2 : Modelo 3D representativo}{9}{0}{3}
+\beamer@sectionintoc {5}{Agradecimentos}{10}{0}{4}
