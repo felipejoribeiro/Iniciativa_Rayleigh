@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.8.9)  25 JAN 2019 12:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.8.9)  26 JAN 2019 03:52
 entering extended mode
 **./Notas.tex
 (Notas.tex
@@ -1430,52 +1430,90 @@ Package pdftex.def Info: ImagemProfessor1.jpeg  used on input line 232.
 
 ] [8
 
-] (Notas.toc) [9
+]
+Underfull \hbox (badness 10000) in paragraph at lines 321--321
 
-] (Notas.toc) [10
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 321--321
+
+ []
+
+<printCodigo1.png, id=279, 457.71pt x 274.02374pt>
+File: printCodigo1.png Graphic file (type png)
+<use printCodigo1.png>
+Package pdftex.def Info: printCodigo1.png  used on input line 321.
+(pdftex.def)             Requested size: 315.44547pt x 217.11772pt.
+[9
+
+ <./printCodigo1.png>]
+<preliminar_results_1.png, id=308, 393.72093pt x 401.24907pt>
+File: preliminar_results_1.png Graphic file (type png)
+<use preliminar_results_1.png>
+Package pdftex.def Info: preliminar_results_1.png  used on input line 340.
+(pdftex.def)             Requested size: 336.81462pt x 344.34273pt.
+ [10
+
+ <./preliminar_results_1.png>]
+<preliminar_results_2.png, id=336, 384.6872pt x 392.21532pt>
+File: preliminar_results_2.png Graphic file (type png)
+<use preliminar_results_2.png>
+Package pdftex.def Info: preliminar_results_2.png  used on input line 362.
+(pdftex.def)             Requested size: 327.7809pt x 335.30902pt.
+<preliminar_results_3.png, id=338, 352.31625pt x 336.50719pt>
+File: preliminar_results_3.png Graphic file (type png)
+<use preliminar_results_3.png>
+Package pdftex.def Info: preliminar_results_3.png  used on input line 362.
+(pdftex.def)             Requested size: 295.41005pt x 279.60101pt.
+ [11
+
+ <./preliminar_results_2.png> <./preliminar_results_3.png>] (Notas.toc) [12
+
+] (Notas.toc)
+[13
 
 ]
-<figuras/petrobras.png, id=334, 244.66406pt x 150.5625pt>
+<figuras/petrobras.png, id=426, 244.66406pt x 150.5625pt>
 File: figuras/petrobras.png Graphic file (type png)
 <use figuras/petrobras.png>
-Package pdftex.def Info: figuras/petrobras.png  used on input line 317.
+Package pdftex.def Info: figuras/petrobras.png  used on input line 392.
 (pdftex.def)             Requested size: 76.87544pt x 47.30705pt.
-<figuras/logo_mflab.png, id=336, 47.80063pt x 41.9204pt>
+<figuras/logo_mflab.png, id=428, 47.80063pt x 41.9204pt>
 File: figuras/logo_mflab.png Graphic file (type png)
 <use figuras/logo_mflab.png>
-Package pdftex.def Info: figuras/logo_mflab.png  used on input line 317.
+Package pdftex.def Info: figuras/logo_mflab.png  used on input line 392.
 (pdftex.def)             Requested size: 53.9455pt x 47.30705pt.
-<figuras/cnpq.png, id=338, 1003.75pt x 408.52625pt>
+<figuras/cnpq.png, id=430, 1003.75pt x 408.52625pt>
 File: figuras/cnpq.png Graphic file (type png)
 <use figuras/cnpq.png>
-Package pdftex.def Info: figuras/cnpq.png  used on input line 317.
+Package pdftex.def Info: figuras/cnpq.png  used on input line 392.
 (pdftex.def)             Requested size: 116.23291pt x 47.30705pt.
-<figuras/CAPES.png, id=340, 2741.74312pt x 2515.14656pt>
+<figuras/CAPES.png, id=432, 2741.74312pt x 2515.14656pt>
 File: figuras/CAPES.png Graphic file (type png)
 <use figuras/CAPES.png>
-Package pdftex.def Info: figuras/CAPES.png  used on input line 317.
+Package pdftex.def Info: figuras/CAPES.png  used on input line 392.
 (pdftex.def)             Requested size: 51.54143pt x 47.30705pt.
-<figuras/FAPEMIG.jpg, id=342, 955.57pt x 776.9025pt>
+<figuras/FAPEMIG.jpg, id=434, 955.57pt x 776.9025pt>
 File: figuras/FAPEMIG.jpg Graphic file (type jpg)
 <use figuras/FAPEMIG.jpg>
-Package pdftex.def Info: figuras/FAPEMIG.jpg  used on input line 317.
+Package pdftex.def Info: figuras/FAPEMIG.jpg  used on input line 392.
 (pdftex.def)             Requested size: 58.17741pt x 47.30705pt.
-<figuras/UFU_black.jpg, id=344, 89.22223pt x 89.22223pt>
+<figuras/UFU_black.jpg, id=436, 89.22223pt x 89.22223pt>
 File: figuras/UFU_black.jpg Graphic file (type jpg)
 <use figuras/UFU_black.jpg>
-Package pdftex.def Info: figuras/UFU_black.jpg  used on input line 317.
+Package pdftex.def Info: figuras/UFU_black.jpg  used on input line 392.
 (pdftex.def)             Requested size: 47.30797pt x 47.30705pt.
-
-[11
+ [14
 
  <./figuras/petrobras.png> <./figuras/logo_mflab.png> <./figuras/cnpq.png (PNG 
 copy)> <./figuras/CAPES.png> <./figuras/FAPEMIG.jpg> <./figuras/UFU_black.jpg>]
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <44> not available
-(Font)              size <42.99> substituted on input line 330.
+(Font)              size <42.99> substituted on input line 405.
 
-[12
+[15
 
 ]
 \tf@nav=\write6
@@ -1494,11 +1532,11 @@ Package movie15 Warning: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 (movie15)                @@ superseded by `media9'.           @@
 (movie15)                @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 335.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 335.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 410.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 410.
 (Notas.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 335.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 335.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 410.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 410.
 Package rerunfilecheck Info: File `Notas.out' has not changed.
 (rerunfilecheck)             Checksum: C372C5AF117BA71BD43D915D37EFB53D;288.
 
@@ -1508,10 +1546,10 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 31389 strings out of 492973
- 591079 string characters out of 3135933
- 713001 words of memory out of 3000000
- 34657 multiletter control sequences out of 15000+200000
+ 31421 strings out of 492973
+ 592648 string characters out of 3135933
+ 714000 words of memory out of 3000000
+ 34679 multiletter control sequences out of 15000+200000
  537651 words of font info for 43 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,18n,96p,791b,769s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1526,9 +1564,9 @@ nts/type1/public/amsfonts/cm/cmss12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi8.pfb><
 C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Progr
 am Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on Notas.pdf (12 pages, 1856942 bytes).
+Output written on Notas.pdf (15 pages, 2008406 bytes).
 PDF statistics:
- 448 PDF objects out of 1000 (max. 8388607)
- 30 named destinations out of 1000 (max. 500000)
- 216 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 541 PDF objects out of 1000 (max. 8388607)
+ 36 named destinations out of 1000 (max. 500000)
+ 260 words of extra memory for PDF output out of 10000 (max. 10000000)
 
