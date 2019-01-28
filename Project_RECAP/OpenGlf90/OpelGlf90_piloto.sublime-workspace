@@ -1,0 +1,1059 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"T",
+				"T"
+			],
+			[
+				"u",
+				"u"
+			],
+			[
+				"font",
+				"fontsize"
+			],
+			[
+				"criar",
+				"CriarImagem"
+			],
+			[
+				"file",
+				"file_path"
+			],
+			[
+				"data_",
+				"data_Rosen"
+			],
+			[
+				"valor",
+				"valorInicial"
+			],
+			[
+				"z",
+				"zPrandtl"
+			],
+			[
+				"Re",
+				"Ret"
+			],
+			[
+				"ios",
+				"iostream\tstandard header"
+			],
+			[
+				"math",
+				"math.h\tstandard header (deprecated)"
+			],
+			[
+				"L",
+				"L2"
+			],
+			[
+				"parame",
+				"Parameters"
+			],
+			[
+				"L2",
+				"L2norm"
+			],
+			[
+				"DNS",
+				"DNSinput"
+			],
+			[
+				"Prandtl",
+				"Prandtlvector"
+			],
+			[
+				"prandtl",
+				"prandtll"
+			],
+			[
+				"p",
+				"p"
+			],
+			[
+				"adeq",
+				"adequa"
+			],
+			[
+				"N",
+				"N"
+			],
+			[
+				"incre",
+				"inccrelog"
+			],
+			[
+				"G",
+				"GetScale"
+			],
+			[
+				"Get",
+				"GetVelocity"
+			],
+			[
+				"dra",
+				"drawPlayer"
+			],
+			[
+				"draw",
+				"drawWalls"
+			],
+			[
+				"Reset",
+				"ResetScale"
+			],
+			[
+				"M",
+				"MenuIniciar"
+			],
+			[
+				"string",
+				"string.h\tstandard header (deprecated)"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "References/f03gl/plotfunc.f90",
+			"settings":
+			{
+				"buffer_size": 36502,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/Recapf90Opengl.f90",
+			"settings":
+			{
+				"buffer_size": 1767,
+				"encoding": "UTF-8",
+				"line_ending": "Unix",
+				"name": "program piloto"
+			}
+		},
+		{
+			"file": "/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+			"settings":
+			{
+				"buffer_size": 559,
+				"encoding": "UTF-8",
+				"line_ending": "Unix",
+				"name": "untitled.sublime-build"
+			}
+		}
+	],
+	"build_system": "Packages/User/OpenGlf90.sublime-build",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					""
+				],
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/multifile.sublime-build",
+					""
+				],
+				[
+					"Packages/User/multifile.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/gplusplusPiloto.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					""
+				],
+				[
+					"Packages/User/multifile.sublime-build",
+					""
+				],
+				[
+					"Packages/User/multifile.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/gplusplusPiloto.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/multifile.sublime-build",
+					""
+				],
+				[
+					"Packages/User/multifile.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/C++/C++ Single File.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					""
+				],
+				[
+					"Packages/C++/C++ Single File.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/opengl.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/opengl.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/Fortran/build-systems/GFortran.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/epta_sta_cpp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/fortran2win.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/epta_sta_cpp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/OpenGlf90.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/OpenGlf90.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/fortran2win.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Fortran/build-systems/GFortran.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					""
+				],
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/Fortran/build-systems/GFortran.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/opengl.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Fortran/build-systems/GFortran.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Makefile/Make.sublime-build",
+					""
+				],
+				[
+					"Packages/Makefile/Make.sublime-build",
+					"Clean"
+				],
+				[
+					"Packages/User/epta_sta_cpp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Makefile/Make.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/fortrandif.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/fortrandif.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/User/epta_sta_cpp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Python2.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Python2.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Python2.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Python2.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/User/fortrandif.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/User/opengl.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					""
+				],
+				[
+					"Packages/User/gplusplusPiloto.sublime-build",
+					"Run"
+				]
+			],
+			[
+				"Packages/User/gplusplusPiloto.sublime-build",
+				"Run"
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"package",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"prv",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"package control install",
+				"Package Control: Install Package"
+			],
+			[
+				"packages",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 86.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90",
+		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References",
+		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References/f03gl",
+		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src"
+	],
+	"file_history":
+	[
+		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References/f03gl/sphere",
+		"/home/felipe/.config/sublime-text-3/Packages/Makefile/Make.sublime-build",
+		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
+		"/home/felipe/Downloads/f03gl/plotfunc.f90",
+		"/home/felipe/Documents/ProjetoCebeci/main.f90",
+		"/home/felipe/Downloads/f03gl/Makefile",
+		"/home/felipe/Documents/ProjetoCebeci/genetic.f90",
+		"/home/felipe/Documents/ProjetoCebeci/otimization.f90",
+		"/home/felipe/Documents/ProjetoCebeci/results/calculadora.f90",
+		"/home/felipe/Documents/ProjetoCebeci/README",
+		"/home/felipe/Documents/ProjetoCebeci/teste.f90",
+		"/home/felipe/Documents/ProjetoCebeci/results/graficos/amostras_temperature.py",
+		"/home/felipe/Documents/ProjetoCebeci/results/resultados gerais.py",
+		"/home/felipe/Documents/ProjetoCebeci/results/plotfit_prt_A.py",
+		"/home/felipe/Documents/ProjetoCebeci/results/genetic_scatering.py",
+		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image1020._400_Avelocity.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_150.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtFixoIdealVs26.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/graficos/images/Temperature_150_071_classico.png",
+		"/home/felipe/Documents/ProjetoCebeci/results/misc.py",
+		"/home/felipe/Documents/ProjetoCebeci/genetic_fit.f90",
+		"/home/felipe/Documents/ProjetoCebeci/results/graficos/temp.py",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_640_0025.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_395_0025.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_395_071.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image 395._10.00_400_Prt(Ret)_A26.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image 395._10.00_400_classico.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_10_400_Cefisico.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene150_071_400.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_0025_400_Cefisico.txt",
+		"/home/felipe/Documents/amr3d-paralelo/input/energy.amr3d",
+		"/home/felipe/Downloads/install_prerequisites_ubuntu.sh",
+		"/home/felipe/.bashrc",
+		"/home/felipe/.Xauthority",
+		"/home/felipe/.xsession-errors",
+		"/home/felipe/.config/Code/CachedData/493869ee8e8a846b0855873886fc79d480d342de/unixTerminal-4f0baab02c5eb176b18157b9177d7a58.code",
+		"/usr/share/applications/sublime.desktop",
+		"/usr/share/applications/nautilus-classic.desktop",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene1020_071_400.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene150_0025_400.txt",
+		"/home/felipe/Documents/ProjetoCebeci/plot/plot_001.png",
+		"/home/felipe/Documents/ProjetoCebeci/Resultados.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_0025_400_CeSolto.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_10_400_CeSolto.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_071_400.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisModelados.txt",
+		"/home/felipe/Downloads/SnakePy-master/snake.py",
+		"/home/felipe/.config/sublime-text-3/Packages/User/Python2.sublime-build",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_10_400.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene640_071_400.txt",
+		"/home/felipe/Documents/ProjetoCebeci/.gitignore",
+		"/home/felipe/Documents/ProjetoCebeci/grafics.py",
+		"/home/felipe/Documents/ProjetoCebeci/results/ajustecebeciclassico.py",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/diferentialevolution.f90",
+		"/home/felipe/Documents/ProjetoCebeci/results/Gene1020_071_100.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/scipy/optimize/_differentialevolution.py",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/Exemplo.py",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/Rosen.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/doc/source/_static/scipy-mathjax/MathJax.js",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/setup.py",
+		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtvariVs26.txt",
+		"/home/felipe/Documents/ProjetoCebeci/otimizationvelocity.f90",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_1000.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_640.txt",
+		"/home/felipe/version",
+		"/home/felipe/Downloads/grafics.py",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlcontinum.f90",
+		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtFixoIdealVsModnovo.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/Resultadofinalaristeu.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlencit.f90",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/Resultadofinaluaristeu.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlfinal.f90",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/DNS_RE_150.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/untitled.py",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/resumo do trabalho com meta modelo Prt variavel/untitled.py",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/resumo do trabalho com meta modelo Prt variavel/vetor071.txt",
+		"/home/felipe/Documents/ProjetoCebeci/main.cpp",
+		"/home/felipe/Documents/ProjetoCebeci/results/temp.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/Processando.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/fit do Pr pelo Reynolds.jpg",
+		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtVariVs26.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtFixoIdealVsMod.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_640_071.txt",
+		"/home/felipe/Documents/ProjetoCebeci/plot/myimage.gif",
+		"/home/felipe/Documents/ProjetoCebeci/plot/plot_0.png",
+		"/home/felipe/Documents/ProjetoCebeci/results/Resultadospara071.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/indet.txt",
+		"/home/felipe/Documents/ProjetoCebeci/functions.h",
+		"/home/felipe/Documents/ProjetoCebeci/functions.cpp",
+		"/home/felipe/Documents/ProjetoCebeci/temp.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/temp2.txt",
+		"/home/felipe/.config/sublime-text-3/Packages/C++/C++ Single File.sublime-build",
+		"/home/felipe/Documents/ProjetoCebeci/project.sublime-workspace",
+		"/home/felipe/Documents/ProjetoCebeci/project.sublime-project",
+		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisAjustados.txt",
+		"/home/felipe/Documents/ProjetoCebeci/results/teste.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_640_0025.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_0025.txt",
+		"/home/felipe/Documents/ProjetoCebeci/referencias/pós moderno/prandtlfinal.f90",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_1.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_2.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_5.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_7.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_150_0025.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_071.txt",
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_180_07.txt",
+		"/home/felipe/Documents/ProjetoCebeci/oloco.py",
+		"/home/felipe/.config/sublime-text-3/Packages/Python/Python.sublime-build",
+		"/home/felipe/Documents/Prandtl_et_Cebeci /Metamodelagem/sublime/teste.f90",
+		"/home/felipe/Documents/Prandtl_et_Cebeci /Metamodelagem/sublime/README",
+		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/fortrandif.sublime-build",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/prandtlfinal.f90",
+		"/F/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/README",
+		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/Python/Python.sublime-build",
+		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/grafico.py",
+		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/grafics.py",
+		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/prandtlfinal.f90",
+		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/teste.f90",
+		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/README",
+		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/analisecontinua/graficoprocesso.py",
+		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/analisecontinua/graficoprocess.py",
+		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/analisecontinua/graficoprocesso.pyc",
+		"/media/felipe/chest/fit constante de cebbeci quadratica.fig",
+		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/prandtlfinal",
+		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/main.f90",
+		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/main.py",
+		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/main.h"
+	],
+	"find":
+	{
+		"height": 37.0
+	},
+	"find_in_files":
+	{
+		"height": 95.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"x(2)",
+			"call getcwd",
+			"open(10, *)",
+			"print",
+			"RP",
+			"T",
+			"T(",
+			"f ",
+			"Tdns",
+			"print",
+			"chara",
+			"temp",
+			"print",
+			"write",
+			"inport",
+			"pr",
+			"player",
+			"player1",
+			"player",
+			"X"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"rYY"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "References/f03gl/plotfunc.f90",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 36502,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1029,
+								1029
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Fortran/grammars/FortranModern.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/Recapf90Opengl.f90",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1767,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								409,
+								409
+							]
+						],
+						"settings":
+						{
+							"auto_name": "program piloto",
+							"syntax": "Packages/Fortran/grammars/FortranModern.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 559,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								559,
+								559
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 55.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 354.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "OpelGlf90_piloto.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"grafics.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/Documents/ProjetoCebeci/project.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 308.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
