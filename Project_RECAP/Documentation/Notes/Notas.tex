@@ -268,7 +268,7 @@
 	
 	\begin{equation}
 	\begin{split}
-	\frac{T_i^{(j,k)} - T_{i -1}^{(j,k)} }{\Delta t} + u \frac{T_{i -1}^{(j,k)} - T_{i -1}^{(j - 1,k)}}{\Delta x} + v \frac{T_{i -1}^{(j,k)} - T_{i -1}^{(j,k - 1)}}{\Delta y}  \\ 
+	\frac{T_i^{(j,k)} - T_{i -1}^{(j,k)} }{\Delta t} + u \frac{T_{i -1}^{(j+1,k)} - T_{i -1}^{(j - 1,k)}}{2 \Delta x} + v \frac{T_{i -1}^{(j,k+1)} - T_{i -1}^{(j,k - 1)}}{2 \Delta y}  \\ 
 	= \alpha \left[  \frac{T_{i -1}^{(j+1,k)} - 2 T_{i -1}^{(j,k)} + T_{i -1}^{(j - 1,k)} }{\Delta x^2} + \frac{T_{i -1}^{(j,k + 1)} - 2 T_{i -1}^{(j,k)} + T_{i -1}^{(j,k - 1)}}{\Delta y^2}   \right] 
 	\end{split}
 	\end{equation}
@@ -281,8 +281,9 @@
 	$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
 	\begin{equation}
 	\begin{split}
-	T_i^{(j,k)} = T_{i -1}^{(j,k)} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2} - \frac{(u + v) \Delta t}{\Delta s}\right) + T_{i -1}^{(j-1,k)} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{\Delta s} \right)\\
-	+ T_{i -1}^{(j,k-1)} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{\Delta s} \right) +  T_{i-1}^{(j + 1,k)} \left( \alpha \frac{\Delta t}{\Delta s^2}\right) +  T_{i-1}^{(j,k+1)} \left( \alpha \frac{\Delta t}{\Delta s^2}\right)
+	T_i^{(j,k)} = T_{i -1}^{(j,k)} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}\right) + T_{i -1}^{(j-1,k)} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right)\\
+	+ T_{i -1}^{(j,k-1)} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right) +  T_{i-1}^{(j + 1,k)} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) \\
+	+  T_{i-1}^{(j,k+1)} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right)
 	\end{split}
 	\end{equation}
 	
@@ -300,9 +301,9 @@
 	$\bullet$ Casos teste foram utilizados para validação.\\
 	$\bullet$ Alguns parâmetros de teste notáveis foram: \\
 	
-	- Alpha = 1 \\
-	- u = 1 \\
-	- v = 1 \\
+	- Alpha = 97 \\
+	- u = 5 m/s \\
+	- v = 5 m/s \\
 	
 	$\bullet$ Foi obedecida a condição de convergência:
 	
@@ -360,7 +361,68 @@
 		\end{figure}
 	\end{minipage}
 	\end{frame}
+
+
+	\begin{frame}
+	\frametitle{Resultados iniciais}
 	
+	$\bullet$ Mas, diminuindo-se o passo de tempo a valores muito pequenos, foi possível se alcançar a convergência para longos tempos de simulação:
+	
+	
+	\begin{minipage}[h!]{0.30\textwidth}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_!}
+			\caption{Simulação bem sucedida.}
+		\end{figure}
+	\end{minipage}
+	\begin{minipage}[h!]{0.30\textwidth}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_2}
+			\caption{Simulação bem sucedida.}
+		\end{figure}
+	\end{minipage}
+\begin{minipage}[h!]{0.30\textwidth}
+	\begin{figure}[h!]
+		\centering
+		\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_3}
+		\caption{Simulação bem sucedida.}
+	\end{figure}
+\end{minipage}
+	\end{frame}
+
+
+
+
+	\begin{frame}
+	\frametitle{Resultados iniciais}
+	
+	$\bullet$ Tendo-se sucesso no método clássico, acionou-se a velocidade a 5 m/s obtendo-se o seguinte resultado:
+	
+	
+	\begin{minipage}[h!]{0.30\textwidth}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_!}
+			\caption{Simulação bem sucedida.}
+		\end{figure}
+	\end{minipage}
+	\begin{minipage}[h!]{0.30\textwidth}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_velocidade_2}
+			\caption{Simulação bem sucedida.}
+		\end{figure}
+	\end{minipage}
+	\begin{minipage}[h!]{0.30\textwidth}
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_velocidade_3}
+			\caption{Simulação bem sucedida.}
+		\end{figure}
+	\end{minipage}
+\end{frame}	
 	
 	
 

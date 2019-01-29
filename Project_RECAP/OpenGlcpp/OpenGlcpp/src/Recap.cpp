@@ -192,14 +192,14 @@ int main(void)
 			}
 		}
 
-		T1[(int)N / 2][(int)N / 2] = 200.0;
+		/*T1[(int)N / 2][(int)N / 2] = 200.0;*/
 
 
 		if (j % 100 == 0)
 		{
 			Draw(T1, T2, N);
 			log(j * dt << " | " << T1[0][N / 2] << " | " << T1[N-1][N / 2]);
-			//std::cin >> n;
+			std::cin.get();
 		}
 
 	}

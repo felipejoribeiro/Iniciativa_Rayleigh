@@ -1,5 +1,5 @@
 \babel@toc {brazil}{}
 \beamer@sectionintoc {2}{Introdu\IeC {\c c}\IeC {\~a}o}{2}{0}{1}
 \beamer@sectionintoc {3}{Parte 1 : Modelo 2D representativo}{4}{0}{2}
-\beamer@sectionintoc {4}{Parte 2 : Modelo 3D representativo}{12}{0}{3}
-\beamer@sectionintoc {5}{Agradecimentos}{13}{0}{4}
+\beamer@sectionintoc {4}{Parte 2 : Modelo 3D representativo}{14}{0}{3}
+\beamer@sectionintoc {5}{Agradecimentos}{15}{0}{4}
