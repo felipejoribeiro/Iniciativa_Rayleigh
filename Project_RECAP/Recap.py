@@ -39,9 +39,31 @@ plt.show()
 for n in range(tempo):         #(from 0 to tempo - 1)
     
     # Thermal equation aplied to the domain
-    for i in range(1 , N-1):
-        for j in range(1 , N-1):
-            T[i,j] = Tb[i,j] + K*(dt/ds**2)*(Tb[i+1,j]+Tb[i-1,j]+Tb[i,j+1]+Tb[i,j-1]-4*Tb[i,j])
+
+
+    # for i in range(1 , N-1):
+    #     for j in range(1 , N-1):
+    #         T[i,j] = Tb[i,j] + K*(dt/ds**2)*(Tb[i+1,j]+Tb[i-1,j]+Tb[i,j+1]+Tb[i,j-1]-4*Tb[i,j])
+
+
+    for ii in range (1, 300):
+        for i in range(1 , N-1):
+            for j in range(1 , N-1):
+                T[i,j] = (Tb[i,j] \
+                    - K*(dt/ds**2)*(Tb[i+1,j]) \
+                    - K*(dt/ds**2)*(Tb[i,j+1]) \
+                    - K*(dt/ds**2)*(Tb[i-1,j]) \
+                    - K*(dt/ds**2)*(Tb[i,j-1]) \
+                    /(1 + 4 * K * dt/ds**2))
+
+        for i in range(1 , N-1):
+            for j in range(1 , N-1):
+                Tb[i,j] = T[i,j] 
+
+
+
+
+
 
     # Neumann Boundary Conditions
     for i in range(0, N):

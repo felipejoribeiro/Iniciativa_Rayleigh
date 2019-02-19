@@ -119,35 +119,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "References/f03gl/plotfunc.f90",
-			"settings":
-			{
-				"buffer_size": 36502,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/Recapf90Opengl.f90",
-			"settings":
-			{
-				"buffer_size": 1767,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "program piloto"
-			}
-		},
-		{
-			"file": "/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
-			"settings":
-			{
-				"buffer_size": 559,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "untitled.sublime-build"
-			}
-		}
 	],
 	"build_system": "Packages/User/OpenGlf90.sublime-build",
 	"build_system_choices":
@@ -675,13 +646,13 @@
 	},
 	"expanded_folders":
 	[
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90",
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References",
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References/f03gl",
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src"
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90"
 	],
 	"file_history":
 	[
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References/f03gl/plotfunc.f90",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/Recapf90Opengl.f90",
+		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References/f03gl/sphere",
 		"/home/felipe/.config/sublime-text-3/Packages/Makefile/Make.sublime-build",
 		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
@@ -806,10 +777,7 @@
 		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/analisecontinua/graficoprocess.py",
 		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/analisecontinua/graficoprocesso.pyc",
 		"/media/felipe/chest/fit constante de cebbeci quadratica.fig",
-		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/prandtlfinal",
-		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/main.f90",
-		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/main.py",
-		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/main.h"
+		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/prandtlfinal"
 	],
 	"find":
 	{
@@ -865,96 +833,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "References/f03gl/plotfunc.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 36502,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1029,
-								1029
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Fortran/grammars/FortranModern.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/Recapf90Opengl.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1767,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								409,
-								409
-							]
-						],
-						"settings":
-						{
-							"auto_name": "program piloto",
-							"syntax": "Packages/Fortran/grammars/FortranModern.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 559,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								559,
-								559
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],

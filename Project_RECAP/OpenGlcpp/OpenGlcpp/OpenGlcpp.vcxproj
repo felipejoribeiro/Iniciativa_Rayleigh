@@ -146,7 +146,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Difusion.cpp" />
+    <ClCompile Include="src\Graficos.cpp" />
     <ClCompile Include="src\Recap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Difusion.h" />
+    <ClInclude Include="src\Graficos.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

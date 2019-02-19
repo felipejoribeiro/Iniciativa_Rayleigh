@@ -132,9 +132,9 @@
 %insere o logotipo da ufu em todos os slides
 % \logo{\includegraphics[height=0.8cm]{figuras/layout_slide/petrobras.png}}
 
-\title{Revisão do método de simulação térmica bidimensional e tridimensional, com implementação de novas rotinas de otimização}
+\title{Revisão do método de simulação térmica bidimensional e tridimensional, com implementação de novas rotinas de otimização e convecção}
 
-\author{ Felipe J. O. Ribeiro \\ \and \\ Orientador: Prof. Dr. Aristeu da Silveira Neto}
+\author{ Felipe J. O. Ribeiro \\ \and \\ Dr. Aristeu da Silveira Neto}
 
 %\date{\tiny{02 de dezembro de 2015}}
 \date{\tiny{\today}}
@@ -239,7 +239,7 @@
 	\begin{frame} 
 	\frametitle{Modelo matemático diferencial}
 %	\begin{minipage}[h!]{0.49\textwidth}
-		$\bullet$ Foi utilizada a equação da energia térmica como base, com termos advectivos.\\
+		$\bullet$ A equação da energia térmica foi desenvolvida como base, com termos advectivos.\\
 		$\bullet$ A dimensão $z$ foi ignorada, considerando-se auto similaridade neste eixo.\\
 		
 %	\end{minipage}
@@ -256,20 +256,21 @@
 
 
 
-
 	\begin{frame} 
-	\frametitle{Modelo numérico}
+	\frametitle{Modelo numérico explícito}
 	%	\begin{minipage}[h!]{0.49\textwidth}
-	$\bullet$ Todas as derivadas parciais de primeira ordem foram discretizadas pelo método de Newton.\\
-	$\bullet$ Todas as derivadas parciais de segunda ordem foram discretizadas utilizando-se o método das diferenças centradas.\\
+	$\bullet$ Todas as derivadas parciais espaciais de primeira ordem foram discretizadas pelo método de Newton de primeira ordem em diferenças centradas.\\
+	$\bullet$ Todas as derivadas parciais de segunda ordem foram discretizadas utilizando-se o método Newton de segunda ordem em diferenças centradas.\\
+	$\bullet$ No tempo foi utilizado o método de Euler de primeira ordem.\\
 	
 	%	\end{minipage}
 	%	\begin{minipage}[h!]{0.49\textwidth}
 	
 	\begin{equation}
 	\begin{split}
-	\frac{T_i^{(j,k)} - T_{i -1}^{(j,k)} }{\Delta t} + u \frac{T_{i -1}^{(j+1,k)} - T_{i -1}^{(j - 1,k)}}{2 \Delta x} + v \frac{T_{i -1}^{(j,k+1)} - T_{i -1}^{(j,k - 1)}}{2 \Delta y}  \\ 
-	= \alpha \left[  \frac{T_{i -1}^{(j+1,k)} - 2 T_{i -1}^{(j,k)} + T_{i -1}^{(j - 1,k)} }{\Delta x^2} + \frac{T_{i -1}^{(j,k + 1)} - 2 T_{i -1}^{(j,k)} + T_{i -1}^{(j,k - 1)}}{\Delta y^2}   \right] 
+	\frac{T_{i,j}^{k} - T_{i , j}^{k-1} }{\Delta t}
+	= \alpha \left[  \frac{T_{i+1,j}^{k-1} - 2 T_{i,j}^{k-1} + T_{i-1,j}^{k-1} }{\Delta x^2} \right]\\
+	+\alpha \left[\frac{T_{i,j+1}^{k-1} - 2 T_{i,j}^{k-1} + T_{i,j-1}^{k-1}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k-1} - T_{i-1,j}^{k-1}}{2 \Delta x} - v \frac{T_{i,j+1}^{k-1} - T_{i , j-1}^{k-1}}{2 \Delta y}  
 	\end{split}
 	\end{equation}
 	
@@ -277,13 +278,51 @@
 	\end{frame}
 
 	\begin{frame} 
-	\frametitle{Modelo numérico}
+	\frametitle{Modelo numérico explícito}
 	$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
 	\begin{equation}
 	\begin{split}
-	T_i^{(j,k)} = T_{i -1}^{(j,k)} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}\right) + T_{i -1}^{(j-1,k)} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right)\\
-	+ T_{i -1}^{(j,k-1)} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right) +  T_{i-1}^{(j + 1,k)} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) \\
-	+  T_{i-1}^{(j,k+1)} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right)
+	T_{i,j}^{k} = T_{i,j}^{k-1} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}\right) + T_{i -1, j}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right)\\
+	+ T_{i,j-1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right) +  T_{i+1,j}^{k-1} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) \\
+	+  T_{i,j+1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right)
+	\end{split}
+	\end{equation}
+
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+	\frametitle{Modelo numérico implícito}
+	%	\begin{minipage}[h!]{0.49\textwidth}
+	$\bullet$ Todas as derivadas parciais espaciais de primeira ordem foram discretizadas pelo método de Newton de primeira ordem em diferenças centradas.\\
+	$\bullet$ Todas as derivadas parciais de segunda ordem foram discretizadas utilizando-se o método Newton de segunda ordem em diferenças centradas.\\
+	$\bullet$ No tempo foi utilizado o método de Euler recuado de primeira ordem.\\
+	
+	%	\end{minipage}
+	%	\begin{minipage}[h!]{0.49\textwidth}
+	
+	\begin{equation}
+	\begin{split}
+	\frac{T_{i,j}^{k} - T_{i , j}^{k-1} }{\Delta t}
+	= \alpha \left[  \frac{T_{i+1,j}^{k} - 2 T_{i,j}^{k} + T_{i-1,j}^{k} }{\Delta x^2} \right]\\
+	 +\alpha \left[\frac{T_{i,j+1}^{k} - 2 T_{i,j}^{k} + T_{i,j-1}^{k}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k} - T_{i-1,j}^{k}}{2 \Delta x} - v \frac{T_{i,j+1}^{k} - T_{i , j-1}^{k}}{2 \Delta y}  
+	\end{split}
+	\end{equation}
+	
+	%	\end{minipage}
+	\end{frame}
+
+	\begin{frame} 
+	\frametitle{Modelo numérico implícito}
+	$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
+	\begin{equation}
+	\begin{split}
+	T_{i,j}^{k} = \frac{T_{i,j}^{k-1} + T_{i -1, j}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right) 	+ T_{i,j-1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}} \\
+    + \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) 
+	+  T_{i,j+1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}}
 	\end{split}
 	\end{equation}
 	
@@ -298,17 +337,17 @@
 	\frametitle{Código em c++}
 	\begin{minipage}[h!]{0.49\textwidth}
 	$\bullet$ Foi traduzido do MatLab para c++ o código clássico e implementada as mudanças matemáticas deste novo caso.\\
-	$\bullet$ Casos teste foram utilizados para validação.\\
+	$\bullet$ Casos teste foram utilizados para validação qualitativa.\\
 	$\bullet$ Alguns parâmetros de teste notáveis foram: \\
 	
-	- Alpha = 97 \\
+	- Alpha = 97 (Alumínio) \\
 	- u = 5 m/s \\
 	- v = 5 m/s \\
 	
-	$\bullet$ Foi obedecida a condição de convergência:
+	$\bullet$ Para o explícito foi obedecida a condição de convergência:
 	
 	\begin{equation}
-	\Delta t \leq \frac{\Delta s ^2}{2 \alpha} 
+	\Delta t \leq \frac{\Delta s ^2}{4 \alpha} 
 	\end{equation}
 		
 	\end{minipage}
@@ -329,7 +368,7 @@
 	\begin{frame}
 	\frametitle{Resultados iniciais}
 	\begin{minipage}[h!]{0.49\textwidth}
-	$\bullet$ Com a simulação de alguns casos, obteve-se os resultados ao lado.Apesar de se obedecer aos quesitos de convergência, não se consegue desenvolver uma simulação muito grande. E o resultado parece ser dependente da malha.
+	$\bullet$  Inicialmente, foi tratado somente condução térmica, as velocidades foram setadas em zero, resultando na solução da energia térmica clássica. Com a simulação de alguns casos, obteve-se os resultados ao lado.Apesar de se obedecer aos quesitos de convergência, não se consegue desenvolver uma simulação muito grande. E o resultado parece ser dependente da malha.
 	\end{minipage}
 	\begin{minipage}[h!]{0.49\textwidth}
 		\begin{figure}[h!]
@@ -366,21 +405,21 @@
 	\begin{frame}
 	\frametitle{Resultados iniciais}
 	
-	$\bullet$ Mas, diminuindo-se o passo de tempo a valores muito pequenos, foi possível se alcançar a convergência para longos tempos de simulação:
+	$\bullet$ Mas, diminuindo-se o passo de tempo a valores muito pequenos, foi possível se alcançar a convergência para longos tempos de simulação, foi então que se observou um erro numérico na determinação do passo de tempo, corrigindo ele, obteve-se:
 	
 	
 	\begin{minipage}[h!]{0.30\textwidth}
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_!}
-			\caption{Simulação bem sucedida.}
+			\caption{Condição inicial.}
 		\end{figure}
 	\end{minipage}
 	\begin{minipage}[h!]{0.30\textwidth}
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_2}
-			\caption{Simulação bem sucedida.}
+			\caption{Situação intermediária.}
 		\end{figure}
 	\end{minipage}
 \begin{minipage}[h!]{0.30\textwidth}
@@ -405,14 +444,14 @@
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_!}
-			\caption{Simulação bem sucedida.}
+			\caption{Condição inicial.}
 		\end{figure}
 	\end{minipage}
 	\begin{minipage}[h!]{0.30\textwidth}
 		\begin{figure}[h!]
 			\centering
 			\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{sucesso_velocidade_2}
-			\caption{Simulação bem sucedida.}
+			\caption{Situação intermediária.}
 		\end{figure}
 	\end{minipage}
 	\begin{minipage}[h!]{0.30\textwidth}
@@ -423,6 +462,112 @@
 		\end{figure}
 	\end{minipage}
 \end{frame}	
+
+
+
+	\begin{frame}
+\frametitle{Validação e análise de erros e convergência}
+\begin{minipage}[h!]{0.77\textwidth}
+$\bullet$ Com um programa funcional, chegou então a hora de se fazer uma análise de erros a fim de se validar quantitativamente o método. até mesmo com uma análise na ordem de convergência.  \\
+$\bullet$ Para isso, utilizou-se do artifício da solução manufaturada, que consiste em se criar um termo fonte e propor uma solução para T, de forma a se desenvolver uma solução exata para a equação quando acrescida deste termo fonte. Seguem a solução proposta e o termo fonte:
+
+\begin{equation}
+T = e ^{1 - (x^2 + y^2 + t)}
+\end{equation}
+
+\begin{equation}
+G = e^{1 - (x^2 + y^2 + t)} \left( 4 \alpha - 2 u x - 2 v y - 4 \alpha (x^2 + y^2) - 1 \right)
+\end{equation}
+
+$\bullet$ Assim temos a função analítica a ser analisada pelo método numérico como segue:
+
+
+	\begin{equation}
+\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right] + G 
+\end{equation}
+\end{minipage}
+\begin{minipage}[h!]{0.17\textwidth}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.1]{Analise_manufaturada}
+	\caption{Resultado simulado.}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.07]{resultado_analitico}
+	\caption{ Resultado exato.}
+\end{figure}
+\end{minipage}
+\end{frame}	
+
+
+
+
+
+\begin{frame} 
+\frametitle{Modelo numérico explícito}
+$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
+\begin{equation}
+\begin{split}
+T_{i,j}^{k} = T_{i,j}^{k-1} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}\right) + T_{i -1, j}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right)\\
++ T_{i,j-1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right) +  T_{i+1,j}^{k-1} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) \\
++  T_{i,j+1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right) + G
+\end{split}
+\end{equation}
+
+\end{frame}
+
+
+
+
+\begin{frame} 
+\frametitle{Modelo numérico implícito}
+$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
+\begin{equation}
+\begin{split}
+T_{i,j}^{k} = \frac{T_{i,j}^{k-1} + T_{i -1, j}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right) 	+ T_{i,j-1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}} \\
++ \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) 
+	+  T_{i,j+1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right) + G}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}}
+\end{split}
+\end{equation}
+
+\end{frame}
+
+
+
+\begin{frame} 
+\frametitle{Resultados das simulações}
+$\bullet$ Dessa forma, foram conduzidas várias simulações em diferentes CFL`s, de forma a se observar o comportamento do erro a partir destes desenvolvimentos, seguem os resultados: \\
+
+\begin{minipage}[h!]{0.49\textwidth}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.4]{analise_de_erros_explicito}
+	\caption{ Análise de convergência para o método explicito. Uma análise das normas revelou uma convergência de 2 ordem. Quando se dobrava o numero de células, se dividia por aproximadamente 4 o erro.}
+\end{figure}
+\end{minipage}
+\begin{minipage}[h!]{0.49\textwidth}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.4]{analise_de_erros_implicito}
+	\caption{ Análise de convergência para o método implícito. Uma análise das normas revelou uma convergência de 2 ordem. Quando se dobrava o numero de células, se dividia por aproximadamente 4 o erro.}
+\end{figure}
+\end{minipage}
+\end{frame}
+
+
+
+
+
+
+\begin{frame} 
+\frametitle{Acoplamento velocidade pressão }
+$\bullet$ Dessa forma, foram conduzidas várias simulações em diferentes CFL`s, de forma a se observar o comportamento do erro a partir destes desenvolvimentos, seguem os resultados: \\
+
+
+\end{frame}
+
+
 	
 	
 
