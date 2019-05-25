@@ -10,8 +10,8 @@
 
 typedef struct
 {
-	GLfloat x, y, z;      //position
-	GLfloat r, g, b, a;   //color and alpha channels
+	GLfloat x, y, z;       //position
+	GLfloat r, g, b, a;    //color and alpha channels
 }Vertex;
 
 
@@ -47,6 +47,8 @@ int main(void)
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
+
+
 
 	glfwMakeContextCurrent(window);
 
@@ -127,7 +129,7 @@ int main(void)
 
 
 
-	// time iterations 
+	// time iterations
 
 	int n;
 
@@ -159,7 +161,7 @@ int main(void)
 				//T2[i][ii] = T1[i][ii] + (alpha * dt / (ds*ds)) * (T1[i + 1][ii] - 4 * T1[i][ii] + T1[i - 1][ii]
 				//	+ T1[i][ii + 1] + T1[i][ii - 1]);
 
-				T2[i][ii] = T1[i][ii] * (1 - 4 * alpha * dt /(ds * ds)) + T1[i + 1][ii] * (alpha * dt / (ds * ds) - u * dt/(2 * ds)) 
+				T2[i][ii] = T1[i][ii] * (1 - 4 * alpha * dt /(ds * ds)) + T1[i + 1][ii] * (alpha * dt / (ds * ds) - u * dt/(2 * ds))
 					+ T1[i][ii + 1] * (alpha * dt /(ds * ds) - v * dt / (2 * ds))
 					+ T1[i - 1][ii] * ((alpha * dt) / (ds * ds) + u * dt /(2 * ds)) + T1[i][ii - 1] * ((alpha * dt) /(ds * ds) + v * dt/(2 * ds));
 			}
@@ -203,7 +205,7 @@ int main(void)
 		}
 
 	}
-	
+
 
 	// Delete arrays
 
