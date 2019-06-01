@@ -1229,7 +1229,7 @@ call glutInitWindowSize(500_glcint,500_glcint)
 
 ! Create a window
 
-winid = glutCreateWindow("Function plotter")
+winid = glutCreateWindow("janela")
 
 ! initialize view_modifier, receiving the id for it's submenu
 

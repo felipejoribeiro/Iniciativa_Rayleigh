@@ -169,10 +169,11 @@
 			}
 		},
 		{
-			"file": "References/f03gl/blender.f90",
+			"file": "src/stars.f90",
 			"settings":
 			{
-				"buffer_size": 5018,
+				"buffer_size": 8309,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -711,11 +712,10 @@
 	},
 	"expanded_folders":
 	[
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90",
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src"
 	],
 	"file_history":
 	[
+		"/home/felipe/.config/sublime-text-3/Packages/User/PackageResourceViewer.sublime-settings",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/stars.f90",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References/f03gl/plotfunc.f90",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Recap.cpp",
@@ -842,8 +842,7 @@
 		"/F/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/README",
 		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/Python/Python.sublime-build",
 		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/grafico.py",
-		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/grafics.py",
-		"/home/felipe/Documents/programing/Experimental/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/prandtlfinal.f90"
+		"/media/felipe/chest/IC.ARISTEU - Fluidos !!/programas/prandtl foto/pós moderno/pós férias/grafics.py"
 	],
 	"find":
 	{
@@ -901,7 +900,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -931,24 +930,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "References/f03gl/blender.f90",
+					"file": "src/stars.f90",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 5018,
+						"buffer_size": 8309,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								881,
+								881
 							]
 						],
 						"settings":
@@ -961,7 +960,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -977,8 +976,8 @@
 						"selection":
 						[
 							[
-								816,
-								816
+								5558,
+								5558
 							]
 						],
 						"settings":
@@ -991,14 +990,9 @@
 						"translation.y": 2250.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
-			]
-		},
-		{
-			"sheets":
-			[
 			]
 		}
 	],
@@ -1019,18 +1013,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.047258979206,
 			1.0
 		],
 		"rows":
@@ -1094,7 +1081,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
