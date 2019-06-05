@@ -4,7 +4,7 @@ implicit none
 
 
 print*, 'deu bom'
-read(*,*)
 
+read(*,*)
 
 end program main

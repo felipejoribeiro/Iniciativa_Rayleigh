@@ -1,0 +1,550 @@
+\documentclass[xcolor=dvipsnames,10pt,aspectratio=169]{beamer}
+%\documentclass[xcolor=dvipsnames,10pt]{beamer}
+\usepackage{etex}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage[absolute,overlay]{textpos} 
+%\usepackage{algorithm}
+\usepackage{amsmath,amssymb}
+\usepackage[utf8]{inputenc} 
+\usepackage{colortbl}
+\usepackage{graphicx} 
+\usepackage[brazil]{babel}
+\usepackage{tabularx} 
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{listings}
+%\usepackage{multimedia}
+\usepackage{animate}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{caption}
+\usetheme{Madrid} 
+\usepackage{amsmath}
+\usepackage{movie15}
+
+
+\lstset{ %
+%	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+%	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	basicstyle=\scriptsize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=t,                    % sets the caption-position to bottom
+	commentstyle=\color{mygreen},    % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+%	frame=single,                    % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+%	language=make,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+%	numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+%	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\usecolortheme{beaver}
+\newcommand{\ul}{\underline}
+\setbeamertemplate{footline}{\scriptsize{\vspace*{0.3cm}\hspace*{15cm}\insertframenumber\,/\,\inserttotalframenumber}}
+\setbeamertemplate{caption}[numbered]
+\setbeamerfont{caption}{size=\fontsize{8}{5}}
+
+\setbeamercolor{block title}{	bg=Sepia , fg = White}
+\setbeamercolor{block body}{bg=Brown!15, fg=Sepia }
+\setbeamercolor{item projected}{bg=Sepia, fg=White}
+\setbeamercolor{number projected}{bg = Black}
+
+%declara as imagens usadas no layout do slide
+\pgfdeclareimage[height=0.8cm]{mflab}{figuras_presentation_template/logo_mflab_transparente.png}
+\pgfdeclareimage[height=1.0cm]{logoufu}{figuras_presentation_template/logo_ufu.jpg}
+\pgfdeclareimage[height=1.0cm]{petro}{figuras_presentation_template/petrobras_2.png}
+
+%posiciona o logotipo do MFLab
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\newcommand{\placelogomflab} 
+{ 
+	\begin{textblock}{13}(150.0,0.0)
+		\pgfuseimage{mflab} 
+	\end{textblock} 
+	
+% 	\begin{textblock}{13}(128.0,1.0)
+% 		\pgfuseimage{logoufu} 
+% 	\end{textblock} 
+	
+	\begin{textblock}{13}(150.0,70.0)
+		\pgfuseimage{petro} 
+	\end{textblock} 
+}
+%posiciona o logotipo do MFLab
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+\newcommand{\placelogo} 
+{ 
+	\begin{textblock}{13}(150.0,0.0)
+		\pgfuseimage{mflab} 
+	\end{textblock} 
+	
+% 	\begin{textblock}{13}(128.0,1.0)
+% 		\pgfuseimage{logoufu} 
+% 	\end{textblock} 
+	
+	\begin{textblock}{13}(0.0,80.0)
+		\pgfuseimage{petro} 
+	\end{textblock} 
+}
+
+% \setlength{\TPHorizModule}{1mm}
+% \setlength{\TPVertModule}{1mm}
+% \newcommand{\placelogomflab_titulo} 
+% { 
+% 	\begin{textblock}{13}(150.0,0.0)
+% 		\pgfuseimage{mflab} 
+% 	\end{textblock} 
+% 	
+% 	\begin{textblock}{13}(0.0,0.0)
+% 		\pgfuseimage{lmest} 
+% 	\end{textblock} 
+% 	
+% % 	\begin{textblock}{13}(128.0,1.0)
+% % 		\pgfuseimage{logoufu} 
+% % 	\end{textblock} 
+% 	
+% 	\begin{textblock}{13}(75.0,80.0)
+% 		\pgfuseimage{petro} 
+% 	\end{textblock} 
+% }
+
+
+
+%insere o logotipo da ufu em todos os slides
+% \logo{\includegraphics[height=0.8cm]{figuras/layout_slide/petrobras.png}}
+
+\title{Iniciativa Rayleigh: Análise de escoamentos em cavidade, com simulação bidimensional e testes de modelos de turbulência com parametrizações inovadoras}
+
+\author{ Felipe J. O. Ribeiro \\ \and \\ Orientador: Prof. Dr. Aristeu da Silveira Neto}
+
+%\date{\tiny{02 de dezembro de 2015}}
+\date{\tiny{\today}}
+% \newcolumntype{M}[1]{>{\raggedright\arraybackslash}b{#1}}
+% \newcolumntype{N}{@{}m{0pt}@{}}	
+% \newcolumntype{M}{>{\begin{minipage}[b]{3cm}\raggedright{}}c<{\end{minipage}\minrowheight}}
+% \setlength\extrarowheight{5pt}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+
+\begin{document}
+
+	\begin{frame}\placelogomflab
+		\frametitle 
+		{ \vfill
+			\centering
+			{
+			\small{Universidade Federal de Uberlândia}\\
+%			\small{Programa de Pós-Graduação em Engenharia Mecânica}\\
+			\small{Laboratório de Mecânica dos Fluidos}\\
+			}
+		}
+		\maketitle
+	\end{frame}
+
+
+
+
+	
+\section<presentation>*{Sumário}
+	
+	\begin{frame}
+		\frametitle{Sumário}\placelogomflab 
+		{\scriptsize \tableofcontents}
+	\end{frame}
+
+
+
+
+
+	\AtBeginSection[]
+	{
+	\begin{frame}<beamer>
+		\frametitle{Sumário}\placelogomflab 
+		{\scriptsize \tableofcontents[current,currentsection]}
+	\end{frame}
+	}
+	\AtBeginSubsection[]
+	{
+	\begin{frame}<beamer>
+		  \frametitle{Sumário}\placelogomflab 
+		  {\scriptsize \tableofcontents[current,currentsubsection]}
+	\end{frame}
+	}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introdução}
+	
+	\begin{frame}
+		\frametitle{Objetivos}
+					
+		\centering
+		O presente texto procura documentar o desenvolvimento deste trabalho de pesquisa com o máximo de detalhes nas metodologias possível. Dês dos desenvolvimentos matemáticos e teóricos aos andamentos nos aspectos técnicos e organizacionais.
+		
+		\vspace{0.5cm}
+		
+		\flushleft
+		Os tópicos centrais deste estudo são:\\
+		\quad $\bullet$ Desenvolvimento teórico e matemático do escoamento bidimensional em cavidade.\\
+		\quad $\bullet$ Implementação de modelo de turbulência baseado na hipótese de Boussinesq. \\
+		\quad $\bullet$ Desenvolvimento das conversões dos parâmetros do Poiseuille para a cavidade.\\
+		\quad $\bullet$ Aperfeiçoamento dos protocolos de visualização de dados com OpenGL.\\
+		\quad $\bullet$ Desenvolvimento das rotinas em MPI no domínio bidimensional.\\
+		
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Estrutura de arquivos}
+		\begin{tabular}{c c}
+			{
+				\begin{minipage}[h!]{0.15\textwidth}
+					\centering
+					\small
+					Neste projeto, dês do início, será dada uma atenção especial à organização dos documentos, de forma a simplificar o andamento das atividades de documentação e prosseguimento.
+					\vspace{6cm}
+				\end{minipage}
+			}&{
+				\includegraphics[trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.435]{../../arquivos.pdf}
+			}
+		\end{tabular}
+
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Documento "Registro.tex"}
+		\begin{tabular}{c c}
+			{
+				\begin{minipage}[h!]{0.4\textwidth}
+					\centering
+					\small
+					Por questões de adequações á formatação em textos científicos, além desta apresentação também serão registrados os andamentos nesse documento em inglês. Ele segue o template da ASME para textos científicos. Assim, pretende-se já desenvolver as rotinas de visualização dos resultados de acordo com estas convenções. De forma a facilitar a criação de documentos para submissão em artigos e tornando este processo mais ágil.
+					\vspace{6cm}
+				\end{minipage}
+			}&{
+				\includegraphics[page = 1,trim={0.0cm 12.0cm 0.0cm 0.0cm},clip=true, scale = 0.4]{registro.pdf}
+			}	
+		\end{tabular}
+	
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Levante bibliográfico}
+		\begin{minipage}[h!]{0.33\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.15]{Referencias/An_introduction_to_Computational}
+				\caption{Possui as referencias aos métodos matemáticos e numéricos de modelagem e discretização da fluidodinâmica ao domínio bidimensional.}	
+			\end{figure}
+			\vspace{6cm}
+		\end{minipage}
+		\begin{minipage}[h!]{0.33\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/MPI_Guide_FORTRAN.png}\\	
+				\caption{Um guia para se aprender a desenvolver em FORTRAN as rotinas em paralelo, com passagem de mensagem entre os processos.}
+			\end{figure}
+			\vspace{6cm}
+		\end{minipage}
+		\begin{minipage}[h!]{0.325\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[page = 1,trim={1.0cm 1.0cm 1.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/Projeto_cebeci}\\
+				\caption{Artigo previamente publicado, para resgate dos ajustes paramétricos.}
+			\end{figure}
+			\vspace{6cm}
+		\end{minipage}
+	
+	\end{frame}
+	
+	
+	
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modelo físico}
+
+	\begin{frame}
+		\frametitle{Hipóteses e considerações sobre o sistema}
+		\begin{tabular}{c c}
+			{
+				\begin{minipage}{0.4\textwidth}
+					\small
+					\centering
+					O problema fluidodinâmico escolhido foi o da cavidade. Ele consiste em uma quantidade de fluido confinada a um sistema termodinâmico com duas fontes de energia térmica como observado na Fig.\ref{sistema_termico_1}.
+					
+					\vspace{0.2cm}
+					
+					\flushleft
+					As considerações feitas foram:\\
+					\quad $\bullet$ O fluido é incompressível e newtoniano, sendo que sua massa específica varia somente em função da temperatura.\\
+					\quad $\bullet$ O sistema foi considerado auto-similar na coordenada $z$. \\
+					\quad $\bullet$ As superfícies perpendiculares ao eixo $y$ são isoladas termicamente.\\
+					\quad $\bullet$ Considera-se uma fonte fria e uma fonte quente nas superfícies perpendiculares ao eixo $x$.\\
+				\end{minipage}
+			}&{
+				\begin{minipage}{0.5\textwidth}
+					\begin{figure}
+						\centering
+						\includegraphics[page = 1,trim={6.0cm 2.0cm 6.0cm 1.5cm},clip=true, scale = 0.4]{images/Cavidade_fisico_1.pdf}
+						\caption{Sistema físico da cavidade.}
+						\label{sistema_termico_1}
+					\end{figure}
+				\end{minipage}
+			}
+		\end{tabular}
+	
+	\end{frame}
+	
+	
+	
+	
+	
+	\begin{frame}
+		\frametitle{Sobre Reynolds e Rayleigh}
+		\centering
+		Como os ajustes foram feitos dentro de um range de números de Reynolds, é necessário que se faça um estudo de como achar estes valores em número de Rayleigh, ou seja, com aplicação em convecção natural.
+		
+	\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Desenvolvimento matemático}
+
+	\begin{frame}
+		\frametitle{Equações representativas}
+		\flushleft
+		Para este desenvolvimento matemático serão utilizadas:\\
+		\quad $\bullet$ As equações de Navier Stokes.\\
+		\quad $\bullet$ A equação da continuidade.\\
+		\quad $\bullet$ A equação de balanço da energia térmica.\\
+		\quad $\bullet$ Uma equação de estado.\\
+		
+		\begin{equation}
+		\nabla . \vec{V} = 0
+		\end{equation}
+		\begin{equation}
+		\frac{\partial T}{\partial t} + \vec{\nabla} . \left( \vec{V} \vec{V} \right) =  -\frac{1}{\rho_o}\vec{\nabla}P + \frac{\rho - \rho_o}{\rho_o} \vec{g} + \nu \nabla ^2 \vec{V}
+		\end{equation}
+		\begin{equation}
+		\frac{\partial\vec{V}}{\partial t} + \vec{\nabla} . \left( \vec{V}T \right) = \alpha \nabla^2T
+		\end{equation}
+		\begin{equation}
+		\frac{\rho - \rho_o}{\rho_o} = \beta \left( T - T_o\right)
+		\end{equation}
+		
+		
+		
+		
+		
+		
+	\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+\section{Agradecimentos}
+			
+	\begin{frame}	
+		\begin{center}
+		Obrigado às entidades cujo auxílio fora inestimável ao andamento deste trabalho. 
+		\end{center}
+		\placelogomflab 
+		\frametitle{Agradecimentos}
+		\begin{center}
+		\begin{tabular}{c c}
+			{
+				\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras_presentation_template/petrobras.png}
+			}&{
+				\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras_presentation_template/logo_mflab.png}}\\
+				{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras_presentation_template/cnpq.png}
+			}&{
+				\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras_presentation_template/CAPES.png}}\\
+				{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras_presentation_template/FAPEMIG.jpg}
+			}&{
+				\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,height=0.2\textheight]{figuras_presentation_template/UFU_black.jpg}
+			}
+		\end{tabular}
+		\end{center}
+			
+	\end{frame}
+		
+			
+		
+		
+		
+\end{document}
+
+
+
+
+		
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens		
+%		\begin{frame}
+%			\frametitle{Adição de fronteiras extras}
+%			\begin{tabular}{c c}
+%				
+%				{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,loop,height=0.5\textheight]{figuras/filtration_depois.png}}&{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,loop,height=0.4\textheight]{figuras/filtration_depois_zoom.png}}\\
+%				
+%			\end{tabular}
+%			
+%		\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens		
+%		\begin{frame}
+%			\frametitle{Agora}
+%			\centering
+%			\begin{tabular}{c}
+%				
+%				{\includegraphics[trim=0.00cm 2.0cm 0.0cm 2.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51f.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999g.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999y.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999b.png}}
+%				
+%			\end{tabular}
+%			
+%		\end{frame}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Formatação de equações:		
+%		\begin{frame}
+%			\frametitle{Newton-Raphson}
+%			
+%			\flushleft
+%			Método de interface com jacobiano composto:
+%			
+%			\centering
+%			\begin{equation}\label{forte_eqNewton}
+%			K(D+\Delta D) \approx K(D)+\Delta D \, J(D)
+%			\end{equation}
+%			\begin{equation}\label{forte_eqNewton2}
+%			K(D) =  Estrutura(Fluido(D))-D =  0
+%			\end{equation}
+%			\begin{equation}\label{forte_eqNewton3}
+%			J(D) =  Estrutura'(Fluido(D)) \, Fluido'(D)-I
+%			\end{equation}
+%			\begin{equation}\label{forte_eqNewton4}
+%			Fluido(D): \mathbb{R}^{n} \to \mathbb{R}^{m}
+%			\end{equation}
+%			
+%			\flushleft
+%			$Fluido'(D)$ é de tamanho $m x n$
+%			
+%			\centering
+%			
+%			\begin{equation}\label{forte_eqNewton5}
+%			Estrutura(F): \mathbb{R}^{m} \to \mathbb{R}^{n}
+%			\end{equation}
+%			
+%			\flushleft
+%			$Estrutura'(F)$ é de tamanho $n x m$\\
+%			$Estrutura'(Fluido(D)) \, Fluido'(D)$ e $I$ é de tamanho $n x n$
+%		\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Vários exemplos de formatação textual:		
+
+
+%		\begin{frame}
+%			\frametitle{Conveniência do método de Multi Direct Forcing}
+%			
+%			\flushleft
+%			\textbf{Fraco:}\\
+%			$\bullet$ Predição da velocidade.\\
+%			$\bullet$ MDF. (Imposição da condição de dirichlet na interface e cálculo da força)\\
+%			$\bullet$ Estrutura.\\
+%			$\bullet$ Poisson.\\
+%			$\bullet$ Correção de velocidade e pressão.\\ \\
+%
+%			\textbf{Forte:}\\
+%			$\bullet$ Predição da velocidade.\\
+%			while \\
+%			\quad	$\longrightarrow$ MDF.\\
+%			\quad	$\longrightarrow$ Estrutura.\\
+%			end\\
+%			$\bullet$ Poisson.\\
+%			$\bullet$ Correção de velocidade e pressão.\\
+%
+%		\end{frame}
+
+		
+
+%		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Modelo duas fotos lado a lado:
+
+
+%		\begin{frame}
+%		\frametitle{Limite do fraco}
+%			ct=121
+%			mi=200
+%			\begin{tabular}{c c}
+%			{\includegraphics[width=0.45\linewidth]{../../simulacoes_Estudo_dirigido2/fraco_mi_200_0_15_ct141/figuras/estrutura/vel_151}}&
+%		   {\includegraphics[width=0.45\linewidth]{../../simulacoes_Estudo_dirigido2/fraco_mi_200_0_15_ct141/figuras/estrutura/vel_251}}\\
+%		   {(a) Velocidade em linha centro da estrutura} & {(b) Velocidade transversal centro da estrutura}
+%		\end{tabular}
+%		\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Modelo tabela :
+
+%		\begin{frame}
+%			\frametitle{Comparação número de iterações}
+%			\begin{tabular}{c c c c}
+%				\hline
+%				Método & Mínimo     &    Máximo &  Média\\ \hline
+%				FPI MDF variável & 8     &    101 &  8.9764764764764760\\
+%				FPI MDF fixo & 8     &     11 &  8.9099099099099099\\
+%				QN Primeiro método de Broyden MDF variável & 18    &     101 &  18.281281281281281 \\ \hline
+%			\end{tabular}
+%		\end{frame}	
+
+
+
+
