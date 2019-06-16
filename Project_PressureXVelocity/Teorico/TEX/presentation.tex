@@ -23,6 +23,8 @@
 \usetheme{Madrid} 
 \usepackage{amsmath}
 \usepackage{movie15}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows}
 
 
 \lstset{ %
@@ -146,6 +148,9 @@
 
 
 \begin{document}
+	
+	
+	
 
 	\begin{frame}\placelogomflab
 		\frametitle 
@@ -360,20 +365,102 @@
 		\nabla . \vec{V} = 0
 		\end{equation}
 		\begin{equation}
-		\frac{\partial T}{\partial t} + \vec{\nabla} . \left( \vec{V} \vec{V} \right) =  -\frac{1}{\rho_o}\vec{\nabla}P + \frac{\rho - \rho_o}{\rho_o} \vec{g} + \nu \nabla ^2 \vec{V}
+		\frac{\partial \vec{V}}{\partial t} +  \vec{V} . {\nabla} \vec{V}  =  -\frac{1}{\rho_o} {\nabla}P + \frac{\rho - \rho_o}{\rho_o} \vec{g} + \nu \nabla ^2 \vec{V}
 		\end{equation}
 		\begin{equation}
-		\frac{\partial\vec{V}}{\partial t} + \vec{\nabla} . \left( \vec{V}T \right) = \alpha \nabla^2T
+		\frac{\partial T}{\partial t} + \vec{\nabla} . \left( \vec{V}T \right) = \alpha \nabla^2T
 		\end{equation}
 		\begin{equation}
 		\frac{\rho - \rho_o}{\rho_o} = \beta \left( T - T_o\right)
 		\end{equation}
+	
+	\end{frame}
+
+
+
+
+	
+	\begin{frame}
+		\frametitle{Desenvolvendo pressão e velocidade}
+		\flushleft
+		Primeiramente se desenvolvem as equações de Navier-Stokes de duas formas:\vspace{0.5cm}
+		\centering
+		\underline{A partir do domínio da pressão no passo posterior:}
+		\begin{equation}
+		\frac{\vec{V}^{n + 1} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n + 1} . {\nabla} \vec{V}^{n + 1} = - \frac{1}{\rho_o}\nabla P^{n+1} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n+1}
+		\end{equation}
+		\underline{A partir do domínio da pressão no passo atual:}
+		\begin{equation}
+		\frac{\vec{V}^{\ast{n + 1}} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n + 1} . {\nabla} \vec{V}^{n + 1} = - \frac{1}{\rho_o}\nabla P^{n} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n+1}
+		\end{equation}
+		
+		Assim, subtraindo-se as duas, tem-se uma relação que descreve a relação entre os valores do domínio da pressão:
+		
+		\begin{equation}
+		\frac{\vec{V}^{{n + 1}} - \vec{V}^{{\ast n+1} }}{\Delta t} = - \frac{1}{\rho_o}\nabla \left( P^{n+1} - P ^n\right)
+		\end{equation}
 		
 		
 		
+	\end{frame}
+
+
+
+
+	\begin{frame}
+		\frametitle{Pressão linha}
+		\flushleft
+		Assim, descreve-se uma nova variável $ P^\prime $ que denota a diferença na pressão entre os passos, como:
 		
+		\begin{equation}
+		P^\prime = P^{n + 1} - P^n
+		\end{equation}
+		Assim temos:
 		
+		\begin{equation}
+		\vec{V}^{n+1} - \vec{V}^{\ast{n + 1}} = - \frac{\Delta t}{\rho_o} \nabla P^\prime
+		\end{equation}
 		
+		Aplicando-se o divergente em ambos os lados temos:
+		
+		\begin{equation}
+		\nabla . \vec{V}^{n+1} - \nabla .\vec{V}^{\ast{n + 1}} = - \frac{\Delta t}{\rho_o} \nabla^2 P^\prime
+		\end{equation}
+		
+		A partir da equação da continuidade temos:
+		
+		\begin{equation}
+		\nabla .\vec{V}^{\ast{n + 1}} = \frac{\Delta t}{\rho_o} \nabla^2 P^\prime
+		\end{equation}
+		
+	
+	\end{frame}
+
+
+\tikzstyle{rect} = [draw, rectangle,fill = white!20, text width=6em, text centered, minimum height = 2em ]
+\tikzstyle{elli} = [draw, ellipse,fill=white!20,minimum height=2em]
+\tikzstyle{circ} = [draw, circle,fill=white!20, minimum width=8pt,inner sep=10pt]
+\tikzstyle{diam} = [draw, diamond,fill=white!20,text width=6em, text badly centered, inner sep=0pt]
+\tikzstyle{line} = [draw, -latex']
+
+	\begin{frame}
+		\frametitle{Fluxograma de dados por iteração}
+		\begin{figure}[h]
+			\begin{center}
+				\begin{tikzpicture}[node distance = 1.5cm, auto]
+					\node[rect, rounded corners](step1) {start};
+					\node[rect, below of=step1] (step2) {calculate};
+					\node[diam, below of=step2, node distance=2.5cm] (step3){Is the result ok?};
+					\node[rect, left of=step3, node distance=3.5cm] (step4){Do};
+					\node[rect, rounded corners, below of=step3, node distance=2.5cm](step5){end};
+					\path[line](step1) -- (step2);
+					\path[line](step2) -- (step3);
+					\path[line](step3) -- node [above, near start] {No} (step4);
+					\path[line](step3) -- node [left, near start] {yes} (step5);
+					\path[line, rounded corners] (step4) |- (step1);
+				\end{tikzpicture}
+			\end{center}
+		\end{figure}
 	\end{frame}
 
 
