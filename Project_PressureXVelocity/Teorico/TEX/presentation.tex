@@ -24,7 +24,13 @@
 \usepackage{amsmath}
 \usepackage{movie15}
 \usepackage{tikz}
-\usetikzlibrary{shapes.geometric,arrows}
+\usetikzlibrary{shapes.geometric,arrows,shadows}
+
+%Definição dos layers.
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+
 
 
 \lstset{ %
@@ -387,11 +393,11 @@
 		\centering
 		\underline{A partir do domínio da pressão no passo posterior:}
 		\begin{equation}
-		\frac{\vec{V}^{n + 1} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n + 1} . {\nabla} \vec{V}^{n + 1} = - \frac{1}{\rho_o}\nabla P^{n+1} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n+1}
-		\end{equation}
+		\frac{\vec{V}^{n + 1} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n} . {\nabla} \vec{V}^{n} = - \frac{1}{\rho_o}\nabla P^{n + 1} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n}
+		\end{equation}\label{equation1}
 		\underline{A partir do domínio da pressão no passo atual:}
 		\begin{equation}
-		\frac{\vec{V}^{\ast{n + 1}} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n + 1} . {\nabla} \vec{V}^{n + 1} = - \frac{1}{\rho_o}\nabla P^{n} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n+1}
+		\frac{\vec{V}^{\ast{n + 1}} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n} . {\nabla} \vec{V}^{n} = - \frac{1}{\rho_o}\nabla P^{n} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n}
 		\end{equation}
 		
 		Assim, subtraindo-se as duas, tem-se uma relação que descreve a relação entre os valores do domínio da pressão:
@@ -408,7 +414,7 @@
 
 
 	\begin{frame}
-		\frametitle{Pressão linha}
+		\frametitle{Diferença de pressão}
 		\flushleft
 		Assim, descreve-se uma nova variável $ P^\prime $ que denota a diferença na pressão entre os passos, como:
 		
@@ -437,7 +443,7 @@
 	\end{frame}
 
 
-\tikzstyle{rect} = [draw, rectangle,fill = white!20, text width=6em, text centered, minimum height = 2em ]
+\tikzstyle{rect} = [draw, rectangle,fill = red!20, text width=5em, text centered, minimum height = 2em ]
 \tikzstyle{elli} = [draw, ellipse,fill=white!20,minimum height=2em]
 \tikzstyle{circ} = [draw, circle,fill=white!20, minimum width=8pt,inner sep=10pt]
 \tikzstyle{diam} = [draw, diamond,fill=white!20,text width=6em, text badly centered, inner sep=0pt]
@@ -445,24 +451,43 @@
 
 	\begin{frame}
 		\frametitle{Fluxograma de dados por iteração}
+		\flushleft
+		Assim tem-se um valor inicial de velocidade estimada, que é utilizado para corrigir o domínio de pressão.
 		\begin{figure}[h]
 			\begin{center}
 				\begin{tikzpicture}[node distance = 1.5cm, auto]
-					\node[rect, rounded corners](step1) {start};
-					\node[rect, below of=step1] (step2) {calculate};
-					\node[diam, below of=step2, node distance=2.5cm] (step3){Is the result ok?};
-					\node[rect, left of=step3, node distance=3.5cm] (step4){Do};
-					\node[rect, rounded corners, below of=step3, node distance=2.5cm](step5){end};
-					\path[line](step1) -- (step2);
-					\path[line](step2) -- (step3);
-					\path[line](step3) -- node [above, near start] {No} (step4);
-					\path[line](step3) -- node [left, near start] {yes} (step5);
-					\path[line, rounded corners] (step4) |- (step1);
+					\node[rect, rounded corners](step1) {$\vec{V}^n $};
+					\node[rect,rounded corners , right of=step1, node distance=4.5cm] (step2) {$\vec{V}^{* n + 1} $};
+					\node[rect, right of=step2, node distance=4.5cm] (step3) {$P^\prime$};
+					\node[rect, right of=step3, node distance=4.5cm] (step4){$P^{n + 1}$};
+					\node[rect, rounded corners, below of=step4, node distance=2.5cm](step5){$ \vec{V}^{n+1}$};
+					
+					\path[line](step1) -- node [above, text width=4em] {Resolução explicita.} node [below, text width=4em] {Eq.5} (step2);
+					
+					\path[line](step2) -- node [above, text width=4em] {Resolução implicita.} node (line2) [below, text width=4em] {Eq.11} (step3);
+					
+					\path[line](step3) -- node [above, text width=4em] {Resolução explícita.} node [below, text width=4em] {Eq.8} (step4);
+					
+					\path[line](step4) -- node [left, text width=5em] {Resolução explicita. Eq.9} (step5);
+					
+					\path[line](step5) -| node [right, near end, text width=6em] {Mais tempo na correção de pressão.} (line2);
+					
+					\path[line](step5) -| node [right, near end, text width=6em] {Atualiza\\domínio.} node [below, near start, text width=12em] {Checa continuidade.} (step1);
 				\end{tikzpicture}
 			\end{center}
+		\caption{Fluxograma do loop principal do algoritmo.}
 		\end{figure}
 	\end{frame}
-
+	
+	
+	
+	
+	
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes}
+		
+	
+	\end{frame}
 
 
 

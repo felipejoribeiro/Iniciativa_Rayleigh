@@ -1,0 +1,212 @@
+^IMPORT$
+!IMPORT\nUSE OpenGL_kinds\n
+
+
+g95 fbitfont.f90 -g -O0  \
+  GLUT_fonts.o OpenGL_glut.o OpenGL_glu.o OpenGL_gl.o \
+  -L/usr/lib -L/usr/X11R6/lib \
+  -lglut -lGL -lGLU \
+  -lXaw -lXt -lXmu -lXi -lXext -lX11 -lm -lXxf86vm \
+  -lg2c -lpthread -ldl
+
+=== modview ===
+
+! create the menu
+
+button_left = glutCreateMenu(set_left_button)
+call glutAddMenuEntry('rotate'//char(0),ROTATE)
+call glutAddMenuEntry('zoom'//char(0),ZOOM)
+...
+
+  added //char(0)
+  
+=== glutdino ===
+
+  integer(GLsizei) :: tobj =>  TYPE(C_PTR) :: tobj
+
+=== trivial === torus === polyoff ===
+
+  call glutinit(1,loc('thePgm'//char(0))) => call glutinit()
+
+=== checker ===
+
+  loc(checkImage) => c_loc(checkImage) 
+  
+=== logo ===
+
+set target for:
+
+real(kind=glfloat), dimension(90), target :: cva(3,30000)
+
+
+and then
+
+call glNormalPointer(GL_FLOAT, 12, c_loc(cva(1,n0)) )
+call glVertexPointer( 3, GL_FLOAT, 12, c_loc(cva(1,n0+1)) )
+
+glIsList returns an integer... so
+
+  if(glIsList(thelist)==1) call gldeletelists(thelist,1_glsizei)
+
+=== eps ===
+
+in select constructs as in:
+
+    case (int(GL_PASS_THROUGH_TOKEN))
+
+GL_PASS_THROUGH_TOKEN should be an integer... and not a real. in OpenGL_gl.f90
+however they were defined as floats... the GLint is a C integer so 'int' is
+used as in:
+
+!  FeedBackToken values
+!REAL(GLfloat), PARAMETER :: GL_PASS_THROUGH_TOKEN    = transfer(1792,1.0) ! 0x0700
+!REAL(GLfloat), PARAMETER :: GL_POINT_TOKEN           = transfer(1793,1.0) ! 0x0701
+
+to 
+
+REAL(GLint), PARAMETER :: GL_PASS_THROUGH_TOKEN    = 1792 ! 0x0700
+REAL(GLint), PARAMETER :: GL_POINT_TOKEN           = 1793 ! 0x0701
+
+glIsList returns an integer... see above
+
+'eps' works ok; the output epsout.eps is correct (looks like it is correct)
+
+=== fscene ===
+
+minor...
+
+=== array ===
+
+introducing:
+
+TYPE(C_PTR), pointer :: cstr
+
+and change:
+
+str=>glGetString(GL_VENDOR)
+
+to:
+
+cstr=glGetString(GL_VENDOR)
+CALL C_F_POINTER(cptr=cstr, fptr=str)
+
+outputs:
+
+...
+     16043:     symbol=write;  lookup in file=/lib/libpthread.so.0 [0]
+lookup 0x08048000 0x000006b8 -> 0xb7bfc000 0x0000b210 /1 write
+ OpenGL vendor is NVIDIA Corporation
+ OpenGL renderer is GeForce FX 5600XT/AGP/SSE2
+ OpenGL version is 2.0.0 NVIDIA 76.67
+ OpenGL extensions are:
+     16043:     symbol=gluGetString;  lookup in file=./a.out [0]
+     16043:     symbol=gluGetString;  lookup in file=/usr/lib/libglut.so.3 [0]
+     16043:     symbol=gluGetString;  lookup in file=/usr/lib/libGL.so.1 [0]
+     16043:     symbol=gluGetString;  lookup in file=/usr/lib/libGLU.so.1 [0]
+ GLU version is 1.3
+ GLU extensions are: GLU_EXT_nurbs_tessellator GLU_EXT_object_space_tess
+     16043:
+     16043:     closing file=; direct_opencount=1
+     16043:
+     16043:     runtime linker statistics:
+     16043:                final number of relocations: 3700
+     16043:     final number of relocations from cache: 18114
+
+=== gltdino2 / glutdino ===
+
+  integer(GLsizei) :: tobj => into:TYPE(C_PTR) :: tobj  
+
+and 
+
+    call glutesscallback(tobj, GLU_TESS_BEGIN, c_funloc(glbegin))
+    call glutesscallback(tobj, GLU_TESS_VERTEX, c_funloc(glvertex2fv))
+    call glutesscallback(tobj, GLU_TESS_END, c_funloc(glend))
+
+and
+
+     call glutessvertex(tobj, vertex, c_loc(data(i)%val))
+
+=== molehill ===
+
+  integer(4) :: nurb=>  type(c_ptr) :: nurb
+
+=== olympic ===
+
+added intent(inouts) for Reshape, Key and visible
+
+mismatch of interface for Key:
+
+    subroutine Key(%VAL(ikey), %VAL(x), %VAL(y))
+    use olympic_mod
+    integer(GLubyte), intent(inout):: ikey
+    integer(glInt), intent(inout):: x, y
+    end subroutine key
+
+ikey is GLubyte and not glInt
+
+=== plotfunc ===
+
+/home/proj/dolfyn/f03gl> g95 plotfunc.f90   \
+>   GLUT_fonts.o OpenGL_glut.o OpenGL_glu.o OpenGL_gl.o \
+>   -L/usr/lib -L/usr/X11R6/lib \
+>   -lglut -lGL -lGLU \
+>   -lXaw -lXt -lXmu -lXi -lXext -lX11 -lm -lXxf86vm \
+>   -lg2c -lpthread -ldl
+/tmp/ccapz0pT.s: Assembler messages:
+/tmp/ccapz0pT.s:5630: Error: symbol `menu_handler' is already defined
+
+avoided name overlap
+
+
+!=================================
+
+An issue when styding the 'blue book'. In 
+chapter 8 the (revisited) sphereworld example, subroutine 
+DrawGround:
+
+...
+   call glBindTexture(GL_TEXTURE_2D, textureObjects(GROUND_TEXTURE))
+   call glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+   call glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+...
+
+In f03gl/OpenGL_gl.f90 it says:
+
+...
+!  TextureWrapMode values
+INTEGER(GLenum), PARAMETER :: GL_CLAMP  = z'2900' ! 0x2900
+INTEGER(GLenum), PARAMETER :: GL_REPEAT = z'2901' ! 0x2901
+...
+!  TexParameterf(target, pname, param)
+!  return  void
+!  param   target               TextureTarget in value
+!  param   pname                TextureParameterName in value
+!  param   param                CheckedFloat32 in value
+SUBROUTINE glTexParameterf(target, pname, param) &
+    BIND(C,NAME="glTexParameterf")
+IMPORT
+INTEGER(GLenum), VALUE :: target, pname
+REAL(GLfloat), VALUE :: param
+END SUBROUTINE glTexParameterf
+
+http://www.opengl.org/sdk/docs/man/xhtml/glTexParameter.xml gives:
+
+glTexParameter ? set texture parameters
+C Specification
+void glTexParameterf(GLenum  target, 
+                     GLenum  pname, 
+                     GLfloat param)
+
+So the interface is correct and 'GL_REPEAT' should not be GLenum. At first
+sight. HOWEVER... if glTexParameteri is used everything is ok. 
+
+In C these are all #define constants so their type is lost. Thus we simply 
+made all of them GLenum (unless we knew better). 
+
+===========================================================
+
+Feb. 2011 adapt files to ifort 12.0.2
+
+===========================================================
+
+
