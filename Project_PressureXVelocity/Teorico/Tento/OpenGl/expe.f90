@@ -144,6 +144,7 @@ program main
 
   ! Importa as capacidades openGL
   use plot
+
   implicit none
   Character(len = 20) :: u
 

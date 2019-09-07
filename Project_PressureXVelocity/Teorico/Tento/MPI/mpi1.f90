@@ -13,6 +13,4 @@ program piloto
 
     call MPI_FINALIZE(ierr)
 
-    stop
-
 end
