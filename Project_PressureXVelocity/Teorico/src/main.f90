@@ -5,6 +5,7 @@
 !Module with variables and functions of the OPENGL API.
 module graphics
     !OPENGL libraries
+    use global
     use, intrinsic :: ISO_C_BINDING
     use opengl_gl
     use opengl_glu
@@ -13,7 +14,7 @@ module graphics
     !Parameters for the program
     integer :: window, frame = 0                     !Identificador de janela, um integer, frames
 
-    real , dimension(300,300):: dBuffer              !dados para mostrar na tela
+    real , dimension(:,:), allocatable :: dBuffer              !dados para mostrar na tela
 
     !Functions for dysplaing data
     contains
@@ -45,7 +46,7 @@ module graphics
         !Draw points:
 
         call glBlendFunc(GL_DST_ALPHA,GL_ONE_MINUS_DST_ALPHA)
-        call glPointSize(2.0)
+        call glPointSize(real(600 / N))
 
         do i = 1 , size(dBuffer(: , 1))
             do ii = 1 , size(dBuffer(1 , :))
@@ -87,11 +88,11 @@ module graphics
         use global
         implicit none
         integer:: i , ii , ERROR , status(MPI_STATUS_SIZE)
-        double precision:: tempo
+        double precision:: check
         logical:: FLAG
 
         call MPI_RECV( T , size(T) , MPI_DOUBLE_PRECISION , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)
-        !call MPI_SEND(tempo , 1 , MPI_DOUBLE_PRECISION , 0 , 0 , MPI_COMM_WORLD , ERROR)
+        !call MPI_SEND(check , 1 , MPI_DOUBLE_PRECISION , 0 , 0 , MPI_COMM_WORLD , ERROR)
 
         do i = 1 , size(dBuffer(:, 1))
             do ii = 1 , size(dBuffer(1, :))
@@ -107,10 +108,22 @@ end module graphics
 !Global variables used in the simulation and both processes
 module global
     implicit none
-    double precision , dimension(300,300) :: T , P              !Temperature and pressure domains
-
+    double precision , dimension(:,:) , allocatable :: T , Ti , P      !Temperature and pressure domains
+    integer :: N                                                  !Number of cells (ao quadrado)
+    double precision :: L , alpha , ds , cfl , dt , u , v , incremento , tempo &
+    , PI = 3.14159265359
 
 end module global
+
+
+
+
+
+
+
+
+
+
 
 !Main program, with OPENGL and MPI initializations
 program cavidade
@@ -129,6 +142,26 @@ program cavidade
     !Moment where each process is made. There is a principal process, where
     !the simulation occurs, and a secondary, where the OPENGL visualization tool is running.
 
+
+    !Parametrization:
+
+    N = 300                                                     !Number of cells (x = 22 , y = 22)
+    L =  2 * PI                                                 !Length of the simulation square domain (meters)
+    ds =  L / N                                                 !Cells length
+    alpha =  1.0                                                !Thermal condutivity (aluminium)
+    cfl = 0.1                                                   !valor de convergencia
+    dt = cfl * ds**2/alpha                                      !time step length (seconds)
+    tempo = 5                                                   !Time (seconds)
+    u = 50.0                                                     !X velocity (m/s)
+    v = 50.0                                                     !Y velocity (m/s)
+    incremento = 1 * 10**(-5)                                   !Imcrement for the implicit method
+
+
+    !Allocating memory:
+    allocate(T(N,N))
+    allocate(Ti(N,N))
+    allocate(dBuffer(N,N))
+
     if (numprocs == 2)then  !Check if there is two processes
         if(ID == 0)then
             call Simulation()
@@ -136,6 +169,11 @@ program cavidade
             call Visualization()
         end if
     end if
+
+    !Desalocando variáveis
+    deallocate(T)
+    deallocate(Ti)
+    deallocate(dBuffer)
 
     call MPI_FINALIZE(ERROR)                                    !End all MPI capabilities
 
@@ -150,41 +188,95 @@ subroutine Simulation()
     use global
     use mpi
     implicit none
-    integer :: i , ii , ERROR , status(MPI_STATUS_SIZE)
-    double precision :: tempo
+    integer :: i , ii , step , ERROR , status(MPI_STATUS_SIZE)
+    double precision :: check
 
 
 
 
+    !Stabilishing initial conditions
+    do i = 1 , N
+        do ii = 1 , N
+
+            if(i > N/4 .AND. i < N/2 .AND. ii > N/4 .AND. ii < N/2 )then
+                T(i , ii) = 1
+            else
+                T(i , ii) = -1
+            end if
+
+        end do
+    end do
+
+    step = 1
+
+    ! The T matrix is sent to data ploting
+    call MPI_SEND( T , size(T) , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , ERROR)
+    !call MPI_RECV(check , 1 , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)
+
+
+    ! DEMO iterations
+    ! do while(-3 < 0)
+    !     CALL CPU_TIME(check)
+    !     do i = 1 , size(T(:, 1))
+    !         do ii = 1 , size(T(1, :))
+    !             T(i , ii) = &!2 * (exp( - ( real(i - 150 - 100 * sin(check) )/50)**2 )  *   &
+    !             !exp( -( real(ii - 150 - 50 * cos(check))/50)**2 ) ) - 1
+    !             (sin( (ii * ds * 100 + 100 * check) / 50 ) + cos ( (i * ds * 100 + 100 * check)/50  ))/2
+    !         end do
+    !     end do
 
 
 
 
+    !     ! The T matrix is sent to data ploting
+    !     call MPI_SEND( T , size(T) , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , ERROR)
+    !     !call MPI_RECV(check , 1 , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)
+
+    ! end do
 
 
+    ! Explicit simulation
+    do while(step * dt < tempo - dt)
+
+        !Simulation for this step.
+        do i = 2 , N - 1
+            do ii = 2 , N - 1
+
+                Ti(i , ii) = T(i , ii) * (1 - 4 * alpha * dt/(ds**2)) &
+                + T(i + 1, ii) * (alpha * dt / (ds**2) - u * dt/(2 * ds)) &
+                + T(i , ii + 1) * (alpha * dt /(ds**2) - v * dt / (2 * ds))&
+                + T(i -1, ii) * ((alpha * dt) / (ds * ds) + u * dt /(2 * ds)) &
+                + T(i, ii - 1) *((alpha * dt) /(ds * ds) + v * dt/(2 * ds))
+
+            end do
+        end do
 
 
+        !Boundary conditions
 
+        do i = 1 , N
+            Ti(i , N) = 0
+            Ti(N , i) = 0
+            Ti(1 , i) = 0
+            Ti(i , 1) = 0
+        end do
 
-
-     do while(-3 < 0)
-         CALL CPU_TIME(tempo)
-         do i = 1 , size(T(:, 1))
-             do ii = 1 , size(T(1, :))
-                 T(i , ii) = &!2 * (exp( - ( real(i - 150 - 100 * sin(tempo) )/50)**2 )  *   &
-                  !exp( -( real(ii - 150 - 50 * cos(tempo))/50)**2 ) ) - 1
-                 (sin( (ii + 100 * tempo) / 50 ) + cos ( (i + 100 * tempo)/50  ))/2
-             end do
-         end do
-
-
+        !Simulation for this step.
+        do i = 1 , N
+            do ii = 1 , N
+                T(i , ii) = Ti(i , ii)
+            end do
+        end do
 
 
         ! The T matrix is sent to data ploting
         call MPI_SEND( T , size(T) , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , ERROR)
-        !call MPI_RECV(tempo , 1 , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)
+        !call MPI_RECV(check , 1 , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)
 
     end do
+
+
+
 
 
 
