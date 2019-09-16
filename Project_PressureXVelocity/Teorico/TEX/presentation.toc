@@ -1,5 +1,6 @@
 \babel@toc {brazil}{}
 \beamer@sectionintoc {2}{Introdu\IeC {\c c}\IeC {\~a}o}{3}{0}{1}
-\beamer@sectionintoc {3}{Modelo f\IeC {\'\i }sico}{8}{0}{2}
-\beamer@sectionintoc {4}{Desenvolvimento matem\IeC {\'a}tico}{11}{0}{3}
-\beamer@sectionintoc {5}{Agradecimentos}{17}{0}{4}
+\beamer@sectionintoc {3}{Estudos introdut\IeC {\'o}rios}{9}{0}{2}
+\beamer@sectionintoc {4}{Modelo f\IeC {\'\i }sico}{28}{0}{3}
+\beamer@sectionintoc {5}{Desenvolvimento matem\IeC {\'a}tico}{30}{0}{4}
+\beamer@sectionintoc {6}{Agradecimentos}{36}{0}{5}

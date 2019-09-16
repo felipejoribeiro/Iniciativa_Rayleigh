@@ -140,7 +140,7 @@
 %insere o logotipo da ufu em todos os slides
 % \logo{\includegraphics[height=0.8cm]{figuras/layout_slide/petrobras.png}}
 
-\title{Iniciativa Rayleigh: Análise de escoamentos em cavidade, com simulação bidimensional e testes de modelos de turbulência com parametrizações inovadoras}
+\title{Iniciativa Rayleigh:Escoamentos em cavidade, uma análise bidimensional com implementação de MPI e OPENGL.}
 
 \author{ Felipe J. O. Ribeiro \\ \and \\ Orientador: Prof. Dr. Aristeu da Silveira Neto}
 
@@ -300,9 +300,462 @@
 		\end{minipage}
 	
 	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Análise térmica bidimensional e tridimensional}
+		$\bullet$ A advecção natural é um fenômeno de turbulência clássico. Ele apresenta muitos exemplos tanto industriais quanto práticos do dia a dia. 
+		Para se simular tal fenômeno um domínio bi ou tridimensional é necessário (tridimensional se modelos de turbulência são implementados). Dessa forma torna-se uma extensão natural do trabalho desenvolvido até o momento. Apesar de lidar com mudanças de massa dos fluidos, ainda não se chega a se tratar de compressibilidade. Dessa forma, nesse trabalho espera-se:
+
+		- Desenvolver modelos 2D e 3D representativos.
+
+		- Implementar métodos de otimização conforme necessários, como mpi e opengl.
+
+		- Desenvolver método de apresentação visual integrado ao fortran. 
+
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[trim = {1.7cm 2cm 0 1cm}, clip , angle=0, scale=0.50]{images/NaturalConvectionFromNet}
+			\caption{Convecção natural.}
+		\end{figure}
+
+	\end{frame}
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Estudos introdutórios}
+
 	
 	
 	
+	\begin{frame} 
+		\frametitle{Domínio bidimensional com advecção imposta}
+		\begin{minipage}[h!]{0.49\textwidth}
+			$\bullet$ Converter código bidimensional antigo em MatLab para c++.\\
+			$\bullet$ Desenvolver advecção, com velocidades em $x$ e $y$ impostas para todo o domínio.\\
+			$\bullet$ Desenvolver biblioteca visual para este estudo com openGL.\\
+			$\bullet$ Converter para o fortran os códigos.\\
+			$\bullet$ Experimentar plataforma openGL com fortran.\\
+			$\bullet$ Estudar acoplamento velocidade pressão.\\
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 1cm 0 1cm}, clip , angle=0, scale=0.15]{images/ImagemProfessor1}
+				\caption{Esquema do professor.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
+
+
+
+	\begin{frame} 
+		\frametitle{Modelo matemático diferencial}
+		$\bullet$ A equação de balanço da energia térmica foi desenvolvida como base, com termos advectivos.\\
+		$\bullet$ A dimensão $z$ foi ignorada, considerando-se auto similaridade neste eixo.\\
+	
+		\begin{equation}
+			\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right] 
+		\end{equation}
+
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Modelo numérico explícito}
+
+		$\bullet$ Todas as derivadas parciais espaciais de primeira ordem foram discretizadas com expansão em série de Taylor de primeira ordem em diferenças centradas.\\
+		$\bullet$ Todas as derivadas parciais de segunda ordem foram discretizadas utilizando-se de expansão em série de Taylor de segunda ordem em diferenças centradas.\\
+		$\bullet$ No tempo foi utilizado o método de Euler.\\
+
+		\begin{equation}
+			\begin{split}
+			\frac{T_{i,j}^{k} - T_{i , j}^{k-1} }{\Delta t}
+			= \alpha \left[  \frac{T_{i+1,j}^{k-1} - 2 T_{i,j}^{k-1} + T_{i-1,j}^{k-1} }{\Delta x^2} \right]\\
+			+\alpha \left[\frac{T_{i,j+1}^{k-1} - 2 T_{i,j}^{k-1} + T_{i,j-1}^{k-1}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k-1} - T_{i-1,j}^{k-1}}{2 \Delta x} - v \frac{T_{i,j+1}^{k-1} - T_{i , j-1}^{k-1}}{2 \Delta y}  
+			\end{split}
+		\end{equation}
+
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Modelo numérico explícito}
+		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
+		\begin{equation}
+			\begin{split}
+			T_{i,j}^{k} = T_{i,j}^{k-1} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}\right) + T_{i -1, j}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right)\\
+			+ T_{i,j-1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right) +  T_{i+1,j}^{k-1} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) \\
+			+  T_{i,j+1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right)
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Modelo numérico implícito}
+		$\bullet$ Todas as derivadas parciais espaciais de primeira ordem foram discretizadas com expansão em série de Taylor de primeira ordem em diferenças centradas.\\
+		$\bullet$ Todas as derivadas parciais de segunda ordem foram discretizadas utilizando-se expansão em série de Taylor de segunda ordem em diferenças centradas.\\
+		$\bullet$ No tempo foi utilizado o método de Euler recuado de primeira ordem.\\
+		\begin{equation}
+			\begin{split}
+			\frac{T_{i,j}^{k} - T_{i , j}^{k-1} }{\Delta t}
+			= \alpha \left[  \frac{T_{i+1,j}^{k} - 2 T_{i,j}^{k} + T_{i-1,j}^{k} }{\Delta x^2} \right]\\
+			+\alpha \left[\frac{T_{i,j+1}^{k} - 2 T_{i,j}^{k} + T_{i,j-1}^{k}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k} - T_{i-1,j}^{k}}{2 \Delta x} - v \frac{T_{i,j+1}^{k} - T_{i , j-1}^{k}}{2 \Delta y}  
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Modelo numérico implícito}
+		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
+		\begin{equation}
+			\begin{split}
+			T_{i,j}^{k} = \frac{T_{i,j}^{k-1} + T_{i -1, j}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right) 	+ T_{i,j-1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}} \\
+			+ \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) 
+			+  T_{i,j+1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}}
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+	\begin{frame} 
+		\frametitle{Código em c++}
+		\begin{minipage}[h!]{0.49\textwidth}
+			$\bullet$ Foi traduzido do MatLab para c++ o código clássico e implementada as mudanças matemáticas deste novo caso.\\
+			$\bullet$ Casos teste foram utilizados para validação qualitativa.\\
+			$\bullet$ Alguns parâmetros de teste notáveis foram: \\
+			- Alpha = 97 (Alumínio) \\
+			- u = 5 m/s \\
+			- v = 5 m/s \\
+			$\bullet$ Para o explícito foi obedecida a condição de convergência:
+			\begin{equation}
+				\Delta t \leq \frac{\Delta s ^2}{4 \alpha} 
+			\end{equation}
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 1cm 5cm 1cm}, clip , angle=0, scale=0.65]{images/printCodigo1}
+				\caption{Código em c++ no editor.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
+	
+	
+	
+	
+	
+	\begin{frame}
+		\frametitle{OPENGL implementado em C++}
+		O OPENGL para c++ é a implementação mais popular da API, junto da implementação em JAVA. Mas ela possui adaptações para várias linguagens, por meio de "bindings", ou seja, ligações do código às funções em c. A API fornece só uma forma de se comunicar com a placa de vídeo presente no computador. Não consiste em uma biblioteca, mas em um conjunto de definições de funções que já vem de fábrica instaladas nas placas de vídeo. Assim a API identifica a placa de vídeo e funciona como uma ponte entre o código e as funcionalidades nativas da placa de vídeo.
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 1cm 5cm 1cm}, clip , angle=0, scale=0.35]{images/cmaismaiscode}
+				\caption{Chamada das definições OPENGL.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 1cm 5cm 1cm}, clip , angle=0, scale=0.35]{images/criandojanela}
+				\caption{Criação de janela com a biblioteca GLFW.}
+			\end{figure}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.35]{images/eventos}
+				\caption{Função para processamento de evento GLFW.}
+			\end{figure}
+		
+		\end{minipage}
+	\end{frame}
+
+	
+
+
+	
+	\begin{frame}
+		\frametitle{Resultados iniciais}
+		\begin{minipage}[h!]{0.49\textwidth}
+			$\bullet$  Inicialmente, foi tratado somente condução térmica, as velocidades foram setadas em zero, resultando na solução da energia térmica clássica. Com a simulação de alguns casos, obteve-se os resultados ao lado.Apesar de se obedecer aos quesitos de convergência, não se consegue desenvolver uma simulação muito grande. E o resultado parece ser dependente da malha.
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.45]{images/preliminar_results_1}
+				\caption{Divergência da solução.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Resultados iniciais}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.38]{images/preliminar_results_2}
+				\caption{Simulação com poucos pontos.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.45]{images/preliminar_results_3}
+				\caption{Simulação com muitos pontos antes da divergência.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Resultados iniciais}
+		$\bullet$ Mas, diminuindo-se o passo de tempo a valores muito pequenos, foi possível se alcançar a convergência para longos tempos de simulação, foi então que se observou um erro numérico na determinação do passo de tempo, corrigindo ele, obteve-se:\\
+		\begin{minipage}[h!]{0.30\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{images/sucesso_!}
+				\caption{Condição inicial.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.30\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{images/sucesso_2}
+				\caption{Situação intermediária.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.30\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{images/sucesso_3}
+				\caption{Simulação bem sucedida.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Resultados iniciais}
+		$\bullet$ Tendo-se sucesso no método clássico, acionou-se a velocidade a 5 m/s obtendo-se o seguinte resultado:\\
+		\begin{minipage}[h!]{0.30\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{images/sucesso_!}
+				\caption{Condição inicial.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.30\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{images/sucesso_velocidade_2}
+				\caption{Situação intermediária.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.30\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {1cm 1cm 1cm 1cm}, clip , angle=0, scale=0.3]{images/sucesso_velocidade_3}
+				\caption{Simulação bem sucedida.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}	
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Validação e análise de erros e convergência}
+		\begin{minipage}[h!]{0.77\textwidth}
+			$\bullet$ Com um programa funcional, chegou então a hora de se fazer uma análise de erros a fim de se validar quantitativamente o método. até mesmo com uma análise na ordem de convergência.  \\
+			$\bullet$ Para isso, utilizou-se do artifício da solução manufaturada, que consiste em se criar um termo fonte e propor uma solução para T, de forma a se desenvolver uma solução exata para a equação quando acrescida deste termo fonte. Seguem a solução proposta e o termo fonte:
+			\begin{equation}
+				T = e ^{1 - (x^2 + y^2 + t)}
+			\end{equation}
+			\begin{equation}
+				G = e^{1 - (x^2 + y^2 + t)} \left( 4 \alpha - 2 u x - 2 v y - 4 \alpha (x^2 + y^2) - 1 \right)
+			\end{equation}
+			$\bullet$ Assim temos a função analítica a ser analisada pelo método numérico como segue:
+			\begin{equation}
+				\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right] + G 
+			\end{equation}
+		\end{minipage}
+		\begin{minipage}[h!]{0.17\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.1]{images/Analise_manufaturada}
+				\caption{Resultado simulado.}
+			\end{figure}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.07]{images/resultado_analitico}
+				\caption{ Resultado exato.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}	
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Modelo numérico explícito}
+		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
+		\begin{equation}
+			\begin{split}
+			T_{i,j}^{k} = T_{i,j}^{k-1} \left( 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}\right) + T_{i -1, j}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right)\\
+			+ T_{i,j-1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right) +  T_{i+1,j}^{k-1} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) \\
+			+  T_{i,j+1}^{k-1} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right) + G
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Modelo numérico implícito}
+		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
+		\begin{equation}
+			\begin{split}
+			T_{i,j}^{k} = \frac{T_{i,j}^{k-1} + T_{i -1, j}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right) 	+ T_{i,j-1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}} \\
+			+ \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) 
+			+  T_{i,j+1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right) + G}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}}
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Resultados das simulações}
+		$\bullet$ Dessa forma, foram conduzidas várias simulações em diferentes CFL`s, de forma a se observar o comportamento do erro a partir destes desenvolvimentos, seguem os resultados: \\
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.4]{images/analise_de_erros_explicito}
+				\caption{ Análise de convergência para o método explicito. Uma análise das normas revelou uma convergência de 2 ordem. Quando se dobrava o numero de células, se dividia por aproximadamente 4 o erro.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.4]{images/analise_de_erros_implicito}
+				\caption{ Análise de convergência para o método implícito. Uma análise das normas revelou uma convergência de 2 ordem. Quando se dobrava o numero de células, se dividia por aproximadamente 4 o erro.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
+
+
+
+
+
+	\begin{frame} 
+		\frametitle{Código em FORTRAN}
+		\begin{minipage}[h!]{0.49\textwidth}
+			
+			Diferente do C++, onde se usa a biblioteca GLFW para criação de janelas, no FORTRAN se utiliza o GLUT. Não foi possível localizar bidings para GLFW já prontas. E decidiu-se que seria mais simples aprender a nova biblioteca.
+			
+			$\bullet$ Foi traduzido do c++ para FORTRAN o código de condução com advecção.\\
+			$\bullet$ Casos teste foram utilizados para validação qualitativa.\\
+			$\bullet$ Alguns parâmetros de teste notáveis foram: \\
+			- Alpha = 97 (Alumínio) \\
+			- u = 5 m/s \\
+			- v = 5 m/s \\
+			$\bullet$ Para o explícito foi obedecida a condição de convergência:
+			\begin{equation}
+			\Delta t \leq \frac{\Delta s ^2}{4 \alpha} 
+			\end{equation}
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 1cm 5cm 1cm}, clip , angle=0, scale=0.45]{images/fortran_code}
+				\caption{Código em FORTRAN com implementação de MPI e OPENGL.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
+
+
+\tikzstyle{rect} = [draw, rectangle,fill = red!20, text width=6em, text centered, minimum height = 2em ]
+\tikzstyle{elli} = [draw, ellipse,fill=white!20,minimum height=2em]
+\tikzstyle{circ} = [draw, circle,fill=white!20, minimum width=8pt,inner sep=10pt]
+\tikzstyle{diam} = [draw, diamond,fill=white!20,text width=6em, text badly centered, inner sep=0pt]
+\tikzstyle{line} = [draw, -latex']
+
+
+	\begin{frame}
+		\frametitle{Uso do MPI no código}
+		\begin{minipage}[h!]{0.35\textwidth}
+			Criam-se dois processos em paralelo. Um dedicado à renderização dos resultados e o outro dedicado somente à simulação.\\
+			A forma encontrada de sincronizar ambos os processos foi dispondo funções de envio e recebimento sempre complementares, garantindo mensagens nos dois sentidos para cada mensagem trocada. 
+		\end{minipage}	\hspace{0.5cm}
+		\begin{minipage}[h!]{0.59\textwidth}
+			\begin{figure}[h]
+				\begin{center}
+					\begin{tikzpicture}[node distance = 1.5cm, auto]
+					\node[rect, rounded corners](step1) {$ Source Code $};
+					\node[rect,rounded corners , below of=step1, node distance=2.5cm] (step2) {$ IF(RANK) $};
+					\node[rect, right of=step2, node distance=3.5cm] (step3) {$Simulation()$};
+					\node[rect, left of=step2, node distance=3.5cm] (step4){$Vizualization()$};
+				
+					\path[line](step1) -- node [right, text width=4em] {mpirun -n 2.} node [left, text width=4em] {} (step2);
+				
+					\path[line](step2) -- node [above,near end, text width=4em] { = 0} node (line2) [below, text width=4em] {} (step3);
+				
+					\path[line](step2) -- node [above,near start, text width=4em] { = 1} node [below, text width=4em] {} (step4);
+				
+					\end{tikzpicture}
+				\end{center}
+				\caption{Fluxograma do uso de MPI no algorítmo.}
+			\end{figure}
+		
+		Após a criação dos processos filhos, tem-se a comunicação entre eles por MPI\_SEND e MPI\_RCEV.
+		\end{minipage}
+	\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -338,17 +791,6 @@
 			}
 		\end{tabular}
 	
-	\end{frame}
-	
-	
-	
-	
-	
-	\begin{frame}
-		\frametitle{Sobre Reynolds e Rayleigh}
-		\centering
-		Como os ajustes foram feitos dentro de um range de números de Reynolds, é necessário que se faça um estudo de como achar estes valores em número de Rayleigh, ou seja, com aplicação em convecção natural.
-		
 	\end{frame}
 
 

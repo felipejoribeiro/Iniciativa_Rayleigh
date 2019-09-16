@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"flag",
+				"FLAG"
+			],
+			[
 				"sub",
 				"subroutine"
 			],
@@ -151,25 +155,34 @@
 			"file": "Teorico/Tento/OpenGl/expe.f90",
 			"settings":
 			{
-				"buffer_size": 5863,
+				"buffer_size": 5906,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/felipe/.config/sublime-text-3/Packages/User/mpi2winfort.sublime-build",
+			"file": "Teorico/Tento/OpenGl/trivial.f90",
 			"settings":
 			{
-				"buffer_size": 317,
+				"buffer_size": 2223,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+			"file": "Teorico/Tento/OpenGl/simple.f90",
 			"settings":
 			{
-				"buffer_size": 1056,
+				"buffer_size": 1495,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Teorico/src/main.f90",
+			"settings":
+			{
+				"buffer_size": 7566,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -547,6 +560,54 @@
 				[
 					"Packages/MinimalFortran/MinimalFortran.sublime-build",
 					"Run"
+				]
+			],
+			[
+				"Packages/MinimalFortran/MinimalFortran.sublime-build",
+				"Run"
+			]
+		],
+		[
+			[
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/epta_sta_cpp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mpi2winfort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/OpenGlf90.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/OpenGlf90.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					"Run"
 				],
 				[
 					"Packages/User/fortrandif.sublime-build",
@@ -721,6 +782,46 @@
 					"Syntax Check"
 				],
 				[
+					"Packages/User/epta_sta_cpp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mpi2winfort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/OpenGlf90.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Python2.sublime-build",
+					""
+				],
+				[
+					"Packages/User/Python2.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/User/Python2.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
 					"Packages/User/fortran2win.sublime-build",
 					""
 				]
@@ -852,7 +953,15 @@
 		[
 			[
 				"package",
-				"PackageResourceViewer: Open Resource"
+				"Preferences: Browse Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
 			],
 			[
 				"prv",
@@ -893,13 +1002,41 @@
 	},
 	"expanded_folders":
 	[
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity",
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
-		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl"
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl"
 	],
 	"file_history":
 	[
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/flickering_end.f90",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/MPI/mpi1.f90",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/trivial.f90",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/simple.f90",
+		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Recap.cpp",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Difusion.cpp",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/recap.cpp",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/Documentation/Notes/Notas.tex",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/blender.f90",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/simulation.f90",
+		"/home/felipe/.local/share/applications/blender.desktop",
+		"/home/felipe/Modelos/blender-2.80-linux-glibc217-x86_64/readme.html",
+		"/home/felipe/Modelos/blender-2.80-linux-glibc217-x86_64/blender.desktop",
+		"/home/felipe/Downloads/f03gl/glutdino.f90",
+		"/home/felipe/Downloads/f03gl/greenbook/Makefile",
+		"/home/felipe/Downloads/f03gl/torus.f90",
+		"/home/felipe/Downloads/f03gl/sphere.f90",
+		"/home/felipe/Downloads/f03gl/olympic3.f90",
+		"/home/felipe/Downloads/f03gl/trivial.f90",
+		"/home/felipe/Downloads/f03gl/modview.f90",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/main.f90",
+		"/home/felipe/.config/sublime-text-3/Packages/User/Python2.sublime-build",
+		"/home/felipe/Downloads/f03gl/Makefile",
+		"/media/felipe/KINGSTON/arca/sublime/Python2.sublime-build",
+		"/home/felipe/.config/sublime-text-3/Packages/User/mpi2winfort.sublime-build",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/blender.f90",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/MPI/mpi1.f90",
 		"/home/felipe/Documents/ProjetoCebeci/teste.f90",
@@ -908,7 +1045,6 @@
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/expe.f90",
 		"/home/felipe/Documents/ProjetoCebeci/genetic.f90",
 		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
-		"/home/felipe/.config/sublime-text-3/Packages/User/mpi2winfort.sublime-build",
 		"/home/felipe/Documents/ProjetoCebeci/main.f90",
 		"/home/felipe/Documents/ProjetoCebeci/genetic_fit.f90",
 		"/home/felipe/Downloads/0007 STRAKE Strakes.geo",
@@ -919,7 +1055,6 @@
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/stars.f90",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/f03gl/array.f90",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_RECAP/f03gl/eps.f90",
-		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/home/felipe/Documents/ProjetoCebeci/results/genetic_scatering.py",
 		"/home/felipe/Documents/ProjetoCebeci/results/resultados gerais.py",
 		"/home/felipe/Documents/ProjetoCebeci/README",
@@ -942,7 +1077,6 @@
 		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisdoublePrt.txt",
 		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisGeneticmolecular.txt",
 		"/home/felipe/Downloads/f03gl/plotfunc.f90",
-		"/home/felipe/Downloads/f03gl/Makefile",
 		"/home/felipe/Documents/ProjetoCebeci/otimization.f90",
 		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image1020._400_Avelocity.txt",
 		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_150.txt",
@@ -973,7 +1107,6 @@
 		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_071_400.txt",
 		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisModelados.txt",
 		"/home/felipe/Downloads/SnakePy-master/snake.py",
-		"/home/felipe/.config/sublime-text-3/Packages/User/Python2.sublime-build",
 		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_10_400.txt",
 		"/home/felipe/Documents/ProjetoCebeci/results/Gene640_071_400.txt",
 		"/home/felipe/Documents/ProjetoCebeci/.gitignore",
@@ -1004,34 +1137,11 @@
 		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/resumo do trabalho com meta modelo Prt variavel/untitled.py",
 		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/resumo do trabalho com meta modelo Prt variavel/vetor071.txt",
 		"/home/felipe/Documents/ProjetoCebeci/main.cpp",
-		"/home/felipe/Documents/ProjetoCebeci/results/temp.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/Processando.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/fit do Pr pelo Reynolds.jpg",
-		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtVariVs26.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtFixoIdealVsMod.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_640_071.txt",
-		"/home/felipe/Documents/ProjetoCebeci/plot/myimage.gif",
-		"/home/felipe/Documents/ProjetoCebeci/plot/plot_0.png",
-		"/home/felipe/Documents/ProjetoCebeci/results/Resultadospara071.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/indet.txt",
-		"/home/felipe/Documents/ProjetoCebeci/functions.h",
-		"/home/felipe/Documents/ProjetoCebeci/functions.cpp",
-		"/home/felipe/Documents/ProjetoCebeci/temp.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/temp2.txt",
-		"/home/felipe/.config/sublime-text-3/Packages/C++/C++ Single File.sublime-build",
-		"/home/felipe/Documents/ProjetoCebeci/project.sublime-workspace",
-		"/home/felipe/Documents/ProjetoCebeci/project.sublime-project",
-		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisAjustados.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/teste.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_640_0025.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_0025.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/pós moderno/prandtlfinal.f90",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_1.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395_2.txt"
+		"/home/felipe/Documents/ProjetoCebeci/results/temp.txt"
 	],
 	"find":
 	{
-		"height": 37.0
+		"height": 40.0
 	},
 	"find_in_files":
 	{
@@ -1045,6 +1155,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"glut",
+			"gltu",
+			"display",
+			"print",
+			"go",
+			"tempo",
 			"glutmainloop",
 			"Init",
 			"GL_TRUE",
@@ -1088,59 +1204,89 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
 					"file": "Teorico/Tento/OpenGl/expe.f90",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5863,
+						"buffer_size": 5906,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								681,
-								681
+								3030,
+								3030
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Fortran/grammars/FortranModern.sublime-syntax",
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2550.0,
+						"translation.y": 1173.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Teorico/Tento/OpenGl/trivial.f90",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2223,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1302,
+								1302
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 867.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "/home/felipe/.config/sublime-text-3/Packages/User/mpi2winfort.sublime-build",
+					"buffer": 2,
+					"file": "Teorico/Tento/OpenGl/simple.f90",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 317,
+						"buffer_size": 1495,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								181,
-								181
+								831,
+								831
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1150,29 +1296,28 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+					"buffer": 3,
+					"file": "Teorico/src/main.f90",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1056,
+						"buffer_size": 7566,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								950,
-								950
+								5871,
+								5871
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4290.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1183,7 +1328,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 39.0
+		"height": 26.0
 	},
 	"input":
 	{
@@ -1218,7 +1363,7 @@
 	},
 	"output.exec":
 	{
-		"height": 173.0
+		"height": 169.0
 	},
 	"output.find_results":
 	{
@@ -1228,7 +1373,7 @@
 	"project": "projeto_rayleigh.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1274,7 +1419,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 199.0,
+	"side_bar_width": 274.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

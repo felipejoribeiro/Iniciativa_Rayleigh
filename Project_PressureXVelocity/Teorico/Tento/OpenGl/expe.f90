@@ -12,7 +12,7 @@ module plot
   ! Parametros para o programa
   integer :: window, frame = 0                     ! Identificador de janela, um integer
   double precision :: tempo , tempo2               ! Tempo total de processamento.
-  double precision :: geometric1,   geometric2                  ! geometria qualquer
+  double precision :: geometric1,   geometric2     ! geometria qualquer
   real , dimension(200,200):: dBuffer              ! dados para mostrar na tela
 
   public :: display1, display2                     ! Objeto que refere-se a janela.
@@ -20,10 +20,6 @@ module plot
   contains
 
     subroutine display1() bind(C)
-
-      use opengl_gl
-      use opengl_glu
-      use opengl_glut
 
       real, target :: P1(8)=[0.0,0.45, .75,.45, .75,.75, .45,.75]
       real, target :: P2(8)=[0.2, 0.2, .5,.2, .5,.5, .2,.5]
@@ -49,10 +45,6 @@ module plot
 
 
     subroutine display2() bind(C)
-
-      use opengl_gl
-      use opengl_glu
-      use opengl_glut
 
       integer :: i , ii
       real, target :: P1(8)=[0.45,0.45, .75,.45, .75,.75, .45,.75]
@@ -80,10 +72,10 @@ module plot
       ! Desenha pontos
 
         call glBlendFunc(GL_DST_ALPHA,GL_ONE_MINUS_DST_ALPHA)
-        call glPointSize(4.0)
+        call glPointSize(1.5)
 
-      do i = 1 , size(dBuffer(: , 1))
-        do ii = 1 , size(dBuffer(1 , :))
+      do i = size(dBuffer(: , 1)) , 1 , -1
+        do ii = size(dBuffer(1 , :)) , 1 , -1
           call glcolor3f(dBuffer(i , ii), dBuffer(i , ii), 0.9)
           call glBegin(GL_POINTS)
             call glVertex2f( (real(i) - 1)/real(size(dBuffer(: , 1))) , (real(ii)- 1)/real(size(dBuffer(1 , :))) )
@@ -91,7 +83,7 @@ module plot
         end do
       end do
 
-
+      call glutSwapBuffers()
 
       !processar processos de OPENGL compilados
       call glflush()
@@ -100,9 +92,6 @@ module plot
 
 
     subroutine idle() bind(C)
-      use opengl_gl
-      use opengl_glu
-      use opengl_glut
       frame = frame + 1
       CALL CPU_TIME(tempo)
 
@@ -111,22 +100,26 @@ module plot
 
 
 
+      call glutPostRedisplay()
+      ! if( mod(frame , 10) == 0)then
+      !   print*, frame/tempo , tempo
+      !   call display2()
+      ! end if
 
-      if( mod(frame , 5) == 0)then
-        print*, frame/tempo
-        call display2()
-      end if
     end subroutine
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     subroutine simulation
-      integer:: i , ii
+      integer:: i , ii , input
+      CALL CPU_TIME(tempo2)
 
 
       do i = 1 , size(dBuffer(:, 1))
         do ii = 1 , size(dBuffer(1, :))
-          dBuffer(i , ii) = 0.5
+
+          dBuffer(i , ii) =  ( real(i - 100 - 50 * sin(tempo2) )/50)**2  +    ( real(ii - 100 - 50 * cos(tempo2))/50) **2
+
         end do
       end do
 
@@ -170,9 +163,10 @@ subroutine criarjanela()
   ypixel = 400
 
   call glutinit()
-  call glutinitdisplaymode(GLUT_SINGLE+GLUT_RGB+GLUT_DEPTH)              !modos de exibição
+  call glutinitdisplaymode(GLUT_DOUBLE+GLUT_RGB+GLUT_DEPTH)              !modos de exibição
   call glutInitWindowSize(xpixel, ypixel)                                !determina tamanho de janela em pixels
   window = glutcreatewindow("Nome da janela")                            !Cria-se janela com esse nome
+  call glutDisplayFunc(display2)
   call glutIdleFunc(idle)                                                !Função de repetĩção
   return
 
