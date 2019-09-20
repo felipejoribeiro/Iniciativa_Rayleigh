@@ -46,7 +46,11 @@ module graphics
         !Draw points:
 
         call glBlendFunc(GL_DST_ALPHA,GL_ONE_MINUS_DST_ALPHA)
-        call glPointSize(real(600 / N))
+        call glPointSize(real(1000 / N))
+        !call glEnable(GL_POINT_SMOOTH)
+        !call glHint(GL_POINT_SMOOTH_HINT, GL_NICEST)
+        !call glEnable(GL_BLEND)
+        !call glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
         do i = 1 , size(dBuffer(: , 1))
             do ii = 1 , size(dBuffer(1 , :))
@@ -65,6 +69,9 @@ module graphics
                 end if
             end do
         end do
+
+
+
         call glutSwapBuffers()
         call glflush()     !Process OPENGL precompiled codes
     end subroutine scatter
@@ -108,10 +115,10 @@ end module graphics
 !Global variables used in the simulation and both processes
 module global
     implicit none
-    double precision , dimension(:,:) , allocatable :: T , Ti , P      !Temperature and pressure domains
+    double precision , dimension(:,:) , allocatable :: T , Ti , P , u , v , e     !Temperature and pressure domains
     integer :: N                                                  !Number of cells (ao quadrado)
-    double precision :: L , alpha , ds , cfl , dt , u , v , incremento , tempo &
-    , PI = 3.14159265359
+    double precision :: L , alpha , ds , cfl , dt , incremento , tempo &
+    , PI = 3.14159265359 , ui , vi
 
 end module global
 
@@ -145,22 +152,29 @@ program cavidade
 
     !Parametrization:
 
-    N = 300                                                     !Number of cells (x = 22 , y = 22)
-    L =  2 * PI                                                 !Length of the simulation square domain (meters)
-    ds =  L / N                                                 !Cells length
-    alpha =  1.0                                                !Thermal condutivity (aluminium)
+    N = 100                                                      !Number of cells (x = 22 , y = 22)
+    L =  5                                                  !Length of the simulation square domain (meters)
+    ds =  L / (N- 1)                                             !Cells length
+    alpha =  1.0                                                 !Thermal condutivity (aluminium)
     cfl = 0.1                                                   !valor de convergencia
-    dt = cfl * ds**2/alpha                                      !time step length (seconds)
-    tempo = 5                                                   !Time (seconds)
-    u = 50.0                                                     !X velocity (m/s)
-    v = 50.0                                                     !Y velocity (m/s)
-    incremento = 1 * 10**(-5)                                   !Imcrement for the implicit method
+    dt = cfl * ds**2/alpha                                       !time step length (seconds)
+    tempo = 2.5                                                    !Time (seconds)
+    ui =  10.0                                                     !X velocity (m/s)
+    vi =   0.0                                                     !Y velocity (m/s)
+    incremento = 1 * 10**(-5)                                    !Imcrement for the implicit method
+
+    print*, dt , ds
 
 
     !Allocating memory:
     allocate(T(N,N))
     allocate(Ti(N,N))
+    allocate(u(N,N))
+    allocate(v(N,N))
+    allocate(e(N,N))
     allocate(dBuffer(N,N))
+
+    T(N, N) = 2
 
     if (numprocs == 2)then  !Check if there is two processes
         if(ID == 0)then
@@ -170,9 +184,16 @@ program cavidade
         end if
     end if
 
+    print*, tempo
+    call CPU_TIME(tempo)
+    print*, tempo
+
     !Desalocando variáveis
+    deallocate(e)
     deallocate(T)
     deallocate(Ti)
+    deallocate(u)
+    deallocate(v)
     deallocate(dBuffer)
 
     call MPI_FINALIZE(ERROR)                                    !End all MPI capabilities
@@ -199,13 +220,18 @@ subroutine Simulation()
         do ii = 1 , N
 
             if(i > N/4 .AND. i < N/2 .AND. ii > N/4 .AND. ii < N/2 )then
-                T(i , ii) = 1
+                T(i , ii) = 2
             else
-                T(i , ii) = -1
+                T(i , ii) =-1
             end if
+
+            u(i , ii) = ui
+
+            v(i , ii) = vi
 
         end do
     end do
+
 
     step = 1
 
@@ -237,16 +263,15 @@ subroutine Simulation()
 
     ! Explicit simulation
     do while(step * dt < tempo - dt)
-
         !Simulation for this step.
         do i = 2 , N - 1
             do ii = 2 , N - 1
 
                 Ti(i , ii) = T(i , ii) * (1 - 4 * alpha * dt/(ds**2)) &
-                + T(i + 1, ii) * (alpha * dt / (ds**2) - u * dt/(2 * ds)) &
-                + T(i , ii + 1) * (alpha * dt /(ds**2) - v * dt / (2 * ds))&
-                + T(i -1, ii) * ((alpha * dt) / (ds * ds) + u * dt /(2 * ds)) &
-                + T(i, ii - 1) *((alpha * dt) /(ds * ds) + v * dt/(2 * ds))
+                + T(i + 1, ii) * (alpha * dt / (ds**2) - u(i , ii) * dt/(2 * ds)) &
+                + T(i , ii + 1) * (alpha * dt /(ds**2) - v(i , ii) * dt / (2 * ds))&
+                + T(i -1, ii) * ((alpha * dt) / (ds * ds) + u(i , ii) * dt /(2 * ds)) &
+                + T(i, ii - 1) *((alpha * dt) /(ds * ds) + v(i , ii) * dt/(2 * ds))
 
             end do
         end do
@@ -255,10 +280,10 @@ subroutine Simulation()
         !Boundary conditions
 
         do i = 1 , N
-            Ti(i , N) = 0
-            Ti(N , i) = 0
-            Ti(1 , i) = 0
-            Ti(i , 1) = 0
+            Ti(i , N) = Ti(i , N - 1)
+            Ti(N , i) = Ti(N - 1 , i)
+            Ti(1 , i) = Ti(2 , i)
+            Ti(i , 1) = Ti(i , 2)
         end do
 
         !Simulation for this step.
@@ -272,11 +297,11 @@ subroutine Simulation()
         ! The T matrix is sent to data ploting
         call MPI_SEND( T , size(T) , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , ERROR)
         !call MPI_RECV(check , 1 , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)
-
+        step = step + 1
     end do
 
 
-
+    tempo = step
 
 
 

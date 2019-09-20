@@ -749,6 +749,17 @@
 
 
 
+	\begin{frame}
+		\frametitle{Resultados}
+	 	Com o devido cuidado com o código foi possível se obter o mesmo resultado do c++ com o fortran:
+	 
+	 
+	\end{frame}
+
+
+
+
+
 
 
 
@@ -927,10 +938,108 @@
 	
 	\begin{frame}
 		\frametitle{Desenvolvimento das equações de Navier-Stokes}
+		\centering
+		\begin{equation}
+			\frac{\partial \vec{V}}{\partial t} +  \vec{V} . {\nabla} \vec{V}  =  -\frac{1}{\rho_o} {\nabla}P + \frac{\rho - \rho_o}{\rho_o} \vec{g} + \nu \nabla ^2 \vec{V}
+		\end{equation}
+		Com as equações de Navier-Stokes no formato vetorial, separam-se nas três componentes:
+		
+		\begin{equation}
+			\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + w\frac{\partial u }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial x} + \frac{\rho - \rho_o}{\rho_o} g_x + \nu \left( \frac{\partial ^2 u}{\partial x^2} + \frac{\partial ^2 u}{\partial y^2} + \frac{\partial ^2 u}{\partial z^2} \right)
+		\end{equation}
+		
+		\begin{equation}
+			\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} + w\frac{\partial v }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial y} + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{\partial ^2 v}{\partial x^2} + \frac{\partial ^2 v}{\partial y^2} + \frac{\partial ^2 v}{\partial z^2} \right)
+		\end{equation}
+	
+		\begin{equation}
+			\frac{\partial w}{\partial t} + u\frac{\partial w}{\partial x} + v\frac{\partial w}{\partial y} + w\frac{\partial w }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial z} + \frac{\rho - \rho_o}{\rho_o} g_z + \nu \left( \frac{\partial ^2 w}{\partial x^2} + \frac{\partial ^2 w}{\partial y^2} + \frac{\partial ^2 w}{\partial z^2} \right)
+		\end{equation}
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes}
+		\centering
+		\begin{equation}
+			\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + {\color{red} w\frac{\partial u }{\partial z} } =  -\frac{1}{\rho_o} \frac{\partial P}{\partial x} + \frac{\rho - \rho_o}{\rho_o} g_x + \nu \left( \frac{\partial ^2 u}{\partial x^2} + \frac{\partial ^2 u}{\partial y^2} + { \color{red} \frac{\partial ^2 u}{\partial z^2} } \right)
+		\end{equation}
+	
+		\begin{equation}
+			\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} + {\color{red} w\frac{\partial v }{\partial z} } =  -\frac{1}{\rho_o} \frac{\partial P}{\partial y} + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{\partial ^2 v}{\partial x^2} + \frac{\partial ^2 v}{\partial y^2} + { \color{red} \frac{\partial ^2 v}{\partial z^2} } \right)
+		\end{equation}
+		
+		{\color{red}
+			\begin{equation}
+				\frac{\partial w}{\partial t} + u\frac{\partial w}{\partial x} + v\frac{\partial w}{\partial y} + w\frac{\partial w }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial z} + \frac{\rho - \rho_o}{\rho_o} g_z + \nu \left( \frac{\partial ^2 w}{\partial x^2} + \frac{\partial ^2 w}{\partial y^2} + \frac{\partial ^2 w}{\partial z^2} \right)
+			\end{equation}
+		}
+		
+		Tirando os termos referentes à dimensão z, a partir de considerações de autosimilaridade.
+		
+		
+	\end{frame}
+
+
+
+
+	
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes}
+		\centering
+		\begin{equation}
+			\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} =  -\frac{1}{\rho_o} \frac{\partial P}{\partial x} + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{\partial ^2 u}{\partial x^2} + \frac{\partial ^2 u}{\partial y^2} \right)
+		\end{equation}
+	
+		\begin{equation}
+			\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} =  -\frac{1}{\rho_o} \frac{\partial P}{\partial y} + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{\partial ^2 v}{\partial x^2} + \frac{\partial ^2 v}{\partial y^2} \right)
+		\end{equation}
+		Discretizando estes termos, a partir de expansões em série de Taylor, tem-se:
+		\begin{equation}
+			\begin{split}
+			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1, j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^k - 2 u_{i,j}^k + u_{i-1,j}^k}{\Delta x^2} + \frac{u_{i , j+1}^k - 2 u_{i,j}^k + u_{i,j-1}^k}{\Delta y^2} \right)
+			\end{split}
+		\end{equation}
 		
 	
 	\end{frame}
 
+
+
+
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes}
+		Dessa forma tem-se as duas equações de transporte de momento discretizadas:
+		\begin{equation}
+			\begin{split}
+			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1 , j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^k - 2 u_{i,j}^k + u_{i-1,j}^k}{\Delta x^2} + \frac{u_{i , j+1}^k - 2 u_{i,j}^k + u_{i,j-1}^k}{\Delta y^2} \right)
+			\end{split}
+		\end{equation}
+		\begin{equation}
+			\begin{split}
+			\frac{v_{i , j}^{\ast k + 1} - v_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{v_{i + 1 , j}^k - v_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{v_{i , j+ 1}^k - v_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i , j}^k - P_{i , j - 1}^k}{\Delta y} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{v_{i+1 , j}^k - 2 v_{i,j}^k + v_{i-1,j}^k}{\Delta x^2} + \frac{v_{i , j+1}^k - 2 v_{i,j}^k + v_{i,j-1}^k}{\Delta y^2} \right)
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+	\begin{frame}
+		\frametitle{Efetuando a correção na pressão}
+		Resgatando a equação para correção da pressão, tem-se:
+		\begin{equation}
+			\nabla .\vec{V}^{\ast{n + 1}} = \frac{\Delta t}{\rho_o} \nabla^2 P^\prime
+		\end{equation}
+		Discretizando a equação:
+		\begin{equation}
+			\frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} = \frac{\Delta t}{\rho_o} * \left( \frac{\partial^2 P^\prime}{\partial x^2} + \frac{\partial^2 P^\prime}{\partial y^2}\right) 
+		\end{equation}
+		
+	\end{frame}
 
 
 
