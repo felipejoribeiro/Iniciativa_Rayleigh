@@ -140,7 +140,7 @@
 %insere o logotipo da ufu em todos os slides
 % \logo{\includegraphics[height=0.8cm]{figuras/layout_slide/petrobras.png}}
 
-\title{Iniciativa Rayleigh:Escoamentos em cavidade, uma análise bidimensional com implementação de MPI e OPENGL.}
+\title{Uma análise bidimensional de escoamentos complexos.}
 
 \author{ Felipe J. O. Ribeiro \\ \and \\ Orientador: Prof. Dr. Aristeu da Silveira Neto}
 
@@ -207,41 +207,157 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introdução}
-	
+%	
+%	\begin{frame}
+%		\frametitle{Objetivos}
+%					
+%		\centering
+%		O presente texto procura documentar o desenvolvimento deste trabalho de pesquisa com o máximo de detalhes nas metodologias possível. Dês dos desenvolvimentos matemáticos e teóricos aos andamentos nos aspectos técnicos e organizacionais.
+%		
+%		\vspace{0.5cm}
+%		
+%		\flushleft
+%		Os tópicos centrais deste estudo são:\\
+%		\quad $\bullet$ Desenvolvimento teórico e matemático do escoamento bidimensional em cavidade.\\
+%		\quad $\bullet$ Implementação de modelo de turbulência baseado na hipótese de Boussinesq. \\
+%		\quad $\bullet$ Desenvolvimento das conversões dos parâmetros do Poiseuille para a cavidade.\\
+%		\quad $\bullet$ Aperfeiçoamento dos protocolos de visualização de dados com OpenGL.\\
+%		\quad $\bullet$ Desenvolvimento das rotinas em MPI no domínio bidimensional.\\
+%		
+%	\end{frame}
+
+
+
+
+
+%	\begin{frame}
+%		\frametitle{Estrutura de arquivos}
+%		\begin{tabular}{c c}
+%			{
+%				\begin{minipage}[h!]{0.15\textwidth}
+%					\centering
+%					\small
+%					Neste projeto, dês do início, será dada uma atenção especial à organização dos documentos, de forma a simplificar o andamento das atividades de documentação e prosseguimento.
+%					\vspace{6cm}
+%				\end{minipage}
+%			}&{
+%				\includegraphics[trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.435]{../../arquivos.pdf}
+%			}
+%		\end{tabular}
+%
+%	\end{frame}
+
+
+
+
+
+%	\begin{frame}
+%		\frametitle{Documento "Registro.tex"}
+%		\begin{tabular}{c c}
+%			{
+%				\begin{minipage}[h!]{0.4\textwidth}
+%					\centering
+%					\small
+%					Por questões de adequações á formatação em textos científicos, além desta apresentação também serão registrados os andamentos nesse documento em inglês. Ele segue o template da ASME para textos científicos. Assim, pretende-se já desenvolver as rotinas de visualização dos resultados de acordo com estas convenções. De forma a facilitar a criação de documentos para submissão em artigos e tornando este processo mais ágil.
+%					\vspace{6cm}
+%				\end{minipage}
+%			}&{
+%				\includegraphics[page = 1,trim={0.0cm 12.0cm 0.0cm 0.0cm},clip=true, scale = 0.4]{registro.pdf}
+%			}	
+%		\end{tabular}
+%	
+%	\end{frame}
+
+
+
+
+
+%	\begin{frame}
+%		\frametitle{Levante bibliográfico}
+%		\begin{minipage}[h!]{0.33\textwidth}
+%			\begin{figure}
+%				\centering
+%				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.15]{Referencias/An_introduction_to_Computational}
+%				\caption{Possui as referencias aos métodos matemáticos e numéricos de modelagem e discretização da fluidodinâmica ao domínio bidimensional.}	
+%			\end{figure}
+%			\vspace{6cm}
+%		\end{minipage}
+%		\begin{minipage}[h!]{0.33\textwidth}
+%			\begin{figure}
+%				\centering
+%				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/MPI_Guide_FORTRAN.png}\\	
+%				\caption{Um guia para se aprender a desenvolver em FORTRAN as rotinas em paralelo, com passagem de mensagem entre os processos.}
+%			\end{figure}
+%			\vspace{6cm}
+%		\end{minipage}
+%		\begin{minipage}[h!]{0.325\textwidth}
+%			\begin{figure}
+%				\centering
+%				\includegraphics[page = 1,trim={1.0cm 1.0cm 1.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/Projeto_cebeci}\\
+%				\caption{Artigo previamente publicado, para resgate dos ajustes paramétricos.}
+%			\end{figure}
+%			\vspace{6cm}
+%		\end{minipage}
+%	
+%	\end{frame}
+
+
+
+
+
 	\begin{frame}
-		\frametitle{Objetivos}
-					
-		\centering
-		O presente texto procura documentar o desenvolvimento deste trabalho de pesquisa com o máximo de detalhes nas metodologias possível. Dês dos desenvolvimentos matemáticos e teóricos aos andamentos nos aspectos técnicos e organizacionais.
+		\frametitle{Análise térmica bidimensional e tridimensional da cavidade}
+		$\bullet$ A advecção natural é um fenômeno clássico de escoamento em cavidade. Ele representa muitas situações tanto industriais quanto do dia a dia. 
+		Para se simular tal fenômeno um domínio bi ou tridimensional é necessário. Dessa forma torna-se uma extensão natural do trabalho desenvolvido até o momento. 
 		
-		\vspace{0.5cm}
-		
-		\flushleft
-		Os tópicos centrais deste estudo são:\\
-		\quad $\bullet$ Desenvolvimento teórico e matemático do escoamento bidimensional em cavidade.\\
-		\quad $\bullet$ Implementação de modelo de turbulência baseado na hipótese de Boussinesq. \\
-		\quad $\bullet$ Desenvolvimento das conversões dos parâmetros do Poiseuille para a cavidade.\\
-		\quad $\bullet$ Aperfeiçoamento dos protocolos de visualização de dados com OpenGL.\\
-		\quad $\bullet$ Desenvolvimento das rotinas em MPI no domínio bidimensional.\\
-		
+		Apesar de lidar com mudanças de massa dos fluidos, ainda não se chega a se tratar de compressibilidade. Dessa forma, nesse trabalho espera-se:
+
+		- Desenvolver modelos 2D e 3D representativos.
+
+		- Implementar métodos de otimização conforme necessários, como mpi e opengl. 
+
+		\begin{figure}[h!]
+			\centering
+			\includegraphics[trim = {1.7cm 2cm 0 1cm}, clip , angle=0, scale=0.50]{images/NaturalConvectionFromNet}
+			\caption{Convecção natural.}
+		\end{figure}
+
 	\end{frame}
 
 
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modelo físico}
+
 	\begin{frame}
-		\frametitle{Estrutura de arquivos}
+		\frametitle{Hipóteses e considerações sobre o sistema}
 		\begin{tabular}{c c}
 			{
-				\begin{minipage}[h!]{0.15\textwidth}
-					\centering
+				\begin{minipage}{0.4\textwidth}
 					\small
-					Neste projeto, dês do início, será dada uma atenção especial à organização dos documentos, de forma a simplificar o andamento das atividades de documentação e prosseguimento.
-					\vspace{6cm}
+					\centering
+					O problema fluidodinâmico escolhido foi o da cavidade. Ele consiste em uma quantidade de fluido confinada a um sistema termodinâmico como na Fig.\ref{sistema_termico_1}:
+			
+					\vspace{0.2cm}
+			
+					\flushleft
+					As considerações feitas foram:\\
+					\quad $\bullet$ O fluido é incompressível e newtoniano, sendo que sua massa específica varia somente em função da temperatura.\\
+					\quad $\bullet$ O sistema foi considerado auto-similar na coordenada $z$. Sem velocidade ou fluxo térmico nesta direção. \\
+					\quad $\bullet$ As superfícies perpendiculares ao eixo $y$ são isoladas termicamente.\\
+					\quad $\bullet$ Considera-se uma fonte fria e uma fonte quente nas superfícies perpendiculares ao eixo $x$.\\
 				\end{minipage}
 			}&{
-				\includegraphics[trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.435]{../../arquivos.pdf}
+				\begin{minipage}{0.5\textwidth}
+					\begin{figure}
+						\centering
+						\includegraphics[page = 1,trim={6.0cm 2.0cm 6.0cm 1.5cm},clip=true, scale = 0.4]{images/Cavidade_fisico_1.pdf}
+						\caption{Sistema físico da cavidade.}
+						\label{sistema_termico_1}
+					\end{figure}
+				\end{minipage}
 			}
 		\end{tabular}
 
@@ -251,78 +367,7 @@
 
 
 
-	\begin{frame}
-		\frametitle{Documento "Registro.tex"}
-		\begin{tabular}{c c}
-			{
-				\begin{minipage}[h!]{0.4\textwidth}
-					\centering
-					\small
-					Por questões de adequações á formatação em textos científicos, além desta apresentação também serão registrados os andamentos nesse documento em inglês. Ele segue o template da ASME para textos científicos. Assim, pretende-se já desenvolver as rotinas de visualização dos resultados de acordo com estas convenções. De forma a facilitar a criação de documentos para submissão em artigos e tornando este processo mais ágil.
-					\vspace{6cm}
-				\end{minipage}
-			}&{
-				\includegraphics[page = 1,trim={0.0cm 12.0cm 0.0cm 0.0cm},clip=true, scale = 0.4]{registro.pdf}
-			}	
-		\end{tabular}
-	
-	\end{frame}
 
-
-
-
-
-	\begin{frame}
-		\frametitle{Levante bibliográfico}
-		\begin{minipage}[h!]{0.33\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.15]{Referencias/An_introduction_to_Computational}
-				\caption{Possui as referencias aos métodos matemáticos e numéricos de modelagem e discretização da fluidodinâmica ao domínio bidimensional.}	
-			\end{figure}
-			\vspace{6cm}
-		\end{minipage}
-		\begin{minipage}[h!]{0.33\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/MPI_Guide_FORTRAN.png}\\	
-				\caption{Um guia para se aprender a desenvolver em FORTRAN as rotinas em paralelo, com passagem de mensagem entre os processos.}
-			\end{figure}
-			\vspace{6cm}
-		\end{minipage}
-		\begin{minipage}[h!]{0.325\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[page = 1,trim={1.0cm 1.0cm 1.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/Projeto_cebeci}\\
-				\caption{Artigo previamente publicado, para resgate dos ajustes paramétricos.}
-			\end{figure}
-			\vspace{6cm}
-		\end{minipage}
-	
-	\end{frame}
-
-
-
-
-
-	\begin{frame}
-		\frametitle{Análise térmica bidimensional e tridimensional}
-		$\bullet$ A advecção natural é um fenômeno de turbulência clássico. Ele apresenta muitos exemplos tanto industriais quanto práticos do dia a dia. 
-		Para se simular tal fenômeno um domínio bi ou tridimensional é necessário (tridimensional se modelos de turbulência são implementados). Dessa forma torna-se uma extensão natural do trabalho desenvolvido até o momento. Apesar de lidar com mudanças de massa dos fluidos, ainda não se chega a se tratar de compressibilidade. Dessa forma, nesse trabalho espera-se:
-
-		- Desenvolver modelos 2D e 3D representativos.
-
-		- Implementar métodos de otimização conforme necessários, como mpi e opengl.
-
-		- Desenvolver método de apresentação visual integrado ao fortran. 
-
-		\begin{figure}[h!]
-			\centering
-			\includegraphics[trim = {1.7cm 2cm 0 1cm}, clip , angle=0, scale=0.50]{images/NaturalConvectionFromNet}
-			\caption{Convecção natural.}
-		\end{figure}
-
-	\end{frame}
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Estudos introdutórios}
@@ -330,24 +375,24 @@
 	
 	
 	
-	\begin{frame} 
-		\frametitle{Domínio bidimensional com advecção imposta}
-		\begin{minipage}[h!]{0.49\textwidth}
-			$\bullet$ Converter código bidimensional antigo em MatLab para c++.\\
-			$\bullet$ Desenvolver advecção, com velocidades em $x$ e $y$ impostas para todo o domínio.\\
-			$\bullet$ Desenvolver biblioteca visual para este estudo com openGL.\\
-			$\bullet$ Converter para o fortran os códigos.\\
-			$\bullet$ Experimentar plataforma openGL com fortran.\\
-			$\bullet$ Estudar acoplamento velocidade pressão.\\
-		\end{minipage}
-		\begin{minipage}[h!]{0.49\textwidth}
-			\begin{figure}[h!]
-				\centering
-				\includegraphics[trim = {0cm 1cm 0 1cm}, clip , angle=0, scale=0.15]{images/ImagemProfessor1}
-				\caption{Esquema do professor.}
-			\end{figure}
-		\end{minipage}
-	\end{frame}
+%	\begin{frame} 
+%		\frametitle{Domínio bidimensional com advecção imposta}
+%		\begin{minipage}[h!]{0.49\textwidth}
+%			$\bullet$ Converter código bidimensional antigo em MatLab para c++.\\
+%			$\bullet$ Desenvolver advecção, com velocidades em $x$ e $y$ impostas para todo o domínio.\\
+%			$\bullet$ Desenvolver biblioteca visual para este estudo com openGL.\\
+%			$\bullet$ Converter para o fortran os códigos.\\
+%			$\bullet$ Experimentar plataforma openGL com fortran.\\
+%			$\bullet$ Estudar acoplamento velocidade pressão.\\
+%		\end{minipage}
+%		\begin{minipage}[h!]{0.49\textwidth}
+%			\begin{figure}[h!]
+%				\centering
+%				\includegraphics[trim = {0cm 1cm 0 1cm}, clip , angle=0, scale=0.15]{images/ImagemProfessor1}
+%				\caption{Esquema do professor.}
+%			\end{figure}
+%		\end{minipage}
+%	\end{frame}
 
 
 
@@ -735,6 +780,8 @@
 					\path[line](step2) -- node [above,near end, text width=4em] { = 0} node (line2) [below, text width=4em] {} (step3);
 				
 					\path[line](step2) -- node [above,near start, text width=4em] { = 1} node [below, text width=4em] {} (step4);
+					
+					\path[line](step3) -- ++(0,-1) -- ++(-7,0) -- node[xshift= 5cm,yshift= -0.7cm, text width=2.5cm]{MPI\_SEND()}(step4);
 				
 					\end{tikzpicture}
 				\end{center}
@@ -751,59 +798,18 @@
 
 	\begin{frame}
 		\frametitle{Resultados}
-	 	Com o devido cuidado com o código foi possível se obter o mesmo resultado do c++ com o fortran:
-	 
-	 
+		
+		\begin{minipage}[h!]{0.45\textwidth}
+	 		Com o devido cuidado com o código foi possível se obter o mesmo resultado do c++ com o fortran:
+	 	\end{minipage}\hfill
+ 		\begin{minipage}[h!]{0.5\textwidth}
+	 		\begin{figure}
+	 			\animategraphics[scale = 0.25 , loop , autoplay]{10}{images/fortopengl/frame-}{0}{25}
+	 			\label{gif_gfort}
+	 			\caption{Código em FORTRAN executando OPANGL e MPI.}
+	 		\end{figure}
+	 	\end{minipage}
 	\end{frame}
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Modelo físico}
-
-	\begin{frame}
-		\frametitle{Hipóteses e considerações sobre o sistema}
-		\begin{tabular}{c c}
-			{
-				\begin{minipage}{0.4\textwidth}
-					\small
-					\centering
-					O problema fluidodinâmico escolhido foi o da cavidade. Ele consiste em uma quantidade de fluido confinada a um sistema termodinâmico com duas fontes de energia térmica como observado na Fig.\ref{sistema_termico_1}.
-					
-					\vspace{0.2cm}
-					
-					\flushleft
-					As considerações feitas foram:\\
-					\quad $\bullet$ O fluido é incompressível e newtoniano, sendo que sua massa específica varia somente em função da temperatura.\\
-					\quad $\bullet$ O sistema foi considerado auto-similar na coordenada $z$. \\
-					\quad $\bullet$ As superfícies perpendiculares ao eixo $y$ são isoladas termicamente.\\
-					\quad $\bullet$ Considera-se uma fonte fria e uma fonte quente nas superfícies perpendiculares ao eixo $x$.\\
-				\end{minipage}
-			}&{
-				\begin{minipage}{0.5\textwidth}
-					\begin{figure}
-						\centering
-						\includegraphics[page = 1,trim={6.0cm 2.0cm 6.0cm 1.5cm},clip=true, scale = 0.4]{images/Cavidade_fisico_1.pdf}
-						\caption{Sistema físico da cavidade.}
-						\label{sistema_termico_1}
-					\end{figure}
-				\end{minipage}
-			}
-		\end{tabular}
-	
-	\end{frame}
-
 
 
 
@@ -840,16 +846,16 @@
 
 	
 	\begin{frame}
-		\frametitle{Desenvolvendo pressão e velocidade}
+		\frametitle{Desenvolvendo pressão e velocidade no modelo explícito}
 		\flushleft
 		Primeiramente se desenvolvem as equações de Navier-Stokes de duas formas:\vspace{0.5cm}
 		\centering
 		\underline{A partir do domínio da pressão no passo posterior:}
-		\begin{equation}
+		\begin{equation}\label{equation1}
 		\frac{\vec{V}^{n + 1} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n} . {\nabla} \vec{V}^{n} = - \frac{1}{\rho_o}\nabla P^{n + 1} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n}
-		\end{equation}\label{equation1}
+		\end{equation}
 		\underline{A partir do domínio da pressão no passo atual:}
-		\begin{equation}
+		\begin{equation}\label{eqlabel1}
 		\frac{\vec{V}^{\ast{n + 1}} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n} . {\nabla} \vec{V}^{n} = - \frac{1}{\rho_o}\nabla P^{n} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n}
 		\end{equation}
 		
@@ -876,7 +882,7 @@
 		\end{equation}
 		Assim temos:
 		
-		\begin{equation}
+		\begin{equation}\label{eqlabel3}
 		\vec{V}^{n+1} - \vec{V}^{\ast{n + 1}} = - \frac{\Delta t}{\rho_o} \nabla P^\prime
 		\end{equation}
 		
@@ -888,7 +894,7 @@
 		
 		A partir da equação da continuidade temos:
 		
-		\begin{equation}
+		\begin{equation}\label{eqlabel2}
 		\nabla .\vec{V}^{\ast{n + 1}} = \frac{\Delta t}{\rho_o} \nabla^2 P^\prime
 		\end{equation}
 		
@@ -911,17 +917,14 @@
 				\begin{tikzpicture}[node distance = 1.5cm, auto]
 					\node[rect, rounded corners](step1) {$\vec{V}^n $};
 					\node[rect,rounded corners , right of=step1, node distance=4.5cm] (step2) {$\vec{V}^{* n + 1} $};
-					\node[rect, right of=step2, node distance=4.5cm] (step3) {$P^\prime$};
-					\node[rect, right of=step3, node distance=4.5cm] (step4){$P^{n + 1}$};
-					\node[rect, rounded corners, below of=step4, node distance=2.5cm](step5){$ \vec{V}^{n+1}$};
+					\node[rect, right of=step2, node distance=6.5cm] (step3) {$P^\prime$};
+					\node[rect, rounded corners, below of=step3, node distance=2.5cm](step5){$ \vec{V}^{n+1}$};
 					
-					\path[line](step1) -- node [above, text width=4em] {Resolução explicita.} node [below, text width=4em] {Eq.5} (step2);
+					\path[line](step1) -- node [above, text width=4em] {Resolução explicita.} node [below, text width=4em] {Eq.\ref{eqlabel1}} (step2);
 					
-					\path[line](step2) -- node [above, text width=4em] {Resolução implicita.} node (line2) [below, text width=4em] {Eq.11} (step3);
+					\path[line](step2) -- node [above, text width=4em] {Resolução implicita.} node (line2) [below, text width=4em] {Eq.\ref{eqlabel2}} (step3);
 					
-					\path[line](step3) -- node [above, text width=4em] {Resolução explícita.} node [below, text width=4em] {Eq.8} (step4);
-					
-					\path[line](step4) -- node [left, text width=5em] {Resolução explicita. Eq.9} (step5);
+					\path[line](step3) -- node [right, near start,  text width=4em] {Resolução explícita.} node [right, near end, text width=4em] {Eq.\ref{eqlabel3}} (step5);
 					
 					\path[line](step5) -| node [right, near end, text width=6em] {Mais tempo na correção de pressão.} (line2);
 					
@@ -988,7 +991,7 @@
 
 	
 	\begin{frame}
-		\frametitle{Desenvolvimento das equações de Navier-Stokes}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes de forma explícita}
 		\centering
 		\begin{equation}
 			\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} =  -\frac{1}{\rho_o} \frac{\partial P}{\partial x} + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{\partial ^2 u}{\partial x^2} + \frac{\partial ^2 u}{\partial y^2} \right)
@@ -1000,7 +1003,7 @@
 		Discretizando estes termos, a partir de expansões em série de Taylor, tem-se:
 		\begin{equation}
 			\begin{split}
-			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1, j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^k - 2 u_{i,j}^k + u_{i-1,j}^k}{\Delta x^2} + \frac{u_{i , j+1}^k - 2 u_{i,j}^k + u_{i,j-1}^k}{\Delta y^2} \right)
+			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1, j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^{k} - 2 u_{i,j}^{k} + u_{i-1,j}^{k}}{\Delta x^2} + \frac{u_{i , j+1}^{k} - 2 u_{i,j}^{k} + u_{i,j-1}^{ k}}{\Delta y^2} \right)
 			\end{split}
 		\end{equation}
 		
@@ -1011,16 +1014,34 @@
 
 
 	\begin{frame}
-		\frametitle{Desenvolvimento das equações de Navier-Stokes}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes  de forma explícita}
 		Dessa forma tem-se as duas equações de transporte de momento discretizadas:
 		\begin{equation}
 			\begin{split}
-			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1 , j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^k - 2 u_{i,j}^k + u_{i-1,j}^k}{\Delta x^2} + \frac{u_{i , j+1}^k - 2 u_{i,j}^k + u_{i,j-1}^k}{\Delta y^2} \right)
+			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1 , j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^{k} - 2 u_{i,j}^{k} + u_{i-1,j}^{k}}{\Delta x^2} + \frac{u_{i , j+1}^{k} - 2 u_{i,j}^{k} + u_{i,j-1}^{k}}{\Delta y^2} \right)
 			\end{split}
 		\end{equation}
 		\begin{equation}
 			\begin{split}
-			\frac{v_{i , j}^{\ast k + 1} - v_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{v_{i + 1 , j}^k - v_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{v_{i , j+ 1}^k - v_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i , j}^k - P_{i , j - 1}^k}{\Delta y} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{v_{i+1 , j}^k - 2 v_{i,j}^k + v_{i-1,j}^k}{\Delta x^2} + \frac{v_{i , j+1}^k - 2 v_{i,j}^k + v_{i,j-1}^k}{\Delta y^2} \right)
+			\frac{v_{i , j}^{\ast k + 1} - v_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{v_{i + 1 , j}^k - v_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{v_{i , j+ 1}^k - v_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i , j}^k - P_{i , j - 1}^k}{\Delta y} \\ + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{v_{i+1 , j}^{k} - 2 v_{i,j}^{k} + v_{i-1,j}^{k}}{\Delta x^2} + \frac{v_{i , j+1}^{k} - 2 v_{i,j}^{k} + v_{i,j-1}^{k}}{\Delta y^2} \right)
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes  de forma explícita}
+		Assim, isolando-se o termo de avanço, tem-se o método explícito:
+		\begin{equation}
+			\begin{split}
+			u_{i , j}^{\ast k + 1} = u_{i , j}^{k} - u_{i , j}^{k}\frac{\Delta t}{2 \Delta x} \left( u_{i + 1 , j}^k - u_{i - 1 , j}^k  \right) - v_{i , j}^{k}\frac{\Delta t }{2 \Delta y} \left(u_{i , j+ 1}^k - u_{i, j-1}^k \right)  -\frac{\Delta t}{\rho_o \Delta x} \left(P_{i, j}^k - P_{i - 1 , j}^k\right)\\ + \Delta t  g_x  \frac{\rho - \rho_o}{\rho_o} + \frac{\nu \Delta t}{\Delta x^2} \left( u_{i+1 , j}^{k} - 2 u_{i,j}^{k} + u_{i-1,j}^{k} \right) + \frac{\nu \Delta t}{\Delta y^2} \left(u_{i , j+1}^{k} - 2 u_{i,j}^{k} + u_{i,j-1}^{k}\right)
+			\end{split}
+		\end{equation}
+		\begin{equation}
+			\begin{split}
+			v_{i , j}^{\ast k + 1} = v_{i , j}^{k} -u_{i , j}^{k}\frac{\Delta t}{2 \Delta x} \left(v_{i + 1 , j}^k - v_{i - 1 , j}^k\right) - v_{i , j}^{k} \frac{\Delta t}{2 \Delta y} \left(v_{i , j+ 1}^k - v_{i, j-1}^k  \right) -\frac{\Delta t}{\rho_o \Delta y} \left(P_{i , j}^k - P_{i , j - 1}^k\right) \\ + \Delta t g_y  \frac{\rho - \rho_o}{\rho_o} + \frac{\nu \Delta t}{\Delta x^2} \left( v_{i+1 , j}^{k} - 2 v_{i,j}^{k} + v_{i-1,j}^{k} \right) + \frac{\nu \Delta t}{\Delta y^2} \left( v_{i , j+1}^{k} - 2 v_{i,j}^{k} + v_{i,j-1}^{k} \right)
 			\end{split}
 		\end{equation}
 	\end{frame}
@@ -1036,10 +1057,101 @@
 		\end{equation}
 		Discretizando a equação:
 		\begin{equation}
-			\frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} = \frac{\Delta t}{\rho_o} * \left( \frac{\partial^2 P^\prime}{\partial x^2} + \frac{\partial^2 P^\prime}{\partial y^2}\right) 
+			\frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} = \frac{\Delta t}{\rho_o} * \left( \frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2} \right) 
+		\end{equation}
+		\begin{equation}
+		\frac{\rho_o}{ \Delta t} * \frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{\rho_o}{ \Delta t} * \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} =  \frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2} 
 		\end{equation}
 		
+		
+		
 	\end{frame}
+
+	
+	
+	\begin{frame}
+		\frametitle{Efetuando a correção na pressão}
+		Assim, tem-se a expressão utilizada no código:
+		\begin{equation}
+			\frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2} = \frac{\rho_o}{ \Delta t \Delta x} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \frac{\rho_o}{ \Delta t \Delta y } \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right)
+		\end{equation}
+		
+		\begin{equation}
+			\begin{split}
+			-2 P^{\prime}_{i , j} \left(   \frac{\Delta y^2 + \Delta x^2}{\Delta x^2 \Delta y^2} \right)  = \frac{\rho_o}{ \Delta t \Delta x} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \\ \frac{\rho_o}{ \Delta t \Delta y } \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right) - \frac{1}{\Delta y^2} \left(P^{\prime}_{i , j- 1} + P^{\prime}_{i, j + 1} \right) - \frac{1}{\Delta x^2} \left(P^{\prime}_{i + 1, j} +  P^{\prime}_{i - 1 , j}\right) 
+			\end{split}
+		\end{equation}
+		
+		\begin{equation}
+		\begin{split}
+		P^{\prime}_{i , j}  = - \frac{\rho_o \Delta x \Delta y^2 }{ 2 ( \Delta y^2 + \Delta x^2) \Delta t} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \frac{\Delta y^2}{ 2 (\Delta y^2 + \Delta x^2)} \left(P^{\prime}_{i + 1, j} +  P^{\prime}_{i - 1 , j}\right) \\ - \frac{\rho_o \Delta x^2 \Delta y }{ 2 ( \Delta y^2 + \Delta x^2) \Delta t} \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right) + \frac{\Delta x^2}{ 2 (\Delta y^2 + \Delta x^2)} \left(P^{\prime}_{i , j- 1} + P^{\prime}_{i, j + 1} \right) 
+		\end{split}
+		\end{equation}
+	
+	\end{frame}
+
+
+	\begin{frame}
+		\frametitle{Efetuando a correção na pressão}
+		A partir da matriz de $p^\prime$ é possível se chegar no próximo passo real da velocidade:
+		\begin{equation}
+			\vec{V}^{k+1}  = \vec{V}^{\ast{k + 1}} - \frac{\Delta t}{\rho_o} \nabla P^\prime
+		\end{equation}
+		Separando-se nas componentes:
+		\begin{equation}
+			u^{k+1}_{i, j}  = u^{\ast k+1}_{i, j} - \frac{\Delta t}{\Delta x \rho_o} \left(  P^{\prime}_{i , ii} -   P^{\prime}_{i - 1, ii}  \right)
+		\end{equation}
+		
+		\begin{equation}
+		v^{k+1}_{i, j}  = v^{\ast k+1}_{i, j} - \frac{\Delta t}{\Delta y \rho_o}  \left(  P^{\prime}_{i , ii} -   P^{\prime}_{i, ii-1}    \right)
+		\end{equation}
+		
+		Dessa forma, já é possível se desenvolver o domínio dinâmico segundo as equações de Navier-Stokes.
+		
+		
+	\end{frame}
+
+
+
+
+	\begin{frame}
+		\frametitle{Efetuando a correção na pressão}
+		A partir desta etapa, basta checar se o divergente do campo de velocidades está próximo de zero, de forma a se obedecer a equação da continuidade:
+		\begin{equation}
+		\frac{u_{i + 1 , ii}^{k + 1} - u_{i, ii}^{k + 1} }{\Delta x} + \frac{v_{i , ii + 1}^{k + 1} - v_{i, ii}^{k + 1} }{\Delta y} = 0
+		\end{equation}
+	
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Resultados parciais}
+		Quando colocado estas equações no código, houveram os seguintes resultados:\\
+		\vspace{1cm}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\animategraphics[scale = 0.2 , loop , autoplay]{10}{images/temperature_1/frame-}{3}{120}
+				\label{gif1}
+				\caption{Temperatura.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\animategraphics[scale = 0.2 , loop , autoplay]{10}{images/u_1/frame-}{5}{120}
+				\label{gif2}
+				\caption{Velocidade horizontal.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\animategraphics[scale = 0.2 , loop , autoplay]{10}{images/P_1/frame-}{5}{120}
+				\label{gif3}
+				\caption{Pressão.}
+			\end{figure}
+		\end{minipage}
+	
+	\end{frame}
+
+
 
 
 
@@ -1048,7 +1160,6 @@
 			
 	\begin{frame}	
 		\begin{center}
-		Obrigado às entidades cujo auxílio fora inestimável ao andamento deste trabalho. 
 		\end{center}
 		\placelogomflab 
 		\frametitle{Agradecimentos}
