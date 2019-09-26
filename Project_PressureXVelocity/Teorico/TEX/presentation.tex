@@ -2,14 +2,14 @@
 %\documentclass[xcolor=dvipsnames,10pt]{beamer}
 \usepackage{etex}
 \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
-\usepackage[absolute,overlay]{textpos} 
+\usepackage[absolute,overlay]{textpos}
 %\usepackage{algorithm}
 \usepackage{amsmath,amssymb}
-\usepackage[utf8]{inputenc} 
+\usepackage[utf8]{inputenc}
 \usepackage{colortbl}
-\usepackage{graphicx} 
+\usepackage{graphicx}
 \usepackage[brazil]{babel}
-\usepackage{tabularx} 
+\usepackage{tabularx}
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{listings}
@@ -20,7 +20,7 @@
 \usepackage{longtable}
 \usepackage{makecell}
 \usepackage{caption}
-\usetheme{Madrid} 
+\usetheme{Madrid}
 \usepackage{amsmath}
 \usepackage{movie15}
 \usepackage{tikz}
@@ -82,57 +82,57 @@
 %posiciona o logotipo do MFLab
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
-\newcommand{\placelogomflab} 
-{ 
+\newcommand{\placelogomflab}
+{
 	\begin{textblock}{13}(150.0,0.0)
-		\pgfuseimage{mflab} 
-	\end{textblock} 
-	
+		\pgfuseimage{mflab}
+	\end{textblock}
+
 % 	\begin{textblock}{13}(128.0,1.0)
-% 		\pgfuseimage{logoufu} 
-% 	\end{textblock} 
-	
+% 		\pgfuseimage{logoufu}
+% 	\end{textblock}
+
 	\begin{textblock}{13}(150.0,70.0)
-		\pgfuseimage{petro} 
-	\end{textblock} 
+		\pgfuseimage{petro}
+	\end{textblock}
 }
 %posiciona o logotipo do MFLab
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
-\newcommand{\placelogo} 
-{ 
+\newcommand{\placelogo}
+{
 	\begin{textblock}{13}(150.0,0.0)
-		\pgfuseimage{mflab} 
-	\end{textblock} 
-	
+		\pgfuseimage{mflab}
+	\end{textblock}
+
 % 	\begin{textblock}{13}(128.0,1.0)
-% 		\pgfuseimage{logoufu} 
-% 	\end{textblock} 
-	
+% 		\pgfuseimage{logoufu}
+% 	\end{textblock}
+
 	\begin{textblock}{13}(0.0,80.0)
-		\pgfuseimage{petro} 
-	\end{textblock} 
+		\pgfuseimage{petro}
+	\end{textblock}
 }
 
 % \setlength{\TPHorizModule}{1mm}
 % \setlength{\TPVertModule}{1mm}
-% \newcommand{\placelogomflab_titulo} 
-% { 
+% \newcommand{\placelogomflab_titulo}
+% {
 % 	\begin{textblock}{13}(150.0,0.0)
-% 		\pgfuseimage{mflab} 
-% 	\end{textblock} 
-% 	
+% 		\pgfuseimage{mflab}
+% 	\end{textblock}
+%
 % 	\begin{textblock}{13}(0.0,0.0)
-% 		\pgfuseimage{lmest} 
-% 	\end{textblock} 
-% 	
+% 		\pgfuseimage{lmest}
+% 	\end{textblock}
+%
 % % 	\begin{textblock}{13}(128.0,1.0)
-% % 		\pgfuseimage{logoufu} 
-% % 	\end{textblock} 
-% 	
+% % 		\pgfuseimage{logoufu}
+% % 	\end{textblock}
+%
 % 	\begin{textblock}{13}(75.0,80.0)
-% 		\pgfuseimage{petro} 
-% 	\end{textblock} 
+% 		\pgfuseimage{petro}
+% 	\end{textblock}
 % }
 
 
@@ -147,19 +147,19 @@
 %\date{\tiny{02 de dezembro de 2015}}
 \date{\tiny{\today}}
 % \newcolumntype{M}[1]{>{\raggedright\arraybackslash}b{#1}}
-% \newcolumntype{N}{@{}m{0pt}@{}}	
+% \newcolumntype{N}{@{}m{0pt}@{}}
 % \newcolumntype{M}{>{\begin{minipage}[b]{3cm}\raggedright{}}c<{\end{minipage}\minrowheight}}
 % \setlength\extrarowheight{5pt}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 
 \begin{document}
-	
-	
-	
+
+
+
 
 	\begin{frame}\placelogomflab
-		\frametitle 
+		\frametitle
 		{ \vfill
 			\centering
 			{
@@ -174,11 +174,11 @@
 
 
 
-	
+
 \section<presentation>*{Sumário}
-	
+
 	\begin{frame}
-		\frametitle{Sumário}\placelogomflab 
+		\frametitle{Sumário}\placelogomflab
 		{\scriptsize \tableofcontents}
 	\end{frame}
 
@@ -189,14 +189,14 @@
 	\AtBeginSection[]
 	{
 	\begin{frame}<beamer>
-		\frametitle{Sumário}\placelogomflab 
+		\frametitle{Sumário}\placelogomflab
 		{\scriptsize \tableofcontents[current,currentsection]}
 	\end{frame}
 	}
 	\AtBeginSubsection[]
 	{
 	\begin{frame}<beamer>
-		  \frametitle{Sumário}\placelogomflab 
+		  \frametitle{Sumário}\placelogomflab
 		  {\scriptsize \tableofcontents[current,currentsubsection]}
 	\end{frame}
 	}
@@ -207,15 +207,15 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introdução}
-%	
+%
 %	\begin{frame}
 %		\frametitle{Objetivos}
-%					
+%
 %		\centering
 %		O presente texto procura documentar o desenvolvimento deste trabalho de pesquisa com o máximo de detalhes nas metodologias possível. Dês dos desenvolvimentos matemáticos e teóricos aos andamentos nos aspectos técnicos e organizacionais.
-%		
+%
 %		\vspace{0.5cm}
-%		
+%
 %		\flushleft
 %		Os tópicos centrais deste estudo são:\\
 %		\quad $\bullet$ Desenvolvimento teórico e matemático do escoamento bidimensional em cavidade.\\
@@ -223,7 +223,7 @@
 %		\quad $\bullet$ Desenvolvimento das conversões dos parâmetros do Poiseuille para a cavidade.\\
 %		\quad $\bullet$ Aperfeiçoamento dos protocolos de visualização de dados com OpenGL.\\
 %		\quad $\bullet$ Desenvolvimento das rotinas em MPI no domínio bidimensional.\\
-%		
+%
 %	\end{frame}
 
 
@@ -263,9 +263,9 @@
 %				\end{minipage}
 %			}&{
 %				\includegraphics[page = 1,trim={0.0cm 12.0cm 0.0cm 0.0cm},clip=true, scale = 0.4]{registro.pdf}
-%			}	
+%			}
 %		\end{tabular}
-%	
+%
 %	\end{frame}
 
 
@@ -278,14 +278,14 @@
 %			\begin{figure}
 %				\centering
 %				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.15]{Referencias/An_introduction_to_Computational}
-%				\caption{Possui as referencias aos métodos matemáticos e numéricos de modelagem e discretização da fluidodinâmica ao domínio bidimensional.}	
+%				\caption{Possui as referencias aos métodos matemáticos e numéricos de modelagem e discretização da fluidodinâmica ao domínio bidimensional.}
 %			\end{figure}
 %			\vspace{6cm}
 %		\end{minipage}
 %		\begin{minipage}[h!]{0.33\textwidth}
 %			\begin{figure}
 %				\centering
-%				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/MPI_Guide_FORTRAN.png}\\	
+%				\includegraphics[page = 1,trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.165]{Referencias/MPI_Guide_FORTRAN.png}\\
 %				\caption{Um guia para se aprender a desenvolver em FORTRAN as rotinas em paralelo, com passagem de mensagem entre os processos.}
 %			\end{figure}
 %			\vspace{6cm}
@@ -298,7 +298,7 @@
 %			\end{figure}
 %			\vspace{6cm}
 %		\end{minipage}
-%	
+%
 %	\end{frame}
 
 
@@ -307,14 +307,14 @@
 
 	\begin{frame}
 		\frametitle{Análise térmica bidimensional e tridimensional da cavidade}
-		$\bullet$ A advecção natural é um fenômeno clássico de escoamento em cavidade. Ele representa muitas situações tanto industriais quanto do dia a dia. 
-		Para se simular tal fenômeno um domínio bi ou tridimensional é necessário. Dessa forma torna-se uma extensão natural do trabalho desenvolvido até o momento. 
-		
+		$\bullet$ A advecção natural é um fenômeno clássico de escoamento em cavidade. Ele representa muitas situações tanto industriais quanto do dia a dia.
+		Para se simular tal fenômeno um domínio bi ou tridimensional é necessário. Dessa forma torna-se uma extensão natural do trabalho desenvolvido até o momento.
+
 		Apesar de lidar com mudanças de massa dos fluidos, ainda não se chega a se tratar de compressibilidade. Dessa forma, nesse trabalho espera-se:
 
 		- Desenvolver modelos 2D e 3D representativos.
 
-		- Implementar métodos de otimização conforme necessários, como mpi e opengl. 
+		- Implementar métodos de otimização conforme necessários, como mpi e opengl.
 
 		\begin{figure}[h!]
 			\centering
@@ -339,9 +339,9 @@
 					\small
 					\centering
 					O problema fluidodinâmico escolhido foi o da cavidade. Ele consiste em uma quantidade de fluido confinada a um sistema termodinâmico como na Fig.\ref{sistema_termico_1}:
-			
+
 					\vspace{0.2cm}
-			
+
 					\flushleft
 					As considerações feitas foram:\\
 					\quad $\bullet$ O fluido é incompressível e newtoniano, sendo que sua massa específica varia somente em função da temperatura.\\
@@ -368,14 +368,14 @@
 
 
 
-	
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Estudos introdutórios}
 
-	
-	
-	
-%	\begin{frame} 
+
+
+
+%	\begin{frame}
 %		\frametitle{Domínio bidimensional com advecção imposta}
 %		\begin{minipage}[h!]{0.49\textwidth}
 %			$\bullet$ Converter código bidimensional antigo em MatLab para c++.\\
@@ -396,13 +396,13 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Modelo matemático diferencial}
 		$\bullet$ A equação de balanço da energia térmica foi desenvolvida como base, com termos advectivos.\\
 		$\bullet$ A dimensão $z$ foi ignorada, considerando-se auto similaridade neste eixo.\\
-	
+
 		\begin{equation}
-			\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right] 
+			\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right]
 		\end{equation}
 
 	\end{frame}
@@ -411,7 +411,7 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Modelo numérico explícito}
 
 		$\bullet$ Todas as derivadas parciais espaciais de primeira ordem foram discretizadas com expansão em série de Taylor de primeira ordem em diferenças centradas.\\
@@ -422,7 +422,7 @@
 			\begin{split}
 			\frac{T_{i,j}^{k} - T_{i , j}^{k-1} }{\Delta t}
 			= \alpha \left[  \frac{T_{i+1,j}^{k-1} - 2 T_{i,j}^{k-1} + T_{i-1,j}^{k-1} }{\Delta x^2} \right]\\
-			+\alpha \left[\frac{T_{i,j+1}^{k-1} - 2 T_{i,j}^{k-1} + T_{i,j-1}^{k-1}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k-1} - T_{i-1,j}^{k-1}}{2 \Delta x} - v \frac{T_{i,j+1}^{k-1} - T_{i , j-1}^{k-1}}{2 \Delta y}  
+			+\alpha \left[\frac{T_{i,j+1}^{k-1} - 2 T_{i,j}^{k-1} + T_{i,j-1}^{k-1}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k-1} - T_{i-1,j}^{k-1}}{2 \Delta x} - v \frac{T_{i,j+1}^{k-1} - T_{i , j-1}^{k-1}}{2 \Delta y}
 			\end{split}
 		\end{equation}
 
@@ -432,7 +432,7 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Modelo numérico explícito}
 		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
 		\begin{equation}
@@ -448,7 +448,7 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Modelo numérico implícito}
 		$\bullet$ Todas as derivadas parciais espaciais de primeira ordem foram discretizadas com expansão em série de Taylor de primeira ordem em diferenças centradas.\\
 		$\bullet$ Todas as derivadas parciais de segunda ordem foram discretizadas utilizando-se expansão em série de Taylor de segunda ordem em diferenças centradas.\\
@@ -457,7 +457,7 @@
 			\begin{split}
 			\frac{T_{i,j}^{k} - T_{i , j}^{k-1} }{\Delta t}
 			= \alpha \left[  \frac{T_{i+1,j}^{k} - 2 T_{i,j}^{k} + T_{i-1,j}^{k} }{\Delta x^2} \right]\\
-			+\alpha \left[\frac{T_{i,j+1}^{k} - 2 T_{i,j}^{k} + T_{i,j-1}^{k}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k} - T_{i-1,j}^{k}}{2 \Delta x} - v \frac{T_{i,j+1}^{k} - T_{i , j-1}^{k}}{2 \Delta y}  
+			+\alpha \left[\frac{T_{i,j+1}^{k} - 2 T_{i,j}^{k} + T_{i,j-1}^{k}}{\Delta y^2}\right] - u \frac{T_{i+1,j}^{k} - T_{i-1,j}^{k}}{2 \Delta x} - v \frac{T_{i,j+1}^{k} - T_{i , j-1}^{k}}{2 \Delta y}
 			\end{split}
 		\end{equation}
 	\end{frame}
@@ -466,13 +466,13 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Modelo numérico implícito}
 		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
 		\begin{equation}
 			\begin{split}
 			T_{i,j}^{k} = \frac{T_{i,j}^{k-1} + T_{i -1, j}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right) 	+ T_{i,j-1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}} \\
-			+ \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) 
+			+ \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right)
 			+  T_{i,j+1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}}
 			\end{split}
 		\end{equation}
@@ -481,7 +481,7 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Código em c++}
 		\begin{minipage}[h!]{0.49\textwidth}
 			$\bullet$ Foi traduzido do MatLab para c++ o código clássico e implementada as mudanças matemáticas deste novo caso.\\
@@ -492,7 +492,7 @@
 			- v = 5 m/s \\
 			$\bullet$ Para o explícito foi obedecida a condição de convergência:
 			\begin{equation}
-				\Delta t \leq \frac{\Delta s ^2}{4 \alpha} 
+				\Delta t \leq \frac{\Delta s ^2}{4 \alpha}
 			\end{equation}
 		\end{minipage}
 		\begin{minipage}[h!]{0.49\textwidth}
@@ -503,11 +503,11 @@
 			\end{figure}
 		\end{minipage}
 	\end{frame}
-	
-	
-	
-	
-	
+
+
+
+
+
 	\begin{frame}
 		\frametitle{OPENGL implementado em C++}
 		O OPENGL para c++ é a implementação mais popular da API, junto da implementação em JAVA. Mas ela possui adaptações para várias linguagens, por meio de "bindings", ou seja, ligações do código às funções em c. A API fornece só uma forma de se comunicar com a placa de vídeo presente no computador. Não consiste em uma biblioteca, mas em um conjunto de definições de funções que já vem de fábrica instaladas nas placas de vídeo. Assim a API identifica a placa de vídeo e funciona como uma ponte entre o código e as funcionalidades nativas da placa de vídeo.
@@ -529,14 +529,14 @@
 				\includegraphics[trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.35]{images/eventos}
 				\caption{Função para processamento de evento GLFW.}
 			\end{figure}
-		
+
 		\end{minipage}
 	\end{frame}
 
-	
 
 
-	
+
+
 	\begin{frame}
 		\frametitle{Resultados iniciais}
 		\begin{minipage}[h!]{0.49\textwidth}
@@ -631,7 +631,7 @@
 				\caption{Simulação bem sucedida.}
 			\end{figure}
 		\end{minipage}
-	\end{frame}	
+	\end{frame}
 
 
 
@@ -650,7 +650,7 @@
 			\end{equation}
 			$\bullet$ Assim temos a função analítica a ser analisada pelo método numérico como segue:
 			\begin{equation}
-				\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right] + G 
+				\frac{\partial T}{\partial t} + u \frac{\partial T}{\partial x} + v \frac{\partial T}{\partial y} = \alpha \left[  \frac{\partial^2 T}{\partial x^2} + \frac{\partial^2 T}{\partial y^2}   \right] + G
 			\end{equation}
 		\end{minipage}
 		\begin{minipage}[h!]{0.17\textwidth}
@@ -665,13 +665,13 @@
 				\caption{ Resultado exato.}
 			\end{figure}
 		\end{minipage}
-	\end{frame}	
+	\end{frame}
 
 
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Modelo numérico explícito}
 		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
 		\begin{equation}
@@ -687,13 +687,13 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Modelo numérico implícito}
 		$\bullet$ Com algumas simplificações chega-se na expressão utilizada no código:
 		\begin{equation}
 			\begin{split}
 			T_{i,j}^{k} = \frac{T_{i,j}^{k-1} + T_{i -1, j}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + u \frac{\Delta t}{2 \Delta s} \right) 	+ T_{i,j-1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} + v \frac{\Delta t}{2 \Delta s} \right)}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}} \\
-			+ \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right) 
+			+ \frac{  T_{i+1,j}^{k} \left( \alpha \frac{\Delta t}{ \Delta s^2} - u \frac{\Delta t}{2 \Delta s}\right)
 			+  T_{i,j+1}^{k} \left( \alpha \frac{\Delta t}{\Delta s^2} - v \frac{\Delta t}{2 \Delta s}\right) + G}{ 1 - 4 \frac{\alpha \Delta t}{\Delta s ^2}}
 			\end{split}
 		\end{equation}
@@ -703,7 +703,7 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Resultados das simulações}
 		$\bullet$ Dessa forma, foram conduzidas várias simulações em diferentes CFL`s, de forma a se observar o comportamento do erro a partir destes desenvolvimentos, seguem os resultados: \\
 		\begin{minipage}[h!]{0.49\textwidth}
@@ -726,12 +726,12 @@
 
 
 
-	\begin{frame} 
+	\begin{frame}
 		\frametitle{Código em FORTRAN}
 		\begin{minipage}[h!]{0.49\textwidth}
-			
+
 			Diferente do C++, onde se usa a biblioteca GLFW para criação de janelas, no FORTRAN se utiliza o GLUT. Não foi possível localizar bidings para GLFW já prontas. E decidiu-se que seria mais simples aprender a nova biblioteca.
-			
+
 			$\bullet$ Foi traduzido do c++ para FORTRAN o código de condução com advecção.\\
 			$\bullet$ Casos teste foram utilizados para validação qualitativa.\\
 			$\bullet$ Alguns parâmetros de teste notáveis foram: \\
@@ -740,7 +740,7 @@
 			- v = 5 m/s \\
 			$\bullet$ Para o explícito foi obedecida a condição de convergência:
 			\begin{equation}
-			\Delta t \leq \frac{\Delta s ^2}{4 \alpha} 
+			\Delta t \leq \frac{\Delta s ^2}{4 \alpha}
 			\end{equation}
 		\end{minipage}
 		\begin{minipage}[h!]{0.49\textwidth}
@@ -764,7 +764,7 @@
 		\frametitle{Uso do MPI no código}
 		\begin{minipage}[h!]{0.35\textwidth}
 			Criam-se dois processos em paralelo. Um dedicado à renderização dos resultados e o outro dedicado somente à simulação.\\
-			A forma encontrada de sincronizar ambos os processos foi dispondo funções de envio e recebimento sempre complementares, garantindo mensagens nos dois sentidos para cada mensagem trocada. 
+			A forma encontrada de sincronizar ambos os processos foi dispondo funções de envio e recebimento sempre complementares, garantindo mensagens nos dois sentidos para cada mensagem trocada.
 		\end{minipage}	\hspace{0.5cm}
 		\begin{minipage}[h!]{0.59\textwidth}
 			\begin{figure}[h]
@@ -774,20 +774,20 @@
 					\node[rect,rounded corners , below of=step1, node distance=2.5cm] (step2) {$ IF(RANK) $};
 					\node[rect, right of=step2, node distance=3.5cm] (step3) {$Simulation()$};
 					\node[rect, left of=step2, node distance=3.5cm] (step4){$Vizualization()$};
-				
+
 					\path[line](step1) -- node [right, text width=4em] {mpirun -n 2.} node [left, text width=4em] {} (step2);
-				
+
 					\path[line](step2) -- node [above,near end, text width=4em] { = 0} node (line2) [below, text width=4em] {} (step3);
-				
+
 					\path[line](step2) -- node [above,near start, text width=4em] { = 1} node [below, text width=4em] {} (step4);
-					
+
 					\path[line](step3) -- ++(0,-1) -- ++(-7,0) -- node[xshift= 5cm,yshift= -0.7cm, text width=2.5cm]{MPI\_SEND()}(step4);
-				
+
 					\end{tikzpicture}
 				\end{center}
 				\caption{Fluxograma do uso de MPI no algorítmo.}
 			\end{figure}
-		
+
 		Após a criação dos processos filhos, tem-se a comunicação entre eles por MPI\_SEND e MPI\_RCEV.
 		\end{minipage}
 	\end{frame}
@@ -798,7 +798,7 @@
 
 	\begin{frame}
 		\frametitle{Resultados}
-		
+
 		\begin{minipage}[h!]{0.45\textwidth}
 	 		Com o devido cuidado com o código foi possível se obter o mesmo resultado do c++ com o fortran:
 	 	\end{minipage}\hfill
@@ -825,7 +825,7 @@
 		\quad $\bullet$ A equação da continuidade.\\
 		\quad $\bullet$ A equação de balanço da energia térmica.\\
 		\quad $\bullet$ Uma equação de estado.\\
-		
+
 		\begin{equation}
 		\nabla . \vec{V} = 0
 		\end{equation}
@@ -838,13 +838,13 @@
 		\begin{equation}
 		\frac{\rho - \rho_o}{\rho_o} = \beta \left( T - T_o\right)
 		\end{equation}
-	
+
 	\end{frame}
 
 
 
 
-	
+
 	\begin{frame}
 		\frametitle{Desenvolvendo pressão e velocidade no modelo explícito}
 		\flushleft
@@ -858,15 +858,15 @@
 		\begin{equation}\label{eqlabel1}
 		\frac{\vec{V}^{\ast{n + 1}} - \vec{V}^{n}}{\Delta t} + \vec{V}^{n} . {\nabla} \vec{V}^{n} = - \frac{1}{\rho_o}\nabla P^{n} + \left( \frac{\rho - \rho_o}{\rho_o} \right) \vec{g} + \nu \nabla^2 \vec{V}^{n}
 		\end{equation}
-		
+
 		Assim, subtraindo-se as duas, tem-se uma relação que descreve a relação entre os valores do domínio da pressão:
-		
+
 		\begin{equation}
 		\frac{\vec{V}^{{n + 1}} - \vec{V}^{{\ast n+1} }}{\Delta t} = - \frac{1}{\rho_o}\nabla \left( P^{n+1} - P ^n\right)
 		\end{equation}
-		
-		
-		
+
+
+
 	\end{frame}
 
 
@@ -876,29 +876,29 @@
 		\frametitle{Diferença de pressão}
 		\flushleft
 		Assim, descreve-se uma nova variável $ P^\prime $ que denota a diferença na pressão entre os passos, como:
-		
+
 		\begin{equation}
 		P^\prime = P^{n + 1} - P^n
 		\end{equation}
 		Assim temos:
-		
+
 		\begin{equation}\label{eqlabel3}
 		\vec{V}^{n+1} - \vec{V}^{\ast{n + 1}} = - \frac{\Delta t}{\rho_o} \nabla P^\prime
 		\end{equation}
-		
+
 		Aplicando-se o divergente em ambos os lados temos:
-		
+
 		\begin{equation}
 		\nabla . \vec{V}^{n+1} - \nabla .\vec{V}^{\ast{n + 1}} = - \frac{\Delta t}{\rho_o} \nabla^2 P^\prime
 		\end{equation}
-		
+
 		A partir da equação da continuidade temos:
-		
+
 		\begin{equation}\label{eqlabel2}
 		\nabla .\vec{V}^{\ast{n + 1}} = \frac{\Delta t}{\rho_o} \nabla^2 P^\prime
 		\end{equation}
-		
-	
+
+
 	\end{frame}
 
 
@@ -919,26 +919,26 @@
 					\node[rect,rounded corners , right of=step1, node distance=4.5cm] (step2) {$\vec{V}^{* n + 1} $};
 					\node[rect, right of=step2, node distance=6.5cm] (step3) {$P^\prime$};
 					\node[rect, rounded corners, below of=step3, node distance=2.5cm](step5){$ \vec{V}^{n+1}$};
-					
+
 					\path[line](step1) -- node [above, text width=4em] {Resolução explicita.} node [below, text width=4em] {Eq.\ref{eqlabel1}} (step2);
-					
+
 					\path[line](step2) -- node [above, text width=4em] {Resolução implicita.} node (line2) [below, text width=4em] {Eq.\ref{eqlabel2}} (step3);
-					
+
 					\path[line](step3) -- node [right, near start,  text width=4em] {Resolução explícita.} node [right, near end, text width=4em] {Eq.\ref{eqlabel3}} (step5);
-					
+
 					\path[line](step5) -| node [right, near end, text width=6em] {Mais tempo na correção de pressão.} (line2);
-					
+
 					\path[line](step5) -| node [right, near end, text width=6em] {Atualiza\\domínio.} node [below, near start, text width=12em] {Checa continuidade.} (step1);
 				\end{tikzpicture}
 			\end{center}
 		\caption{Fluxograma do loop principal do algoritmo.}
 		\end{figure}
 	\end{frame}
-	
-	
-	
-	
-	
+
+
+
+
+
 	\begin{frame}
 		\frametitle{Desenvolvimento das equações de Navier-Stokes}
 		\centering
@@ -946,15 +946,15 @@
 			\frac{\partial \vec{V}}{\partial t} +  \vec{V} . {\nabla} \vec{V}  =  -\frac{1}{\rho_o} {\nabla}P + \frac{\rho - \rho_o}{\rho_o} \vec{g} + \nu \nabla ^2 \vec{V}
 		\end{equation}
 		Com as equações de Navier-Stokes no formato vetorial, separam-se nas três componentes:
-		
+
 		\begin{equation}
 			\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + w\frac{\partial u }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial x} + \frac{\rho - \rho_o}{\rho_o} g_x + \nu \left( \frac{\partial ^2 u}{\partial x^2} + \frac{\partial ^2 u}{\partial y^2} + \frac{\partial ^2 u}{\partial z^2} \right)
 		\end{equation}
-		
+
 		\begin{equation}
 			\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} + w\frac{\partial v }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial y} + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{\partial ^2 v}{\partial x^2} + \frac{\partial ^2 v}{\partial y^2} + \frac{\partial ^2 v}{\partial z^2} \right)
 		\end{equation}
-	
+
 		\begin{equation}
 			\frac{\partial w}{\partial t} + u\frac{\partial w}{\partial x} + v\frac{\partial w}{\partial y} + w\frac{\partial w }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial z} + \frac{\rho - \rho_o}{\rho_o} g_z + \nu \left( \frac{\partial ^2 w}{\partial x^2} + \frac{\partial ^2 w}{\partial y^2} + \frac{\partial ^2 w}{\partial z^2} \right)
 		\end{equation}
@@ -970,33 +970,33 @@
 		\begin{equation}
 			\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + {\color{red} w\frac{\partial u }{\partial z} } =  -\frac{1}{\rho_o} \frac{\partial P}{\partial x} + \frac{\rho - \rho_o}{\rho_o} g_x + \nu \left( \frac{\partial ^2 u}{\partial x^2} + \frac{\partial ^2 u}{\partial y^2} + { \color{red} \frac{\partial ^2 u}{\partial z^2} } \right)
 		\end{equation}
-	
+
 		\begin{equation}
 			\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} + {\color{red} w\frac{\partial v }{\partial z} } =  -\frac{1}{\rho_o} \frac{\partial P}{\partial y} + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{\partial ^2 v}{\partial x^2} + \frac{\partial ^2 v}{\partial y^2} + { \color{red} \frac{\partial ^2 v}{\partial z^2} } \right)
 		\end{equation}
-		
+
 		{\color{red}
 			\begin{equation}
 				\frac{\partial w}{\partial t} + u\frac{\partial w}{\partial x} + v\frac{\partial w}{\partial y} + w\frac{\partial w }{\partial z}  =  -\frac{1}{\rho_o} \frac{\partial P}{\partial z} + \frac{\rho - \rho_o}{\rho_o} g_z + \nu \left( \frac{\partial ^2 w}{\partial x^2} + \frac{\partial ^2 w}{\partial y^2} + \frac{\partial ^2 w}{\partial z^2} \right)
 			\end{equation}
 		}
-		
+
 		Tirando os termos referentes à dimensão z, a partir de considerações de autosimilaridade.
-		
-		
+
+
 	\end{frame}
 
 
 
 
-	
+
 	\begin{frame}
 		\frametitle{Desenvolvimento das equações de Navier-Stokes de forma explícita}
 		\centering
 		\begin{equation}
 			\frac{\partial u}{\partial t} + u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} =  -\frac{1}{\rho_o} \frac{\partial P}{\partial x} + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{\partial ^2 u}{\partial x^2} + \frac{\partial ^2 u}{\partial y^2} \right)
 		\end{equation}
-	
+
 		\begin{equation}
 			\frac{\partial v}{\partial t} + u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} =  -\frac{1}{\rho_o} \frac{\partial P}{\partial y} + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{\partial ^2 v}{\partial x^2} + \frac{\partial ^2 v}{\partial y^2} \right)
 		\end{equation}
@@ -1006,8 +1006,8 @@
 			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1, j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^{k} - 2 u_{i,j}^{k} + u_{i-1,j}^{k}}{\Delta x^2} + \frac{u_{i , j+1}^{k} - 2 u_{i,j}^{k} + u_{i,j-1}^{ k}}{\Delta y^2} \right)
 			\end{split}
 		\end{equation}
-		
-	
+
+
 	\end{frame}
 
 
@@ -1049,6 +1049,56 @@
 
 
 
+
+
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes  de forma implicita}
+		Dessa forma tem-se as duas equações de transporte de momento discretizadas:
+		\begin{equation}
+			\begin{split}
+			\frac{u_{i , j}^{\ast k + 1} - u_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{u_{i + 1 , j}^k - u_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{u_{i , j+ 1}^k - u_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i, j}^k - P_{i - 1 , j}^k}{\Delta x} \\ + \frac{\rho - 	\rho_o}{\rho_o} g_x + \nu \left( \frac{u_{i+1 , j}^{\ast k + 1} - 2 u_{i,j}^{\ast k + 1} + u_{i-1,j}^{\ast k + 1}}{\Delta x^2} + \frac{u_{i , j+1}^{\ast k + 1} - 2 u_{i,j}^{\ast k + 1} + u_{i,j-1}^{\ast k + 1}}{\Delta y^2} \right)
+			\end{split}
+		\end{equation}
+		\begin{equation}
+			\begin{split}
+			\frac{v_{i , j}^{\ast k + 1} - v_{i , j}^{k}}{\Delta t} + u_{i , j}^{k}\frac{v_{i + 1 , j}^k - v_{i - 1 , j}^k  }{2 \Delta x} + v_{i , j}^{k}\frac{v_{i , j+ 1}^k - v_{i, j-1}^k  }{2 \Delta y} =  -\frac{1}{\rho_o} \frac{P_{i , j}^k - P_{i , j - 1}^k}{\Delta y} \\ + \frac{\rho - \rho_o}{\rho_o} g_y + \nu \left( \frac{v_{i+1 , j}^{\ast k + 1} - 2 v_{i,j}^{\ast k + 1} + v_{i-1,j}^{\ast k + 1}}{\Delta x^2} + \frac{v_{i , j+1}^{\ast k + 1} - 2 v_{i,j}^{\ast k + 1} + v_{i,j-1}^{\ast k + 1}}{\Delta y^2} \right)
+			\end{split}
+		\end{equation}
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes  de forma implicita}
+		\begin{equation}
+			\begin{split}
+			u_{i , j}^{\ast k + 1} = \frac{u_{i , j}^{k} \Delta x ^2 \Delta y^2}{ \Delta x ^2 \Delta y^2 + 2 \nu \Delta t(\Delta x ^2 + \Delta y^2)} - \frac{ v_{i , j}^{k} \Delta x ^2 \Delta y \Delta t}{ 2 \Delta x ^2 \Delta y^2 + 4 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left( u_{i , j+ 1}^k - u_{i, j-1}^k   \right)  \\ - \frac{u_{i , j}^{k} \Delta x \Delta y^2 \Delta t}{ 2 \Delta x ^2 \Delta y^2 + 4 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left(u_{i + 1 , j}^k - u_{i - 1 , j}^k \right) - \frac{ \Delta x \Delta y^2 \Delta t}{ \rho_o \Delta x ^2 \Delta y^2 + 2 \rho_o \nu \Delta t(\Delta x ^2 + \Delta y^2)} (P_{i, j}^k - P_{i - 1 , j}^k ) \\ + \frac{ \Delta x ^2 \Delta y^2 \Delta t (\rho -\rho_o) g_x }{ \rho_o \Delta x ^2 \Delta y^2 + 2 \rho_o \nu \Delta t(\Delta x ^2 + \Delta y^2)} + \frac{ \nu \Delta y^2 {\Delta t}}{ \Delta x ^2 \Delta y^2 + 2 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left( u_{i+1 , j}^{\ast k + 1} + u_{i-1,j}^{\ast k + 1} \right) \\ + \frac{ \nu \Delta x^2 {\Delta t}}{ \Delta x ^2 \Delta y^2 + 2 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left( u_{i , j+1}^{\ast k + 1} + u_{i,j-1}^{\ast k + 1}\right)
+			\end{split}
+		\end{equation}
+	
+	\end{frame}
+
+
+
+
+	\begin{frame}
+		\frametitle{Desenvolvimento das equações de Navier-Stokes  de forma implicita}
+	
+		\begin{equation}
+			\begin{split}
+			v_{i , j}^{\ast k + 1} = \frac{v_{i , j}^{k} \Delta x ^2 \Delta y^2}{ \Delta x ^2 \Delta y^2 + 2 \nu \Delta t(\Delta x ^2 + \Delta y^2)} - \frac{ v_{i , j}^{k} \Delta x ^2 \Delta y \Delta t}{ 2 \Delta x ^2 \Delta y^2 + 4 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left( v_{i , j+ 1}^k - v_{i, j-1}^k   \right)  \\ - \frac{u_{i , j}^{k} \Delta x \Delta y^2 \Delta t}{ 2 \Delta x ^2 \Delta y^2 + 4 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left(v_{i + 1 , j}^k - v_{i - 1 , j}^k \right) - \frac{ \Delta x^2 \Delta y \Delta t}{ \rho_o \Delta x ^2 \Delta y^2 + 2 \rho_o \nu \Delta t(\Delta x ^2 + \Delta y^2)} (P_{i, j}^k - P_{i , j-1}^k ) \\ + \frac{ \Delta x ^2 \Delta y^2 \Delta t (\rho -\rho_o) g_y }{ \rho_o \Delta x ^2 \Delta y^2 + 2 \rho_o \nu \Delta t(\Delta x ^2 + \Delta y^2)} + \frac{ \nu \Delta y^2 {\Delta t}}{ \Delta x ^2 \Delta y^2 + 2 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left( v_{i+1 , j}^{\ast k + 1} + v_{i-1,j}^{\ast k + 1} \right) \\ + \frac{ \nu \Delta x^2 {\Delta t}}{ \Delta x ^2 \Delta y^2 + 2 \nu \Delta t(\Delta x ^2 + \Delta y^2)} \left( v_{i , j+1}^{\ast k + 1} + v_{i,j-1}^{\ast k + 1}\right)
+			\end{split}
+		\end{equation}
+	
+	\end{frame}
+
+
+
+
+
+
 	\begin{frame}
 		\frametitle{Efetuando a correção na pressão}
 		Resgatando a equação para correção da pressão, tem-se:
@@ -1057,37 +1107,37 @@
 		\end{equation}
 		Discretizando a equação:
 		\begin{equation}
-			\frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} = \frac{\Delta t}{\rho_o} * \left( \frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2} \right) 
+			\frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} = \frac{\Delta t}{\rho_o} * \left( \frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2} \right)
 		\end{equation}
 		\begin{equation}
-		\frac{\rho_o}{ \Delta t} * \frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{\rho_o}{ \Delta t} * \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} =  \frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2} 
+		\frac{\rho_o}{ \Delta t} * \frac{u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1}}{\Delta x} + \frac{\rho_o}{ \Delta t} * \frac{v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}}{\Delta y} =  \frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2}
 		\end{equation}
-		
-		
-		
+
+
+
 	\end{frame}
 
-	
-	
+
+
 	\begin{frame}
 		\frametitle{Efetuando a correção na pressão}
 		Assim, tem-se a expressão utilizada no código:
 		\begin{equation}
 			\frac{ P^{\prime}_{i + 1, j} - 2 P^{\prime}_{i , j} + P^{\prime}_{i - 1 , j} }{\Delta x^2} + \frac{ P^{\prime}_{i, j + 1} - 2 P^{\prime}_{i , j} + P^{\prime}_{i , j- 1} }{\Delta y^2} = \frac{\rho_o}{ \Delta t \Delta x} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \frac{\rho_o}{ \Delta t \Delta y } \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right)
 		\end{equation}
-		
+
 		\begin{equation}
 			\begin{split}
-			-2 P^{\prime}_{i , j} \left(   \frac{\Delta y^2 + \Delta x^2}{\Delta x^2 \Delta y^2} \right)  = \frac{\rho_o}{ \Delta t \Delta x} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \\ \frac{\rho_o}{ \Delta t \Delta y } \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right) - \frac{1}{\Delta y^2} \left(P^{\prime}_{i , j- 1} + P^{\prime}_{i, j + 1} \right) - \frac{1}{\Delta x^2} \left(P^{\prime}_{i + 1, j} +  P^{\prime}_{i - 1 , j}\right) 
+			-2 P^{\prime}_{i , j} \left(   \frac{\Delta y^2 + \Delta x^2}{\Delta x^2 \Delta y^2} \right)  = \frac{\rho_o}{ \Delta t \Delta x} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \\ \frac{\rho_o}{ \Delta t \Delta y } \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right) - \frac{1}{\Delta y^2} \left(P^{\prime}_{i , j- 1} + P^{\prime}_{i, j + 1} \right) - \frac{1}{\Delta x^2} \left(P^{\prime}_{i + 1, j} +  P^{\prime}_{i - 1 , j}\right)
 			\end{split}
 		\end{equation}
-		
+
 		\begin{equation}
 		\begin{split}
-		P^{\prime}_{i , j}  = - \frac{\rho_o \Delta x \Delta y^2 }{ 2 ( \Delta y^2 + \Delta x^2) \Delta t} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \frac{\Delta y^2}{ 2 (\Delta y^2 + \Delta x^2)} \left(P^{\prime}_{i + 1, j} +  P^{\prime}_{i - 1 , j}\right) \\ - \frac{\rho_o \Delta x^2 \Delta y }{ 2 ( \Delta y^2 + \Delta x^2) \Delta t} \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right) + \frac{\Delta x^2}{ 2 (\Delta y^2 + \Delta x^2)} \left(P^{\prime}_{i , j- 1} + P^{\prime}_{i, j + 1} \right) 
+		P^{\prime}_{i , j}  = - \frac{\rho_o \Delta x \Delta y^2 }{ 2 ( \Delta y^2 + \Delta x^2) \Delta t} \left(u_{i + 1 , j}^{\ast k + 1} - u_{i , j}^{\ast k + 1} \right) + \frac{\Delta y^2}{ 2 (\Delta y^2 + \Delta x^2)} \left(P^{\prime}_{i + 1, j} +  P^{\prime}_{i - 1 , j}\right) \\ - \frac{\rho_o \Delta x^2 \Delta y }{ 2 ( \Delta y^2 + \Delta x^2) \Delta t} \left( v_{i , j + 1}^{\ast k + 1} - v_{i , j}^{\ast k + 1}\right) + \frac{\Delta x^2}{ 2 (\Delta y^2 + \Delta x^2)} \left(P^{\prime}_{i , j- 1} + P^{\prime}_{i, j + 1} \right)
 		\end{split}
 		\end{equation}
-	
+
 	\end{frame}
 
 
@@ -1101,14 +1151,14 @@
 		\begin{equation}
 			u^{k+1}_{i, j}  = u^{\ast k+1}_{i, j} - \frac{\Delta t}{\Delta x \rho_o} \left(  P^{\prime}_{i , ii} -   P^{\prime}_{i - 1, ii}  \right)
 		\end{equation}
-		
+
 		\begin{equation}
 		v^{k+1}_{i, j}  = v^{\ast k+1}_{i, j} - \frac{\Delta t}{\Delta y \rho_o}  \left(  P^{\prime}_{i , ii} -   P^{\prime}_{i, ii-1}    \right)
 		\end{equation}
-		
+
 		Dessa forma, já é possível se desenvolver o domínio dinâmico segundo as equações de Navier-Stokes.
-		
-		
+
+
 	\end{frame}
 
 
@@ -1120,7 +1170,7 @@
 		\begin{equation}
 		\frac{u_{i + 1 , ii}^{k + 1} - u_{i, ii}^{k + 1} }{\Delta x} + \frac{v_{i , ii + 1}^{k + 1} - v_{i, ii}^{k + 1} }{\Delta y} = 0
 		\end{equation}
-	
+
 	\end{frame}
 
 	\begin{frame}
@@ -1148,20 +1198,39 @@
 				\caption{Pressão.}
 			\end{figure}
 		\end{minipage}
-	
+
+	\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modelo computacional}
+
+	\begin{frame}
+		\frametitle{Condições iniciais}
+
+
+
+
+
 	\end{frame}
 
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Agradecimentos}
-			
-	\begin{frame}	
+
+	\begin{frame}
 		\begin{center}
 		\end{center}
-		\placelogomflab 
+		\placelogomflab
 		\frametitle{Agradecimentos}
 		\begin{center}
 		\begin{tabular}{c c}
@@ -1178,59 +1247,59 @@
 			}
 		\end{tabular}
 		\end{center}
-			
+
 	\end{frame}
-		
-			
-		
-		
-		
+
+
+
+
+
 \end{document}
 
 
 
 
-		
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens		
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens
 %		\begin{frame}
 %			\frametitle{Adição de fronteiras extras}
 %			\begin{tabular}{c c}
-%				
+%
 %				{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,loop,height=0.5\textheight]{figuras/filtration_depois.png}}&{\includegraphics[trim=0.0cm 0.0cm 0.0cm 0.0cm,clip=true,loop,height=0.4\textheight]{figuras/filtration_depois_zoom.png}}\\
-%				
+%
 %			\end{tabular}
-%			
+%
 %		\end{frame}
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Exemplo de formatação de imagens
 %		\begin{frame}
 %			\frametitle{Agora}
 %			\centering
 %			\begin{tabular}{c}
-%				
+%
 %				{\includegraphics[trim=0.00cm 2.0cm 0.0cm 2.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51f.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999g.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999y.png}}\\{\includegraphics[trim=0.01cm 0.0cm 0.01cm 0.0cm,clip=true,loop,width=0.9\textwidth]{figuras/t_x_51999b.png}}
-%				
+%
 %			\end{tabular}
-%			
+%
 %		\end{frame}
 
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Formatação de equações:		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Formatação de equações:
 %		\begin{frame}
 %			\frametitle{Newton-Raphson}
-%			
+%
 %			\flushleft
 %			Método de interface com jacobiano composto:
-%			
+%
 %			\centering
 %			\begin{equation}\label{forte_eqNewton}
 %			K(D+\Delta D) \approx K(D)+\Delta D \, J(D)
@@ -1244,16 +1313,16 @@
 %			\begin{equation}\label{forte_eqNewton4}
 %			Fluido(D): \mathbb{R}^{n} \to \mathbb{R}^{m}
 %			\end{equation}
-%			
+%
 %			\flushleft
 %			$Fluido'(D)$ é de tamanho $m x n$
-%			
+%
 %			\centering
-%			
+%
 %			\begin{equation}\label{forte_eqNewton5}
 %			Estrutura(F): \mathbb{R}^{m} \to \mathbb{R}^{n}
 %			\end{equation}
-%			
+%
 %			\flushleft
 %			$Estrutura'(F)$ é de tamanho $n x m$\\
 %			$Estrutura'(Fluido(D)) \, Fluido'(D)$ e $I$ é de tamanho $n x n$
@@ -1262,12 +1331,12 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Vários exemplos de formatação textual:		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Vários exemplos de formatação textual:
 
 
 %		\begin{frame}
 %			\frametitle{Conveniência do método de Multi Direct Forcing}
-%			
+%
 %			\flushleft
 %			\textbf{Fraco:}\\
 %			$\bullet$ Predição da velocidade.\\
@@ -1287,9 +1356,9 @@
 %
 %		\end{frame}
 
-		
 
-%		
+
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  Modelo duas fotos lado a lado:
 
 
@@ -1317,7 +1386,7 @@
 %				FPI MDF fixo & 8     &     11 &  8.9099099099099099\\
 %				QN Primeiro método de Broyden MDF variável & 18    &     101 &  18.281281281281281 \\ \hline
 %			\end{tabular}
-%		\end{frame}	
+%		\end{frame}
 
 
 
