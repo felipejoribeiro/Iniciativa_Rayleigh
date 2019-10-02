@@ -7,6 +7,7 @@ include 'visualization.f90'  !Graphical codes
 
 !Main module for global variables
 Module global
+    use mpi
     implicit none
 
     !Definition of Cell Data type:
@@ -59,19 +60,19 @@ program cavidade
 
 
 
-    if (numprocs == 2)then  !Check if there is two processes
+    if (numprocs == 2)then                                         !Check if there is two processes
         if(ID == 0)then
-            call Simulation()     !Down the code, the simulation routine
+            call Simulation()                                      !Down the code, the simulation routine
         else
-            call Visualization()  !In other file
+            call Visualization()                                   !In other file
         end if
-    else if(numprocs == 1)then    !Down the code, the simulation routine
+    else if(numprocs == 1)then                                     !Down the code, the simulation routine
         call Simulation()
     end if
 
 
 
-    call MPI_FINALIZE(ERROR)                                    !End all MPI capabilities
+    call MPI_FINALIZE(ERROR)                                       !End all MPI capabilities
 
 
 end program cavidade
@@ -87,38 +88,38 @@ subroutine Simulation()
     use global
     use mpi
     implicit none
-    character*200 :: windows_name                              !Name of the window
+    character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 58                             !Space cells in x direction
-    Ny = Nx                             !Space cells in y direction
-    Lx = 1.d0                          !Size of space domain in x  (m)
-    Ly = Lx                             !Size of space domain in y  (m)
-    dx =  Lx / (Nx)                     !Cells length in x (m)
-    dy =  Ly / (Ny)                     !Cells length in y (m)
-    !Physical determination of fluid:
-    alpha =  1.43d-7                    !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
-    nu = 8.891d-4                       !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
-    rho = 9.777d+3                      !Specific mass (water with 25 degree Celcius) (N/m**3)
-    gx = 0.d0                           !Gravity in x direction (m/s**2)
-    gy  = 9.7838d0                      !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
+    Nx = 68                                                        !Space cells in x direction
+    Ny = Nx                                                        !Space cells in y direction
+    Lx = 1.d0                                                      !Size of space domain in x  (m)
+    Ly = Lx                                                        !Size of space domain in y  (m)
+    dx =  Lx / (Nx)                                                !Cells length in x (m)
+    dy =  Ly / (Ny)                                                !Cells length in y (m)
+    !Physical determination of fluid flow:
+    alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
+    nu = 1.d0                                                      !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
+    rho = 10.d0                                                    !Specific mass (water with 25 degree Celcius) (N/m**3)
+    gx = 0.d0                                                      !Gravity in x direction (m/s**2)
+    gy  = 0.0d0                                                    !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
+    vi = 0.0d0                                                     !Initial condition parameter for vertical velocity
+    ui = 0.0d0                                                     !Initial condition parameter for horizontal velocity
+    pi = 1.0d0                                                     !Initial condition parameter for preassure
+    ti = 24.0d0                                                    !Initial condition parameter for temperature
     !Simulation convergence parameters:
-    cfl = 0.1                           !Relation betwen time and space steps
-    dt = 0.00001 ! (cfl * dx**2 )/ alpha             !Time step length (s)
-    time = 25                           !Total time of simulation (s)
-    increment = 1.d-10                   !Increment for implicity Gaus-Seidel solutions
+    cfl = 0.1                                                      !Relation betwen time and space steps
+    dt = 0.000001 ! (cfl * dx**2 )/ alpha                          !Time step length (s)
+    time = 25                                                      !Total time of simulation (s)
+    increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
     !Simulation Pannel control:
-    save_image = .FALSE.                !Save file is wanted?
-    image_frequence = 100               !In how many iterations the image must be saved?
-    filename = "simulacao_piloto"       !Name of saved file
-    Windows_name = "Program Cavidade"   !Name of the window of graphical representation
-    what_thermal_simulation = 2         !Type of thermal numerical solution (1 = explicit / 2 = implicit)
-    Exist_Thermal_simulation = .FALSE.  !If there is thermal simulation, or isotermic hipotesis
-    what_velocity_simulation = 2        !Type of velocity numerical solution (1 = explicit / 2 = implicit)
-    vi = 0.0d0                          !Initial condition parameter for vertical velocity
-    ui = 0.0d0                          !Initial condition parameter for horizontal velocity
-    pi = 1.0d0                          !Initial condition parameter for preassure
-    ti = 0.0d0                          !Initial condition parameter for temperature
+    save_image = .FALSE.                                           !Save file is wanted?
+    image_frequence = 100                                          !In how many iterations the image must be saved?
+    filename = "simulacao_piloto"                                  !Name of saved file
+    Windows_name = "Program Cavidade"                              !Name of the window of graphical representation
+    what_thermal_simulation = 2                                    !Type of thermal numerical solution (1 = explicit / 2 = implicit)
+    Exist_Thermal_simulation = .FALSE.                             !If there is thermal simulation, or isotermic hipotesis
+    what_velocity_simulation = 1                                   !Type of velocity numerical solution (1 = explicit / 2 = implicit)
 
 
     !First Contact with visualization process, for initial parametrization and window creation.
@@ -128,13 +129,13 @@ subroutine Simulation()
 
 
     !Allocation of simulations buffers:
-    allocate(C(Nx + 2  , Ny + 2))           !   1 extra cell   |wall|      N cells      |wall| 1 extra cell
+    allocate(C(Nx + 2  , Ny + 2))                                  !   1 extra cell   |wall|      N cells      |wall| 1 extra cell
     allocate(tr(Nx + 2  , Ny + 2))
 
 
     !Simulation Routines:
 
-     call Simu_routines()               !The protocolls are called for simulation development
+     call Simu_routines()                                          !The protocolls are called for simulation development
 
     !Simulation Statistics:
 
@@ -159,23 +160,15 @@ subroutine Simu_routines()
     use global
     implicit none
 
-    call initialconditions()     !Create the initial condition for the simulation
+    call initialconditions()                                       !Create the initial condition for the simulation
 
-    !Verification of type of simulation
-    if(what_velocity_simulation == 2)then
-        call velocity_implicity_simulation()
-    else if(what_velocity_simulation == 1)then
-        call velocity_explicity_simulation()
-    end if
+    call time_steps()                                              !Initiate time iterations
 
-    !Verification if save file is needed
     if(save_image)then
-        call save_this_image()   !Save image in non volitile memory.
+        call save_this_image()                                     !Save image in non volitile memory.
     end if
 
 end subroutine Simu_routines
-
-
 
 
 
@@ -211,10 +204,10 @@ subroutine initialconditions()
             if (C(i , ii)%Wall .eqv. .False.)then
                 !Determinations for all the physicall domain
 
-                C(i , ii)%u = 0
-                C(i , ii)%v = 0
-                C(i , ii)%P = 1
-                C(i , ii)%T = 24
+                C(i , ii)%u = ui
+                C(i , ii)%v = vi
+                C(i , ii)%P = pi
+                C(i , ii)%T = ti
                 C(i , ii)%dx = dx
                 C(i , ii)%dy = dy
                 C(i , ii)%alpha = alpha
@@ -236,154 +229,49 @@ end subroutine initialconditions
 
 
 
-!Simulation cicle for explicity velocity simulation
-subroutine velocity_explicity_simulation()
-    use mpi
+
+subroutine time_steps()
     use global
     implicit none
 
     !initiate simulation loop
     step = 1
     do while(step * dt < time - dt)
-        !Boundary conditions
-        do i = 1 , size(C(1 , :)%P)
-            C(Nx + 2 , i)%P  =  C(Nx + 1, i)%P
-            C(1     , i)%P     =  C(2 , i)%P
-            C(1     , i)%v = - C(2     , i)%v
-            C(Nx+2   , i)%v = - C(Nx+1   , i)%v
-            C(1     , i)%u = 0
-            C(2     , i)%u = 0
-            C(Nx+2   , i)%u = 0
-        end do
-        do i = 1 , size(C(: , 1)%P)
-            C(i , Ny + 2)%P =  C(i , Ny  + 1)%P
-            C(i , 1    )%P =  C(i , 2     )%P
-            C(i , 1    )%v = 0
-            C(i , 2    )%v = 0
-            C(i , Ny + 2)%v = 0
-            C(i , 1    )%u = -C(i , 2     )%u
-            C(i , Ny + 2)%u = 5.0
-        end do
 
-        !Dynamic estimative of next velocity field
-        do i = 2 , size( C(:,1)%ul ) - 1
-            do ii = 2 , size(C(1,:)%vl ) - 1
 
-                C(i , ii)%ul = C(i, ii)%u &
-                    - C(i, ii)%u * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%u + C(i-1, ii)%u) &
-                    - C(i, ii)%v * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%u + C(i, ii - 1)%u) &
-                    - ((dt)/(rho * C(i,ii)%dx )) * (C(i , ii)%P - C(i - 1 , ii)%P)&
-                    + dt * gx * ( C(i,ii)%rho - rho)/(rho) &
-                    + (nu * dt / (C(i,ii)%dx ** 2) ) * (C(i+1, ii)%u - 2 * C(i , ii)%u + C(i-1, ii)%u) &
-                    + (nu * dt / (C(i,ii)%dx ** 2) ) * (C(i, ii+ 1)%u - 2 * C(i , ii)%u + C(i, ii-1)%u)
+        call boundary_conditions()                                 !Set boundary conditions
+        call velocity_solver()                                     !Solve the velocity field
+        call preassure_definition()                                !Simulate preassure of the next step
+        call velocity_corrector()                                  !Correct the velocity with the preassure simulated
+        call divergent_calculator()                                !Calcule the divergent of the velocity domain
+        call preassure_atualization()                              !Calculate the preassure of new step
 
-                C(i , ii)%vl = C(i, ii)%v &
-                    - C(i, ii)%u * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%v + C(i-1, ii)%v) &
-                    - C(i, ii)%v * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%v + C(i, ii - 1)%v) &
-                    - ((dt)/(rho * C(i,ii)%dy)) * (C(i , ii)%P - C(i , ii - 1)%P)&
-                    + dt * gy * (C(i , ii)%rho - rho)/(rho) &
-                    + (nu * dt / (C(i , ii)%dx ** 2) ) * (C(i+1, ii)%v - 2 * C(i , ii)%v + C(i-1, ii)%v) &
-                    + (nu * dt / (C(i , ii)%dy ** 2) ) * (C(i, ii+ 1)%v - 2 * C(i , ii)%v + C(i, ii-1)%v)
-
-            end do
-        end do
-
-        !Pressure initial gaus saidel value
-        do i = 2 , size(C(: , 1)%Pl ) - 1
-            do ii = 2 , size(C(1 , :)%Pl) - 1
-
-                C(i , ii)%Pl = 0
-
-            end do
-        end do
-
-        !Implicit preassure line creation
-        C(3, 3)%div = 10
-        do while( MAXVAL(C%div) > increment)
-
-            do i = 2 , size(  C(:, 1)%Pl   ) - 1
-                do ii = 2 , size(C(1, :)%Pl ) - 1
-
-                    C(i, ii)%div = C(i, ii)%Pl
-
-                end do
-            end do
-
-            do i = 2 , size(  C(:, 1)%Pl   ) - 1
-                do ii = 2 , size(C(1, :)%Pl ) - 1
-
-                    C(i, ii)%Pl = -1 * ( (rho * C(i , ii)%dx * C(i , ii)%dy**2)/(2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2) * dt )) &
-                    * ( C(i + 1, ii)%ul - C(i, ii)%ul) &
-                    -1 * ( (rho * C(i , ii)%dx**2 * C(i , ii)%dy)/(2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2) * dt )) &
-                    * ( C(i, ii+ 1)%vl - C(i, ii)%vl) &
-                    + ( (C(i , ii)%dy**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i + 1, ii)%Pl - C(i - 1, ii)%Pl) &
-                    + ( (C(i , ii)%dx**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i, ii + 1)%Pl - C(i, ii - 1)%Pl)
-
-                end do
-            end do
-
-            do i = 2 , size(  C(:, 1)%Pl   ) - 1
-                do ii = 2 , size(C(1, :)%Pl ) - 1
-
-                    C(i, ii)%div = abs ( C(i, ii)%div - C(i, ii)%Pl )
-
-                end do
-            end do
-        end do
-
-        do i = 2 , size(C(: , 1)%u) - 1
-            do ii = 2 , size(C(1 , :)%u) - 1
-
-                    C(i , ii)%u = C(i , ii)%ul - (dt/(C(i , ii)%dx * rho)) * (C(i , ii)%Pl - C(i - 1 , ii)%Pl)
-
-                    C(i , ii)%v =  C(i , ii)%vl - (dt/(C(i , ii)%dy * rho)) * (C(i , ii)%Pl - C(i , ii - 1)%Pl)
-
-            end do
-        end do
-
-        do i = 2 , size(C(: , 1)%u) - 1
-            do ii = 2 , size(C(1 , :)%u) - 1
-
-                C(i , ii)%div = (C(i + 1 , ii)%u - C(i , ii)%u)/ C(i , ii)%dx + (C(i , ii + 1)%v - C(i, ii)%v)/ C(i , ii)%dy
-
-            end do
-        end do
-
-        !Pressure initial gaus saidel value
-        do i = 2 , size(C(: , 1)%Pl ) - 1
-            do ii = 2 , size(C(1 , :)%Pl) - 1
-
-                C(i , ii)%P = C(i , ii)%Pl +  C(i , ii)%P
-
-            end do
-        end do
-
+        !At final of a step
         print*, MAXVAL(C%div)
-
-        call MPI_SEND( DBLE(C%p)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
-
+        call MPI_SEND( DBLE(C%div)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         step = step + 1
+
     end do
 
-end subroutine velocity_explicity_simulation
+end subroutine time_steps
 
 
 
 
 
-!Simulation cicle for implicity velocity simulation
-subroutine velocity_implicity_simulation()
-    use mpi
+
+subroutine boundary_conditions()
     use global
     implicit none
-
-    !initiate simulation loop
-    step = 1
-    do while(step * dt < time - dt)
-        !Boundary conditions
+    !Boundary conditions
         do i = 1 , size(C(1 , :)%P)
-            C(Nx + 2 , i)%P  =  C(Nx + 1, i)%P
-            C(1     , i)%P     =  C(2 , i)%P
+            !Preassure on all the walss
+            C(Nx + 2 , i)%P  =  C(Nx + 1, i)%P     !>
+            C(1     , i)%P     =  C(2 , i)%P       !<
+            C(i , Ny + 2)%P =  C(i , Ny  + 1)%P    !^
+            C(i , 1    )%P =  C(i , 2     )%P      !\/
+
+
             C(1     , i)%v = - C(2     , i)%v
             C(Nx+2   , i)%v = - C(Nx+1   , i)%v
             C(1     , i)%vl = - C(2     , i)%vl
@@ -395,6 +283,9 @@ subroutine velocity_implicity_simulation()
             C(2     , i)%ul = 0
             C(Nx+2   , i)%ul = 0
         end do
+
+
+
         do i = 1 , size(C(: , 1)%P)
             C(i , Ny + 2)%P =  C(i , Ny  + 1)%P
             C(i , 1    )%P =  C(i , 2     )%P
@@ -405,18 +296,28 @@ subroutine velocity_implicity_simulation()
             C(i , 2    )%vl = 0
             C(i , Ny + 2)%vl = 0
             C(i , 1    )%u = -C(i , 2     )%u
-            C(i , Ny + 2)%u = 0.5
+            C(i , Ny + 2)%u = 1
             C(i , 1    )%ul = -C(i , 2     )%ul
-            C(i , Ny + 2)%ul = 0.5
+            C(i , Ny + 2)%ul = 1
         end do
 
+end subroutine boundary_conditions
 
 
-        !Dynamic implicit simulation:
+
+
+
+subroutine velocity_solver()
+    use global
+    implicit none
+
+    if(what_velocity_simulation == 2)then
+    ! IMPLICITY SOLVER
+
 
         !Initial value
-        do i = 2 , size(C(: , 1)%Pl ) - 1
-            do ii = 2 , size(C(1 , :)%Pl) - 1
+        do i = 2 , size(C(: , 1)%Pl )
+            do ii = 2 , size(C(1 , :)%Pl)
 
                 C(i , ii)%ul = 0
                 C(i , ii)%vl = 0
@@ -432,8 +333,8 @@ subroutine velocity_implicity_simulation()
             do i = 2 , size(  C(:, 1)%Pl   ) - 1
                 do ii = 2 , size(C(1, :)%Pl ) - 1
 
-                    C(i, ii)%div = C(i, ii)%ul
-                    C(i, ii)%nu = C(i, ii)%vl
+                    C(i, ii)%div = C(i, ii)%ul      !div é utilizado para se ver o incremento da velocidade
+                    C(i, ii)%nu = C(i, ii)%vl       !Nu é utilizado para se ver o incremento da velocidade
 
                 end do
             end do
@@ -483,8 +384,16 @@ subroutine velocity_implicity_simulation()
                         (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&
                         (C(i , ii + 1)%vl + C(i - 1, ii - 1)%vl)
 
-
                 end do
+            end do
+
+
+            do i = 1 , size(C(1 , :)%P)
+                C(1     , i)%vl = - C(2     , i)%vl
+                C(Nx+2   , i)%vl = - C(Nx+1   , i)%vl
+            end do
+            do i = 1 , size(C(: , 1)%P)
+                C(i , 1    )%ul = -C(i , 2     )%ul
             end do
 
 
@@ -499,27 +408,64 @@ subroutine velocity_implicity_simulation()
 
         end do
 
+    else if(what_velocity_simulation == 1)then
+    !EXPLICIT SOLVER
 
-        !Pressure initial gaus saidel value
-        do i = 1 , size(C(: , 1)%Pl )
-            do ii = 1 , size(C(1 , :)%Pl)
+        do i = 2 , size( C(:,1)%ul ) - 1
+            do ii = 2 , size(C(1,:)%vl ) - 1
 
-                C(i , ii)%Pl = 0
+                C(i , ii)%ul = C(i, ii)%u &
+                    - C(i, ii)%u * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%u - C(i-1, ii)%u) &
+                    - C(i, ii)%v * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%u - C(i, ii - 1)%u) &
+                    - ((dt)/(rho * C(i,ii)%dx )) * (C(i , ii)%P - C(i - 1 , ii)%P)&
+                    + dt * gx * ( C(i,ii)%rho - rho)/(rho) &
+                    + (nu * dt / (C(i,ii)%dx ** 2) ) * (C(i+1, ii)%u - 2 * C(i , ii)%u + C(i-1, ii)%u) &
+                    + (nu * dt / (C(i,ii)%dy ** 2) ) * (C(i, ii+ 1)%u - 2 * C(i , ii)%u + C(i, ii-1)%u)
+
+                C(i , ii)%vl = C(i, ii)%v &
+                    - C(i, ii)%u * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%v - C(i-1, ii)%v) &
+                    - C(i, ii)%v * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%v - C(i, ii - 1)%v) &
+                    - ((dt)/(rho * C(i,ii)%dy)) * (C(i , ii)%P - C(i , ii - 1)%P)&
+                    + dt * gy * (C(i , ii)%rho - rho)/(rho) &
+                    + (nu * dt / (C(i , ii)%dx ** 2) ) * (C(i+1, ii)%v - 2 * C(i , ii)%v + C(i-1, ii)%v) &
+                    + (nu * dt / (C(i , ii)%dy ** 2) ) * (C(i, ii+ 1)%v - 2 * C(i , ii)%v + C(i, ii-1)%v)
 
             end do
         end do
+    end if
 
-        !Implicit preassure line creation
-        C(3, 3)%div = 10
-        do while( MAXVAL(C%div) > increment)
+end subroutine velocity_solver
 
-            do i = 2 , size(  C(:, 1)%Pl   ) - 1
-                do ii = 2 , size(C(1, :)%Pl ) - 1
 
-                    C(i, ii)%div = C(i, ii)%Pl
 
-                end do
+
+
+
+subroutine preassure_definition()
+    use global
+    implicit none
+
+    !Pressure initial gaus saidel value (zero)
+    do i = 2 , size(C(: , 1)%Pl ) - 1
+        do ii = 2 , size(C(1 , :)%Pl) - 1
+
+                C(i , ii)%Pl = 0
+
+        end do
+    end do
+
+
+    !Implicit preassure line creation
+    C(3, 3)%div = 10
+    do while( MAXVAL(C%div) > increment)
+
+        do i = 2 , size(  C(:, 1)%Pl   ) - 1
+            do ii = 2 , size(C(1, :)%Pl ) - 1
+
+                C(i, ii)%div = C(i, ii)%Pl
+
             end do
+        end do
 
             do i = 2 , size(  C(:, 1)%Pl   ) - 1
                 do ii = 2 , size(C(1, :)%Pl ) - 1
@@ -528,8 +474,8 @@ subroutine velocity_implicity_simulation()
                     * ( C(i + 1, ii)%ul - C(i, ii)%ul) &
                     -1 * ( (rho * C(i , ii)%dx**2 * C(i , ii)%dy)/(2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2) * dt )) &
                     * ( C(i, ii+ 1)%vl - C(i, ii)%vl) &
-                    + ( (C(i , ii)%dy**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i + 1, ii)%Pl - C(i - 1, ii)%Pl) &
-                    + ( (C(i , ii)%dx**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i, ii + 1)%Pl - C(i, ii - 1)%Pl)
+                    + ( (C(i , ii)%dy**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i + 1, ii)%Pl + C(i - 1, ii)%Pl) &
+                    + ( (C(i , ii)%dx**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i, ii + 1)%Pl + C(i, ii - 1)%Pl)
 
                 end do
             end do
@@ -541,46 +487,70 @@ subroutine velocity_implicity_simulation()
 
                 end do
             end do
-        end do
-
-        do i = 2 , size(C(: , 1)%u) - 1
-            do ii = 2 , size(C(1 , :)%u) - 1
-
-                    C(i , ii)%u = C(i , ii)%ul - (dt/(C(i , ii)%dx * rho)) * (C(i , ii)%Pl - C(i - 1 , ii)%Pl)
-
-                    C(i , ii)%v =  C(i , ii)%vl - (dt/(C(i , ii)%dy * rho)) * (C(i , ii)%Pl - C(i , ii - 1)%Pl)
-
-            end do
-        end do
-
-        do i = 2 , size(C(: , 1)%u) - 1
-            do ii = 2 , size(C(1 , :)%u) - 1
-
-                C(i , ii)%div = (C(i + 1 , ii)%u - C(i , ii)%u)/ C(i , ii)%dx + (C(i , ii + 1)%v - C(i, ii)%v)/ C(i , ii)%dy
-
-            end do
-        end do
-
-
-        !atualizing the preassure
-        do i = 2 , size(C(: , 1)%Pl ) - 1
-            do ii = 2 , size(C(1 , :)%Pl) - 1
-
-                C(i , ii)%P = C(i , ii)%Pl +  C(i , ii)%P
-
-            end do
-        end do
-
-
-        print*, MAXVAL(C%div),MAXVAL(C%P) , MINVAL(C%P)
-
-        call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
-
-        step = step + 1
-
     end do
 
-end subroutine velocity_implicity_simulation
+end subroutine preassure_definition
+
+
+
+
+
+
+subroutine velocity_corrector()
+    use global
+    implicit none
+
+    do i = 2 , size(C(: , 1)%u) - 1
+        do ii = 2 , size(C(1 , :)%u) - 1
+
+                C(i , ii)%u = C(i , ii)%ul - (dt/(C(i , ii)%dx * rho)) * (C(i , ii)%Pl - C(i - 1 , ii)%Pl)
+
+                C(i , ii)%v =  C(i , ii)%vl - (dt/(C(i , ii)%dy * rho)) * (C(i , ii)%Pl - C(i , ii - 1)%Pl)
+
+        end do
+    end do
+
+end subroutine velocity_corrector
+
+
+
+
+
+subroutine divergent_calculator()
+    use global
+    implicit none
+
+    do i = 2 , size(C(: , 1)%u) - 1
+        do ii = 2 , size(C(1 , :)%u) - 1
+
+            C(i , ii)%div = (C(i + 1 , ii)%u - C(i , ii)%u)/ C(i , ii)%dx + (C(i , ii + 1)%v - C(i, ii)%v)/ C(i , ii)%dy
+
+        end do
+    end do
+
+end subroutine divergent_calculator
+
+
+
+
+
+
+subroutine preassure_atualization()
+    use global
+    implicit none
+
+
+    !Pressure atualization
+    do i = 2 , size(C(: , 1)%Pl ) - 1
+        do ii = 2 , size(C(1 , :)%Pl) - 1
+
+            C(i , ii)%P = C(i , ii)%Pl +  C(i , ii)%P
+
+        end do
+    end do
+
+
+end subroutine preassure_atualization
 
 
 

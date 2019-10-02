@@ -3,5 +3,5 @@
 \beamer@sectionintoc {3}{Modelo f\IeC {\'\i }sico}{5}{0}{2}
 \beamer@sectionintoc {4}{Estudos introdut\IeC {\'o}rios}{7}{0}{3}
 \beamer@sectionintoc {5}{Desenvolvimento matem\IeC {\'a}tico}{26}{0}{4}
-\beamer@sectionintoc {6}{Modelo computacional}{44}{0}{5}
-\beamer@sectionintoc {7}{Agradecimentos}{46}{0}{6}
+\beamer@sectionintoc {6}{Modelo computacional}{45}{0}{5}
+\beamer@sectionintoc {7}{Agradecimentos}{47}{0}{6}
