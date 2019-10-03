@@ -1093,6 +1093,10 @@
 		"selected_items":
 		[
 			[
+				"package contr",
+				"Package Control: Install Package"
+			],
+			[
 				"install",
 				"Package Control: Install Package"
 			],
@@ -1152,6 +1156,11 @@
 	],
 	"file_history":
 	[
+		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+		"/usr/bin/ld.bfd",
+		"/usr/bin/ld",
+		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
+		"/home/felipe/.config/sublime-text-3/Packages/User/Python2.sublime-build",
 		"/home/felipe/Trabalho/ProjetoCebeci/main.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/src.f90",
@@ -1162,7 +1171,6 @@
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/flickering_end.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/MPI/mpi1.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/trivial.f90",
-		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Recap.cpp",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Difusion.cpp",
@@ -1181,7 +1189,6 @@
 		"/home/felipe/Downloads/f03gl/trivial.f90",
 		"/home/felipe/Downloads/f03gl/modview.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/main.f90",
-		"/home/felipe/.config/sublime-text-3/Packages/User/Python2.sublime-build",
 		"/home/felipe/Downloads/f03gl/Makefile",
 		"/media/felipe/KINGSTON/arca/sublime/Python2.sublime-build",
 		"/home/felipe/.config/sublime-text-3/Packages/User/mpi2winfort.sublime-build",
@@ -1192,7 +1199,6 @@
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/expe.f90",
 		"/home/felipe/Documents/ProjetoCebeci/genetic.f90",
-		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
 		"/home/felipe/Documents/ProjetoCebeci/main.f90",
 		"/home/felipe/Documents/ProjetoCebeci/genetic_fit.f90",
 		"/home/felipe/Downloads/0007 STRAKE Strakes.geo",
@@ -1277,9 +1283,7 @@
 		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlcontinum.f90",
 		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtFixoIdealVsModnovo.txt",
 		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/Resultadofinalaristeu.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlencit.f90",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/Resultadofinaluaristeu.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlfinal.f90"
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlencit.f90"
 	],
 	"find":
 	{
@@ -1369,8 +1373,8 @@
 						"selection":
 						[
 							[
-								13553,
-								13553
+								439,
+								439
 							]
 						],
 						"settings":
@@ -1379,7 +1383,7 @@
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 3385.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
