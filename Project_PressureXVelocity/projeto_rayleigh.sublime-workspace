@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"w",
+				"type_Wall"
+			],
+			[
+				"pre",
+				"pressure_step"
+			],
+			[
+				"do",
+				"do"
+			],
+			[
 				"velocity",
 				"velocity_solver"
 			],
@@ -203,7 +215,7 @@
 			"file": "Teorico/src/main3.f90",
 			"settings":
 			{
-				"buffer_size": 22124,
+				"buffer_size": 23161,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "program cavidade"
@@ -1093,11 +1105,11 @@
 		"selected_items":
 		[
 			[
-				"package contr",
+				"install",
 				"Package Control: Install Package"
 			],
 			[
-				"install",
+				"package contr",
 				"Package Control: Install Package"
 			],
 			[
@@ -1149,10 +1161,8 @@
 	[
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/TEX"
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl"
 	],
 	"file_history":
 	[
@@ -1301,6 +1311,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"print",
 			"time_",
 			"print",
 			"navier",
@@ -1366,15 +1377,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22124,
+						"buffer_size": 23161,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								439,
-								439
+								21172,
+								21172
 							]
 						],
 						"settings":
@@ -1383,7 +1394,7 @@
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 7281.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1402,8 +1413,8 @@
 						"selection":
 						[
 							[
-								4781,
-								4781
+								2218,
+								2218
 							]
 						],
 						"settings":
@@ -1411,10 +1422,10 @@
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1430,8 +1441,8 @@
 						"selection":
 						[
 							[
-								11563,
-								11563
+								2498,
+								2498
 							]
 						],
 						"settings":
@@ -1441,7 +1452,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4958.0,
+						"translation.y": 278.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1460,8 +1471,8 @@
 						"selection":
 						[
 							[
-								1264,
-								1264
+								928,
+								928
 							]
 						],
 						"settings":
@@ -1475,7 +1486,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1505,7 +1516,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1535,7 +1546,7 @@
 						"translation.y": 2723.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1564,7 +1575,7 @@
 						"translation.y": 13790.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1663,7 +1674,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 274.0,
+	"side_bar_width": 241.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

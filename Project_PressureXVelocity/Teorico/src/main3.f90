@@ -103,9 +103,9 @@ subroutine Simulation()
     rho = 10.d0                                                    !Specific mass (water with 25 degree Celcius) (N/m**3)
     gx = 0.d0                                                      !Gravity in x direction (m/s**2)
     gy  = 0.0d0                                                    !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
-    vi = 3.0d0                                                     !Initial condition parameter for vertical velocity
+    vi = 0.0d0                                                     !Initial condition parameter for vertical velocity
     ui = 0.0d0                                                     !Initial condition parameter for horizontal velocity
-    pi = 1.0d0                                                     !Initial condition parameter for preassure
+    pi = 0.0d0                                                     !Initial condition parameter for preassure
     ti = 24.0d0                                                    !Initial condition parameter for temperature
     !Simulation convergence parameters:
     cfl = 0.1                                                      !Relation betwen time and space steps
@@ -201,7 +201,7 @@ subroutine initialconditions()
     do i = 1 , Nx + 2
         do ii = 1 , Ny + 2
 
-            if (C(i , ii)%Wall .eqv. .False.)then
+            if ( (C(i , ii)%Wall .eqv. .False. ) .and. i < Ny/2)then
                 !Determinations for all the physicall domain
 
                 C(i , ii)%u = ui
@@ -214,7 +214,27 @@ subroutine initialconditions()
                 C(i , ii)%nu = nu
                 C(i , ii)%rho = rho
 
+            else if(C(i , ii)%Wall .eqv. .False. )then
+
+                C(i , ii)%u = 0.0d0
+                C(i , ii)%v = 0.0d0
+                C(i , ii)%P = pi
+                C(i , ii)%T = ti
+                C(i , ii)%dx = dx
+                C(i , ii)%dy = dy
+                C(i , ii)%alpha = alpha
+                C(i , ii)%nu = nu
+                C(i , ii)%rho = rho
+
             end if
+
+
+            ! if ( (i > 10 .and. i < 15) .and. (ii > 10 .and. ii < 15) )then
+
+            !     C(i , ii)%u = 0.2d0
+            !     C(i , ii)%v = 0.2d0
+
+            ! end if
 
         end do
     end do
@@ -222,7 +242,7 @@ subroutine initialconditions()
 
     !Initial condition exibition:
     call MPI_SEND( DBLE(C%type_Wall)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
-    call sleep(1)
+    !call sleep(1)
 
 end subroutine initialconditions
 
@@ -241,18 +261,15 @@ subroutine time_steps()
 
         call boundary_conditions()                                 !Set boundary conditions
         call velocity_solver()                                     !Solve the velocity field
-        call boundary_conditions()
+
+        call divergent_calculator()                                !Calcule the divergent of the velocity domain
         call preassure_definition()                                !Simulate preassure of the next step
-        call boundary_conditions()
         call velocity_corrector()                                  !Correct the velocity with the preassure simulated
-
-        call boundary_conditions()
-
         call divergent_calculator()                                !Calcule the divergent of the velocity domain
         call preassure_atualization()                              !Calculate the preassure of new step
 
         !At final of a step
-        print*, MAXVAL(C%div) , pressure_step , velo_step
+        print*, "depois da pressao --->" , MAXVAL(C%div) , pressure_step , velo_step , MAXVAL(C%P)
         call MPI_SEND( DBLE(C%div)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         step = step + 1
 
@@ -301,9 +318,9 @@ subroutine boundary_conditions()
             C(i , Ny + 2)%vl = 0
 
             C(i , 1    )%u = -C(i , 2     )%u
-            C(i , Ny + 2)%u = 1
+            C(i , Ny + 2)%u = 2 * 0.01 - C(i , Ny + 1)%u
             C(i , 1    )%ul = -C(i , 2     )%ul
-            C(i , Ny + 2)%ul = 1
+            C(i , Ny + 2)%ul = 2 * 0.01 - C(i , Ny + 1)%ul
         end do
 
 end subroutine boundary_conditions
@@ -318,6 +335,7 @@ subroutine velocity_solver()
 
     if(what_velocity_simulation == 2)then
     ! IMPLICITY SOLVER
+    print*, "implicit"
 
         !Initial value
         do i = 2 , Nx + 1
@@ -345,12 +363,14 @@ subroutine velocity_solver()
                 end do
             end do
 
-            do i = 2 , Nx + 1
-                do ii = 3 , Ny + 1
+            do i = 3 , Nx + 1
+                do ii = 2 , Ny + 1
 
                     C(i, ii)%ul = (C(i , ii)%u * (C(i , ii)%dx ** 2) *(C(i , ii)%dy ** 2))/((C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dy ** 2) + (C(i , ii)%dx ** 2) ) ) &
-                        - ( (C(i , ii)%v * (C(i , ii)%dx ** 2) *(C(i , ii)%dy) * dt)/( 2 * (C(i , ii)%dx ** 2) * &
+                        - ( (   &
+                            ((C(i , ii)%v + C(i - 1 , ii)%v  + C(i , ii + 1)%v  + C(i - 1, ii + 1)%v )/4)&
+                            * (C(i , ii)%dx ** 2) *(C(i , ii)%dy) * dt)/( 2 * (C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 4 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) ) * &
                         (C(i , ii + 1)%u - C(i , ii - 1)%u ) &
                         - ( (C(i , ii)%u * (C(i , ii)%dx) *(C(i , ii)%dy**2) * dt)/( 2 * (C(i , ii)%dx ** 2) * &
@@ -371,15 +391,18 @@ subroutine velocity_solver()
                 end do
             end do
 
+            call boundary_conditions()
 
-            do i = 3 , Nx + 1
-                do ii = 2 , Ny + 1
+            do i = 2 , Nx + 1
+                do ii = 3 , Ny + 1
                     C(i, ii)%vl = (C(i , ii)%v * (C(i , ii)%dx ** 2) *(C(i , ii)%dy ** 2))/((C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dy ** 2) + (C(i , ii)%dx ** 2) ) ) &
                         - ( (C(i , ii)%v * (C(i , ii)%dx ** 2) *(C(i , ii)%dy) * dt)/( 2 * (C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 4 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) ) * &
                         (C(i , ii + 1)%v - C(i , ii - 1)%v ) &
-                        - ( (C(i , ii)%u * (C(i , ii)%dx) *(C(i , ii)%dy**2) * dt)/( 2 * (C(i , ii)%dx ** 2) * &
+                        - ( ( &
+                            (C(i , ii)%u + C(i , ii - 1)%u + C(i + 1, ii)%u + C(i + 1 , ii - 1)%u)/4 &
+                                * (C(i , ii)%dx) *(C(i , ii)%dy**2) * dt)/( 2 * (C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 4 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )  *&
                         (C(i + 1, ii)%v - C(i - 1 , ii)%v ) &
                         - ( ( (C(i , ii)%dx**2) *(C(i , ii)%dy) * dt)/( rho * (C(i , ii)%dx ** 2) * &
@@ -415,20 +438,29 @@ subroutine velocity_solver()
 
     else if(what_velocity_simulation == 1)then
     !EXPLICIT SOLVER
+    print*, "explicit"
 
-        do i = 2 , Nx + 1
+        do i = 3 , Nx + 1
             do ii = 2 , Ny + 1
 
                 C(i , ii)%ul = C(i, ii)%u &
                     - C(i, ii)%u * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%u - C(i-1, ii)%u) &
-                    - C(i, ii)%v * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%u - C(i, ii - 1)%u) &
+                    - ( C(i , ii)%v + C(i - 1 , ii)%v  + C(i , ii + 1)%v  + C(i - 1, ii + 1)%v )/4 &
+                    * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%u - C(i, ii - 1)%u) &
                     - ((dt)/(rho * C(i,ii)%dx )) * (C(i , ii)%P - C(i - 1 , ii)%P)&
                     + dt * gx * ( C(i,ii)%rho - rho)/(rho) &
                     + (nu * dt / (C(i,ii)%dx ** 2) ) * (C(i+1, ii)%u - 2 * C(i , ii)%u + C(i-1, ii)%u) &
                     + (nu * dt / (C(i,ii)%dy ** 2) ) * (C(i, ii+ 1)%u - 2 * C(i , ii)%u + C(i, ii-1)%u)
+            end do
+        end do
 
+        call boundary_conditions()
+
+        do i = 2 , Nx + 1
+            do ii = 3 , Ny + 1
                 C(i , ii)%vl = C(i, ii)%v &
-                    - C(i, ii)%u * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%v - C(i-1, ii)%v) &
+                    - (C(i , ii)%u + C(i , ii - 1)%u + C(i + 1, ii)%u + C(i + 1 , ii - 1)%u)/4 &
+                    * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%v - C(i-1, ii)%v) &
                     - C(i, ii)%v * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%v - C(i, ii - 1)%v) &
                     - ((dt)/(rho * C(i,ii)%dy)) * (C(i , ii)%P - C(i , ii - 1)%P)&
                     + dt * gy * (C(i , ii)%rho - rho)/(rho) &
@@ -437,6 +469,9 @@ subroutine velocity_solver()
 
             end do
         end do
+
+        call boundary_conditions()
+
     end if
 
 end subroutine velocity_solver
