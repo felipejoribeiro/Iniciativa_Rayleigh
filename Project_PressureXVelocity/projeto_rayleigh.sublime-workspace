@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"Typ",
+				"Type_of_visualization"
+			],
+			[
+				"tYPE",
+				"Type_of_visualization"
+			],
+			[
 				"w",
 				"type_Wall"
 			],
@@ -215,7 +223,7 @@
 			"file": "Teorico/src/main3.f90",
 			"settings":
 			{
-				"buffer_size": 23161,
+				"buffer_size": 24447,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "program cavidade"
@@ -225,7 +233,7 @@
 			"file": "Teorico/src/visualization.f90",
 			"settings":
 			{
-				"buffer_size": 5426,
+				"buffer_size": 10883,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -266,18 +274,9 @@
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
-		},
-		{
-			"file": "Teorico/TEX/presentation.tex",
-			"settings":
-			{
-				"buffer_size": 56596,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
 		}
 	],
-	"build_system": "Packages/User/OpenGlf90.sublime-build",
+	"build_system": "Packages/User/epta_sta_cpp.sublime-build",
 	"build_system_choices":
 	[
 		[
@@ -356,7 +355,7 @@
 				]
 			],
 			[
-				"Packages/User/OpenGlf90.sublime-build",
+				"Packages/C++/C++ Single File.sublime-build",
 				""
 			]
 		],
@@ -1083,6 +1082,30 @@
 		[
 			[
 				[
+					"Packages/User/epta_sta_cpp.sublime-build",
+					""
+				],
+				[
+					"Packages/User/fortran2win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mpi2winfort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/OpenGlf90.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/epta_sta_cpp.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
 					"Packages/User/gplusplusPiloto.sublime-build",
 					""
 				],
@@ -1166,6 +1189,9 @@
 	],
 	"file_history":
 	[
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/TEX/presentation.tex",
+		"/home/felipe/Downloads/16_Games/16 Asteroids/main.cpp",
+		"/home/felipe/Downloads/16_Games/01 Tetris/main.cpp",
 		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/usr/bin/ld.bfd",
 		"/usr/bin/ld",
@@ -1290,10 +1316,7 @@
 		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_640.txt",
 		"/home/felipe/version",
 		"/home/felipe/Downloads/grafics.py",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlcontinum.f90",
-		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtFixoIdealVsModnovo.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/analisecontinua/Resultadofinalaristeu.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlencit.f90"
+		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlcontinum.f90"
 	],
 	"find":
 	{
@@ -1377,24 +1400,26 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 23161,
+						"buffer_size": 24447,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								21172,
-								21172
+								14442,
+								14442
 							]
 						],
 						"settings":
 						{
 							"auto_name": "program cavidade",
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7281.0,
+						"translation.y": 4529.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1406,23 +1431,25 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5426,
+						"buffer_size": 10883,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2218,
-								2218
+								9841,
+								9841
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 2394.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1455,7 +1482,7 @@
 						"translation.y": 278.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1486,7 +1513,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1516,7 +1543,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1546,36 +1573,7 @@
 						"translation.y": 2723.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "Teorico/TEX/presentation.tex",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 56596,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								41905,
-								41905
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/LaTeX/LaTeX.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 13790.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]

@@ -31,7 +31,7 @@ Module global
     integer:: step , pressure_step , velo_step                     !Number of iterations in simulation
     double precision:: Lx , Ly , dx , dy                           !Geometry of the space domain
     double precision:: alpha , nu , rho , gx , gy                  !physical variables
-    double precision:: vi , ui , pi , Ti                           !Initial condition variables
+    double precision:: vi , ui , pi , Ti , Reynolds, V_top         !Initial condition variables
     double precision:: time , dt , cfl , increment                 !Convergence variables
     type(Cell), dimension(:,:) , allocatable :: C                  !Temperature and extra matrix
     double precision, dimension(:,:) , allocatable :: tr           !Transition variable
@@ -40,6 +40,7 @@ Module global
     integer:: what_thermal_simulation, what_velocity_simulation &  !Simulation options
             , image_frequence
     integer :: ERROR , numprocs, ID                                !MPI integers
+    integer :: Type_of_visualization                               !Type of visualization
 
 end module global
 
@@ -99,8 +100,10 @@ subroutine Simulation()
     dy =  Ly / (Ny)                                                !Cells length in y (m)
     !Physical determination of fluid flow:
     alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
-    nu = 1.d0                                                      !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
-    rho = 10.d0                                                    !Specific mass (water with 25 degree Celcius) (N/m**3)
+    nu = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
+    rho = 997.7d0                                                  !Specific mass (water with 25 degree Celcius) (N/m**3)
+    V_top = 0.01d0                                                 !Velocity of top plate
+    Reynolds = V_top*Lx/8.917d-7                                   !Reynolds number
     gx = 0.d0                                                      !Gravity in x direction (m/s**2)
     gy  = 0.0d0                                                    !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
     vi = 0.0d0                                                     !Initial condition parameter for vertical velocity
@@ -109,8 +112,8 @@ subroutine Simulation()
     ti = 24.0d0                                                    !Initial condition parameter for temperature
     !Simulation convergence parameters:
     cfl = 0.1                                                      !Relation betwen time and space steps
-    dt = 0.000001 ! (cfl * dx**2 )/ alpha                          !Time step length (s)
-    time = 25                                                      !Total time of simulation (s)
+    dt = 0001 ! (cfl * dx**2 )/ alpha                          !Time step length (s)
+    time = 250                                                      !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
     !Simulation Pannel control:
     save_image = .FALSE.                                           !Save file is wanted?
@@ -120,12 +123,19 @@ subroutine Simulation()
     what_thermal_simulation = 2                                    !Type of thermal numerical solution (1 = explicit / 2 = implicit)
     Exist_Thermal_simulation = .FALSE.                             !If there is thermal simulation, or isotermic hipotesis
     what_velocity_simulation = 2                                   !Type of velocity numerical solution (1 = explicit / 2 = implicit)
+    Type_of_visualization = 2                                      !Type og graphics in the screen from simulation
+
+
+    !Data from the present simulation
+    Print*, "Simulation " , filename
+    Print*, "Reynolds = " , Reynolds
 
 
     !First Contact with visualization process, for initial parametrization and window creation.
     call MPI_SEND( Nx  , 1 , MPI_INTEGER , 1 , 1 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in x
     call MPI_SEND( Ny  , 1 , MPI_INTEGER , 1 , 0 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in y
     call MPI_SEND( Windows_name  , 200 , MPI_CHARACTER, 1 , 1 , MPI_COMM_WORLD , ERROR)           !Name of the window of visualization
+    call MPI_SEND( Type_of_visualization  , 1 , MPI_INTEGER, 1 , 0 , MPI_COMM_WORLD , ERROR)      !Name of the window of visualization
 
 
     !Allocation of simulations buffers:
@@ -228,21 +238,17 @@ subroutine initialconditions()
 
             end if
 
-
-            ! if ( (i > 10 .and. i < 15) .and. (ii > 10 .and. ii < 15) )then
-
-            !     C(i , ii)%u = 0.2d0
-            !     C(i , ii)%v = 0.2d0
-
-            ! end if
-
         end do
     end do
 
 
     !Initial condition exibition:
+
     call MPI_SEND( DBLE(C%type_Wall)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
-    !call sleep(1)
+    call MPI_SEND( DBLE(C%P)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
+    call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
+    call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
+    call sleep(1)
 
 end subroutine initialconditions
 
@@ -270,6 +276,9 @@ subroutine time_steps()
 
         !At final of a step
         print*, "depois da pressao --->" , MAXVAL(C%div) , pressure_step , velo_step , MAXVAL(C%P)
+        call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
+        call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
+        call MPI_SEND( DBLE(C%P)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%div)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         step = step + 1
 
@@ -318,9 +327,9 @@ subroutine boundary_conditions()
             C(i , Ny + 2)%vl = 0
 
             C(i , 1    )%u = -C(i , 2     )%u
-            C(i , Ny + 2)%u = 2 * 0.01 - C(i , Ny + 1)%u
+            C(i , Ny + 2)%u = 2 * V_top  - C(i , Ny + 1)%u
             C(i , 1    )%ul = -C(i , 2     )%ul
-            C(i , Ny + 2)%ul = 2 * 0.01 - C(i , Ny + 1)%ul
+            C(i , Ny + 2)%ul = 2 * V_top - C(i , Ny + 1)%ul
         end do
 
 end subroutine boundary_conditions
@@ -436,6 +445,8 @@ subroutine velocity_solver()
 
         end do
 
+        print*, C(2 , 2)%vl , C(2 , 3)%vl , C(2 , 4)%vl , C(2 , 5)%vl
+
     else if(what_velocity_simulation == 1)then
     !EXPLICIT SOLVER
     print*, "explicit"
@@ -444,11 +455,11 @@ subroutine velocity_solver()
             do ii = 2 , Ny + 1
 
                 C(i , ii)%ul = C(i, ii)%u &
-                    - C(i, ii)%u * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%u - C(i-1, ii)%u) &
+                    - C(i, ii)%u * ((dt)/(C(i,ii)%dx)) *(C(i+1, ii)%u - C(i, ii)%u) &
                     - ( C(i , ii)%v + C(i - 1 , ii)%v  + C(i , ii + 1)%v  + C(i - 1, ii + 1)%v )/4 &
-                    * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%u - C(i, ii - 1)%u) &
+                    * ((dt)/(C(i,ii)%dy)) *(C(i, ii + 1)%u - C(i, ii)%u)&
                     - ((dt)/(rho * C(i,ii)%dx )) * (C(i , ii)%P - C(i - 1 , ii)%P)&
-                    + dt * gx * ( C(i,ii)%rho - rho)/(rho) &
+                    + dt * gx * (C(i,ii)%rho - rho)/(rho) &
                     + (nu * dt / (C(i,ii)%dx ** 2) ) * (C(i+1, ii)%u - 2 * C(i , ii)%u + C(i-1, ii)%u) &
                     + (nu * dt / (C(i,ii)%dy ** 2) ) * (C(i, ii+ 1)%u - 2 * C(i , ii)%u + C(i, ii-1)%u)
             end do
@@ -460,8 +471,8 @@ subroutine velocity_solver()
             do ii = 3 , Ny + 1
                 C(i , ii)%vl = C(i, ii)%v &
                     - (C(i , ii)%u + C(i , ii - 1)%u + C(i + 1, ii)%u + C(i + 1 , ii - 1)%u)/4 &
-                    * ((dt)/(2 * C(i,ii)%dx)) *(C(i+1, ii)%v - C(i-1, ii)%v) &
-                    - C(i, ii)%v * ((dt)/(2 * C(i,ii)%dy)) *(C(i, ii + 1)%v - C(i, ii - 1)%v) &
+                    * ((dt)/(C(i,ii)%dx)) *(C(i+1, ii)%v - C(i, ii)%v) &
+                    - C(i, ii)%v * ((dt)/(C(i,ii)%dy)) *(C(i, ii + 1)%v - C(i, ii)%v) &
                     - ((dt)/(rho * C(i,ii)%dy)) * (C(i , ii)%P - C(i , ii - 1)%P)&
                     + dt * gy * (C(i , ii)%rho - rho)/(rho) &
                     + (nu * dt / (C(i , ii)%dx ** 2) ) * (C(i+1, ii)%v - 2 * C(i , ii)%v + C(i-1, ii)%v) &
@@ -546,15 +557,24 @@ subroutine velocity_corrector()
     use global
     implicit none
 
-    do i = 2 , Nx + 1
+    do i = 3 , Nx + 1
         do ii = 2 , Ny + 1
 
                 C(i , ii)%u = C(i , ii)%ul - (dt/(C(i , ii)%dx * rho)) * (C(i , ii)%Pl - C(i - 1 , ii)%Pl)
+
+        end do
+    end do
+
+
+    do i = 2 , Nx + 1
+        do ii = 3 , Ny + 1
 
                 C(i , ii)%v =  C(i , ii)%vl - (dt/(C(i , ii)%dy * rho)) * (C(i , ii)%Pl - C(i , ii - 1)%Pl)
 
         end do
     end do
+
+    print*, C(2 , 2)%v , C(2 , 3)%v , C(2 , 4)%v , C(2 , 5)%v
 
 end subroutine velocity_corrector
 
