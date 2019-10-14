@@ -102,7 +102,7 @@ subroutine Simulation()
     alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
     nu = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
     rho = 997.7d0                                                  !Specific mass (water with 25 degree Celcius) (N/m**3)
-    V_top = 0.01d0                                                 !Velocity of top plate
+    V_top = 0.0008d0                                                 !Velocity of top plate
     Reynolds = V_top*Lx/8.917d-7                                   !Reynolds number
     gx = 0.d0                                                      !Gravity in x direction (m/s**2)
     gy  = 0.0d0                                                    !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
@@ -113,7 +113,7 @@ subroutine Simulation()
     !Simulation convergence parameters:
     cfl = 0.1                                                      !Relation betwen time and space steps
     dt = 0001 ! (cfl * dx**2 )/ alpha                          !Time step length (s)
-    time = 250                                                      !Total time of simulation (s)
+    time = 2500                                                      !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
     !Simulation Pannel control:
     save_image = .FALSE.                                           !Save file is wanted?
@@ -273,6 +273,7 @@ subroutine time_steps()
         call velocity_corrector()                                  !Correct the velocity with the preassure simulated
         call divergent_calculator()                                !Calcule the divergent of the velocity domain
         call preassure_atualization()                              !Calculate the preassure of new step
+
 
         !At final of a step
         print*, "depois da pressao --->" , MAXVAL(C%div) , pressure_step , velo_step , MAXVAL(C%P)
