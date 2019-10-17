@@ -17,8 +17,8 @@ Module global
         double precision:: v , u , vl , ul             !velocities variables
         double precision:: dx , dy                     !Size variables
         double precision:: x , y                       !Absolute coordinates location
-        double precision:: alpha , nu , rho            !Local physical variables
-        double precision:: div                         !Divergent of velocity in this cell
+        double precision:: alpha , nu , rho , mi       !Local physical variables
+        double precision:: div , divi                  !Divergent of velocity in this cell
         LOGICAL:: Wall                                 !Is Wall?
         integer:: type_Wall                            !What type of wall?
                                 !1 ----> (velocity: dirichlet = (u-0 , v-0), Temperature: Neumann = 0 , Preassure: Neumann = 0)
@@ -30,7 +30,7 @@ Module global
     integer:: i , ii , iii                                         !Integer counters
     integer:: step , pressure_step , velo_step                     !Number of iterations in simulation
     double precision:: Lx , Ly , dx , dy                           !Geometry of the space domain
-    double precision:: alpha , nu , rho , gx , gy                  !physical variables
+    double precision:: alpha , nu , mi , rho , gx , gy             !physical variables
     double precision:: vi , ui , pi , Ti , Reynolds, V_top         !Initial condition variables
     double precision:: time , dt , cfl , increment                 !Convergence variables
     type(Cell), dimension(:,:) , allocatable :: C                  !Temperature and extra matrix
@@ -92,7 +92,7 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 68                                                        !Space cells in x direction
+    Nx = 50                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
@@ -100,10 +100,11 @@ subroutine Simulation()
     dy =  Ly / (Ny)                                                !Cells length in y (m)
     !Physical determination of fluid flow:
     alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
-    nu = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
+    mi = 0.8d0 !8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
     rho = 997.7d0                                                  !Specific mass (water with 25 degree Celcius) (N/m**3)
-    V_top = 0.0008d0                                                 !Velocity of top plate
-    Reynolds = V_top*Lx/8.917d-7                                   !Reynolds number
+    nu = mi/rho                                                    !Knematic viscosity
+    V_top = 0.02d0                                               !Velocity of top plate
+    Reynolds = V_top*Lx/(nu)                                       !Reynolds number
     gx = 0.d0                                                      !Gravity in x direction (m/s**2)
     gy  = 0.0d0                                                    !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
     vi = 0.0d0                                                     !Initial condition parameter for vertical velocity
@@ -112,8 +113,8 @@ subroutine Simulation()
     ti = 24.0d0                                                    !Initial condition parameter for temperature
     !Simulation convergence parameters:
     cfl = 0.1                                                      !Relation betwen time and space steps
-    dt = 0001 ! (cfl * dx**2 )/ alpha                          !Time step length (s)
-    time = 2500                                                      !Total time of simulation (s)
+    dt = 0001 ! (cfl * dx**2 )/ alpha                              !Time step length (s)
+    time = 2500                                                    !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
     !Simulation Pannel control:
     save_image = .FALSE.                                           !Save file is wanted?
@@ -222,6 +223,7 @@ subroutine initialconditions()
                 C(i , ii)%dy = dy
                 C(i , ii)%alpha = alpha
                 C(i , ii)%nu = nu
+                C(i , ii)%mi = mi
                 C(i , ii)%rho = rho
 
             else if(C(i , ii)%Wall .eqv. .False. )then
@@ -234,6 +236,7 @@ subroutine initialconditions()
                 C(i , ii)%dy = dy
                 C(i , ii)%alpha = alpha
                 C(i , ii)%nu = nu
+                C(i , ii)%mi = mi
                 C(i , ii)%rho = rho
 
             end if
@@ -267,16 +270,20 @@ subroutine time_steps()
 
         call boundary_conditions()                                 !Set boundary conditions
         call velocity_solver()                                     !Solve the velocity field
-
-        call divergent_calculator()                                !Calcule the divergent of the velocity domain
+        call boundary_conditions()                                 !Set boundary conditions
         call preassure_definition()                                !Simulate preassure of the next step
+        call boundary_conditions()                                 !Set boundary conditions
         call velocity_corrector()                                  !Correct the velocity with the preassure simulated
         call divergent_calculator()                                !Calcule the divergent of the velocity domain
         call preassure_atualization()                              !Calculate the preassure of new step
 
 
         !At final of a step
-        print*, "depois da pressao --->" , MAXVAL(C%div) , pressure_step , velo_step , MAXVAL(C%P)
+
+
+        print*, MAXVAL(C%div) , pressure_step , velo_step 
+        print*, "Divergente na quina: " , C(NX , Ny )%div , C(NX + 1 , Ny + 1)%div
+        print*, "Velocidade na quina: " , C(NX + 1 , Ny + 1)%u , C(NX + 1 , Ny + 1)%v , C(NX + 2 , Ny + 1)%u
         call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%P)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
@@ -300,6 +307,8 @@ subroutine boundary_conditions()
             !Preassure on all the walss
             C(Nx + 2 , i)%P  =  C(Nx + 1, i)%P     !>
             C(1     , i)%P     =  C(2 , i)%P       !<
+            C(Nx + 2 , i)%Pl  =  C(Nx + 1, i)%Pl     !>
+            C(1     , i)%Pl     =  C(2 , i)%Pl       !<
 
             C(1     , i)%v = - C(2     , i)%v
             C(Nx+2   , i)%v = - C(Nx+1   , i)%v
@@ -319,6 +328,8 @@ subroutine boundary_conditions()
         do i = 1 , Nx + 2
             C(i , Ny + 2)%P =  C(i , Ny  + 1)%P
             C(i , 1    )%P =  C(i , 2     )%P
+            C(i , Ny + 2)%Pl =  C(i , Ny  + 1)%Pl
+            C(i , 1    )%Pl =  C(i , 2     )%Pl
 
             C(i , 1    )%v = 0
             C(i , 2    )%v = 0
@@ -359,16 +370,16 @@ subroutine velocity_solver()
 
         velo_step = 0
 
-        !Implicit preassure line creation
+        !Implicit velocity line creation
         C(3, 3)%div = 10
-        C(3, 3)%nu = 10
-        do while( MAXVAL(C%div) > increment .or. MAXVAL(C%nu) > increment)
+        C(3, 3)%divi = 10
+        do while( MAXVAL(C%div) > increment .or. MAXVAL(C%divi) > increment)
 
             do i = 2 , Nx + 1
                 do ii = 2 , Ny + 1
 
                     C(i, ii)%div = C(i, ii)%ul      !div é utilizado para se ver o incremento da velocidade
-                    C(i, ii)%nu = C(i, ii)%vl       !Nu é utilizado para se ver o incremento da velocidade
+                    C(i, ii)%divi = C(i, ii)%vl     !divi é utilizado para se ver o incremento da velocidade
 
                 end do
             end do
@@ -376,7 +387,7 @@ subroutine velocity_solver()
             do i = 3 , Nx + 1
                 do ii = 2 , Ny + 1
 
-                    C(i, ii)%ul = (C(i , ii)%u * (C(i , ii)%dx ** 2) *(C(i , ii)%dy ** 2))/((C(i , ii)%dx ** 2) * &
+                    C(i, ii)%ul = (C(i , ii)%u * (C(i , ii)%dx ** 2)*(C(i , ii)%dy ** 2))/((C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dy ** 2) + (C(i , ii)%dx ** 2) ) ) &
                         - ( (   &
                             ((C(i , ii)%v + C(i - 1 , ii)%v  + C(i , ii + 1)%v  + C(i - 1, ii + 1)%v )/4)&
@@ -439,14 +450,12 @@ subroutine velocity_solver()
                 do ii = 2 , Ny + 1
 
                     C(i, ii)%div = abs ( C(i, ii)%div - C(i, ii)%ul )
-                    C(i, ii)%nu = abs ( C(i, ii)%nu - C(i, ii)%vl )
+                    C(i, ii)%divi = abs ( C(i, ii)%divi - C(i, ii)%vl )
 
                 end do
             end do
 
         end do
-
-        print*, C(2 , 2)%vl , C(2 , 3)%vl , C(2 , 4)%vl , C(2 , 5)%vl
 
     else if(what_velocity_simulation == 1)then
     !EXPLICIT SOLVER
@@ -498,8 +507,8 @@ subroutine preassure_definition()
     implicit none
 
     !Pressure initial gaus saidel value (zero)
-    do i = 2 , Nx + 1
-        do ii = 2 , Ny + 1
+    do i = 1 , Nx + 2
+        do ii = 1 , Ny + 2
 
                 C(i , ii)%Pl = 0
 
@@ -508,16 +517,18 @@ subroutine preassure_definition()
     pressure_step = 0
 
     !Implicit preassure line creation
-    C(3, 3)%div = 10
-    do while( MAXVAL(C%div) > increment)
+    C(3, 3)%divi = 10
+    do while( MAXVAL(C%divi) > increment)
 
         do i = 2 , Nx + 1
             do ii = 2 , Ny + 1
 
-                C(i, ii)%div = C(i, ii)%Pl
+                C(i, ii)%divi = C(i, ii)%Pl
 
             end do
         end do
+
+        call boundary_conditions()
 
         do i = 2 , Nx + 1
             do ii = 2 , Ny + 1
@@ -532,19 +543,17 @@ subroutine preassure_definition()
             end do
         end do
 
-        call boundary_conditions()
-
-        pressure_step = pressure_step + 1
-
         C(Nx / 2, Ny / 2)%Pl = 0;
 
         do i = 2 , Nx + 1
             do ii = 2 , Ny + 1
 
-                C(i, ii)%div = abs ( C(i, ii)%div - C(i, ii)%Pl )
+                C(i, ii)%divi = abs ( C(i, ii)%divi - C(i, ii)%Pl )
 
             end do
         end do
+        
+        pressure_step = pressure_step + 1
     end do
 
 end subroutine preassure_definition
@@ -574,8 +583,6 @@ subroutine velocity_corrector()
 
         end do
     end do
-
-    print*, C(2 , 2)%v , C(2 , 3)%v , C(2 , 4)%v , C(2 , 5)%v
 
 end subroutine velocity_corrector
 

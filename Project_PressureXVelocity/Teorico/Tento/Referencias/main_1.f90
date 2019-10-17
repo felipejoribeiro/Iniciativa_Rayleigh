@@ -156,11 +156,11 @@ program cavidade
     L =  5                                                  !Length of the simulation square domain (meters)
     ds =  L / (N- 1)                                             !Cells length
     alpha =  1.0                                                 !Thermal condutivity (aluminium)
-    cfl = 0.1                                                   !valor de convergencia
+    cfl = 0.01                                                   !valor de convergencia
     dt = cfl * ds**2/alpha                                       !time step length (seconds)
     tempo = 2.5                                                    !Time (seconds)
-    ui =  10.0                                                     !X velocity (m/s)
-    vi =   0.0                                                     !Y velocity (m/s)
+    ui =  200.0                                                     !X velocity (m/s)
+    vi =   200.0                                                     !Y velocity (m/s)
     incremento = 1 * 10**(-5)                                    !Imcrement for the implicit method
 
     print*, dt , ds

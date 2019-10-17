@@ -4,68 +4,24 @@
 		"selected_items":
 		[
 			[
-				"Typ",
-				"Type_of_visualization"
-			],
-			[
-				"tYPE",
-				"Type_of_visualization"
-			],
-			[
-				"w",
-				"type_Wall"
-			],
-			[
-				"pre",
-				"pressure_step"
-			],
-			[
-				"do",
-				"do"
-			],
-			[
-				"velocity",
-				"velocity_solver"
-			],
-			[
-				"time",
-				"time_steps"
-			],
-			[
-				"P",
-				"P"
-			],
-			[
-				"in",
-				"increment"
-			],
-			[
-				"u",
-				"u"
-			],
-			[
-				"Ny",
-				"Ny"
-			],
-			[
-				"Nx",
-				"Nx"
-			],
-			[
-				"Type",
-				"type_Wall"
-			],
-			[
-				"c",
-				"cell"
+				"divi",
+				"divi"
 			],
 			[
 				"window",
 				"Windows_name"
 			],
 			[
+				"P",
+				"Pl"
+			],
+			[
 				"i",
 				"i"
+			],
+			[
+				"u",
+				"u"
 			],
 			[
 				"v",
@@ -220,16 +176,12 @@
 	"buffers":
 	[
 		{
-			"contents": "! Program for de bidimensional simulation of a cavity system, using MPI for parallel processing and OPENGL for graphics\n! Undergraduate: Felipe J. O. Ribeiro\n! Professor: Aristeu da Silveira Neto\n! It is necessary the presence in the same directory of the file visalization.f90\n\ninclude 'visualization.f90'  !Graphical codes\n\n!Main module for global variables\nModule global\n    use mpi\n    implicit none\n\n    !Definition of Cell Data type:\n    type Cell\n        double precision:: T , Ti                      !Temperature variables\n        double precision:: P , Pi , Pl                 !Double precision\n        double precision:: v , u , vl , ul             !velocities variables\n        double precision:: dx , dy                     !Size variables\n        double precision:: x , y                       !Absolute coordinates location\n        double precision:: alpha , nu , rho            !Local physical variables\n        double precision:: div                         !Divergent of velocity in this cell\n        LOGICAL:: Wall                                 !Is Wall?\n        integer:: type_Wall                            !What type of wall?\n                                !1 ----> (velocity: dirichlet = (u-0 , v-0), Temperature: Neumann = 0 , Preassure: Neumann = 0)\n                                !2 ----> (velocity: dirichlet = (u-ui , v-vi), Temperature: Neumann = 0 , Preassure: Neumann = 0)\n    end type cell\n\n    !Other global parameters\n    integer:: Nx , Ny                                              !Space discretization\n    integer:: i , ii , iii                                         !Integer counters\n    integer:: step , pressure_step , velo_step                     !Number of iterations in simulation\n    double precision:: Lx , Ly , dx , dy                           !Geometry of the space domain\n    double precision:: alpha , nu , rho , gx , gy                  !physical variables\n    double precision:: vi , ui , pi , Ti , Reynolds, V_top         !Initial condition variables\n    double precision:: time , dt , cfl , increment                 !Convergence variables\n    type(Cell), dimension(:,:) , allocatable :: C                  !Temperature and extra matrix\n    double precision, dimension(:,:) , allocatable :: tr           !Transition variable\n    character*100:: dirname , filename                             !Names for file creation and directory structure\n    Logical:: save_image , Exist_Thermal_simulation                !Simulation options\n    integer:: what_thermal_simulation, what_velocity_simulation &  !Simulation options\n            , image_frequence\n    integer :: ERROR , numprocs, ID                                !MPI integers\n    integer :: Type_of_visualization                               !Type of visualization\n\nend module global\n\n\n\n\n\n\n!Main program, responsible for distributin mpi jobs\nprogram cavidade\n    use global                                                     !Library for global variables\n    use mpi                                                        !Library for MPI usage\n    implicit none\n\n    call MPI_INIT(ERROR)                                           !Initiate MPI capabilities\n    call MPI_COMM_RANK(MPI_COMM_WORLD, ID , ERROR)                 !Asks for the number of identity of the process\n    call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ERROR)            !Asks for the total number of affiliated processes\n\n\n\n    if (numprocs == 2)then                                         !Check if there is two processes\n        if(ID == 0)then\n            call Simulation()                                      !Down the code, the simulation routine\n        else\n            call Visualization()                                   !In other file\n        end if\n    else if(numprocs == 1)then                                     !Down the code, the simulation routine\n        call Simulation()\n    end if\n\n\n\n    call MPI_FINALIZE(ERROR)                                       !End all MPI capabilities\n\n\nend program cavidade\n\n\n\n\n\n\n\n!Routine for the simulation\nsubroutine Simulation()\n    use global\n    use mpi\n    implicit none\n    character*200 :: windows_name                                  !Name of the window\n\n    !Parameters of the simulation:\n    Nx = 68                                                        !Space cells in x direction\n    Ny = Nx                                                        !Space cells in y direction\n    Lx = 1.d0                                                      !Size of space domain in x  (m)\n    Ly = Lx                                                        !Size of space domain in y  (m)\n    dx =  Lx / (Nx)                                                !Cells length in x (m)\n    dy =  Ly / (Ny)                                                !Cells length in y (m)\n    !Physical determination of fluid flow:\n    alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)\n    nu = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)\n    rho = 997.7d0                                                  !Specific mass (water with 25 degree Celcius) (N/m**3)\n    V_top = 0.0008d0                                                 !Velocity of top plate\n    Reynolds = V_top*Lx/8.917d-7                                   !Reynolds number\n    gx = 0.d0                                                      !Gravity in x direction (m/s**2)\n    gy  = 0.0d0                                                    !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)\n    vi = 0.0d0                                                     !Initial condition parameter for vertical velocity\n    ui = 0.0d0                                                     !Initial condition parameter for horizontal velocity\n    pi = 0.0d0                                                     !Initial condition parameter for preassure\n    ti = 24.0d0                                                    !Initial condition parameter for temperature\n    !Simulation convergence parameters:\n    cfl = 0.1                                                      !Relation betwen time and space steps\n    dt = 0001 ! (cfl * dx**2 )/ alpha                          !Time step length (s)\n    time = 2500                                                      !Total time of simulation (s)\n    increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions\n    !Simulation Pannel control:\n    save_image = .FALSE.                                           !Save file is wanted?\n    image_frequence = 100                                          !In how many iterations the image must be saved?\n    filename = \"simulacao_piloto\"                                  !Name of saved file\n    Windows_name = \"Program Cavidade\"                              !Name of the window of graphical representation\n    what_thermal_simulation = 2                                    !Type of thermal numerical solution (1 = explicit / 2 = implicit)\n    Exist_Thermal_simulation = .FALSE.                             !If there is thermal simulation, or isotermic hipotesis\n    what_velocity_simulation = 2                                   !Type of velocity numerical solution (1 = explicit / 2 = implicit)\n    Type_of_visualization = 2                                      !Type og graphics in the screen from simulation\n\n\n    !Data from the present simulation\n    Print*, \"Simulation \" , filename\n    Print*, \"Reynolds = \" , Reynolds\n\n\n    !First Contact with visualization process, for initial parametrization and window creation.\n    call MPI_SEND( Nx  , 1 , MPI_INTEGER , 1 , 1 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in x\n    call MPI_SEND( Ny  , 1 , MPI_INTEGER , 1 , 0 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in y\n    call MPI_SEND( Windows_name  , 200 , MPI_CHARACTER, 1 , 1 , MPI_COMM_WORLD , ERROR)           !Name of the window of visualization\n    call MPI_SEND( Type_of_visualization  , 1 , MPI_INTEGER, 1 , 0 , MPI_COMM_WORLD , ERROR)      !Name of the window of visualization\n\n\n    !Allocation of simulations buffers:\n    allocate(C(Nx + 2  , Ny + 2))                                  !   1 extra cell   |wall|      N cells      |wall| 1 extra cell\n    allocate(tr(Nx + 2  , Ny + 2))\n\n\n    !Simulation Routines:\n\n     call Simu_routines()                                          !The protocolls are called for simulation development\n\n    !Simulation Statistics:\n\n    print*, \"------------------------------------------------------\"\n    print*, \"-                                                    -\"\n    print*, \"-                  Fim da simulação                  -\"\n    print*, \"-                                                    -\"\n    print*, \"------------------------------------------------------\"\n\n    !Dellocation of simulations buffers:\n    deallocate(C)\n    deallocate(tr)\n\nend subroutine simulation\n\n\n\n\n\n!Simulation center of routines:\nsubroutine Simu_routines()\n    use global\n    implicit none\n\n    call initialconditions()                                       !Create the initial condition for the simulation\n\n    call time_steps()                                              !Initiate time iterations\n\n    if(save_image)then\n        call save_this_image()                                     !Save image in non volitile memory.\n    end if\n\nend subroutine Simu_routines\n\n\n\n\n\n!Set initial values for all the domain and simulation values\nsubroutine initialconditions()\n    use mpi\n    use global\n    implicit none\n\n    !Geometric topologicall determination (is wall ?)\n    do i = 1 , Nx + 2\n        do ii = 1 , Ny + 2\n\n            if ( (i == 1 .or. ii == 1 .or. i == Nx + 2 ) .and. ii /= Ny + 2)then\n                C(i , ii)%Wall = .True.\n                C(i , ii)%type_Wall = 1\n            else if(ii == Ny + 2)then\n                C(i , ii)%Wall = .True.\n                C(i , ii)%type_Wall = 2\n            else\n                C(i , ii)%Wall = .False.\n            end if\n\n        end do\n    end do\n\n    !Initial phisicall considerations:\n    do i = 1 , Nx + 2\n        do ii = 1 , Ny + 2\n\n            if ( (C(i , ii)%Wall .eqv. .False. ) .and. i < Ny/2)then\n                !Determinations for all the physicall domain\n\n                C(i , ii)%u = ui\n                C(i , ii)%v = vi\n                C(i , ii)%P = pi\n                C(i , ii)%T = ti\n                C(i , ii)%dx = dx\n                C(i , ii)%dy = dy\n                C(i , ii)%alpha = alpha\n                C(i , ii)%nu = nu\n                C(i , ii)%rho = rho\n\n            else if(C(i , ii)%Wall .eqv. .False. )then\n\n                C(i , ii)%u = 0.0d0\n                C(i , ii)%v = 0.0d0\n                C(i , ii)%P = pi\n                C(i , ii)%T = ti\n                C(i , ii)%dx = dx\n                C(i , ii)%dy = dy\n                C(i , ii)%alpha = alpha\n                C(i , ii)%nu = nu\n                C(i , ii)%rho = rho\n\n            end if\n\n        end do\n    end do\n\n\n    !Initial condition exibition:\n\n    call MPI_SEND( DBLE(C%type_Wall)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n    call MPI_SEND( DBLE(C%P)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n    call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n    call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n    call sleep(1)\n\nend subroutine initialconditions\n\n\n\n\n\nsubroutine time_steps()\n    use global\n    implicit none\n\n    !initiate simulation loop\n    step = 1\n    do while(step * dt < time - dt)\n\n\n        call boundary_conditions()                                 !Set boundary conditions\n        call velocity_solver()                                     !Solve the velocity field\n\n        call divergent_calculator()                                !Calcule the divergent of the velocity domain\n        call preassure_definition()                                !Simulate preassure of the next step\n        call velocity_corrector()                                  !Correct the velocity with the preassure simulated\n        call divergent_calculator()                                !Calcule the divergent of the velocity domain\n        call preassure_atualization()                              !Calculate the preassure of new step\n\n\n        !At final of a step\n        print*, \"depois da pressao --->\" , MAXVAL(C%div) , pressure_step , velo_step , MAXVAL(C%P)\n        call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n        call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n        call MPI_SEND( DBLE(C%P)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n        call MPI_SEND( DBLE(C%div)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)\n        step = step + 1\n\n    end do\n\nend subroutine time_steps\n\n\n\n\n\n\nsubroutine boundary_conditions()\n    use global\n    implicit none\n    !Boundary conditions\n        do i = 1 , Ny + 2\n            !Preassure on all the walss\n            C(Nx + 2 , i)%P  =  C(Nx + 1, i)%P     !>\n            C(1     , i)%P     =  C(2 , i)%P       !<\n\n            C(1     , i)%v = - C(2     , i)%v\n            C(Nx+2   , i)%v = - C(Nx+1   , i)%v\n            C(1     , i)%vl = - C(2     , i)%vl\n            C(Nx+2   , i)%vl = - C(Nx+1   , i)%vl\n\n            C(1     , i)%u = 0\n            C(2     , i)%u = 0\n            C(Nx+2   , i)%u = 0\n            C(1     , i)%ul = 0\n            C(2     , i)%ul = 0\n            C(Nx+2   , i)%ul = 0\n        end do\n\n\n\n        do i = 1 , Nx + 2\n            C(i , Ny + 2)%P =  C(i , Ny  + 1)%P\n            C(i , 1    )%P =  C(i , 2     )%P\n\n            C(i , 1    )%v = 0\n            C(i , 2    )%v = 0\n            C(i , Ny + 2)%v = 0\n            C(i , 1    )%vl = 0\n            C(i , 2    )%vl = 0\n            C(i , Ny + 2)%vl = 0\n\n            C(i , 1    )%u = -C(i , 2     )%u\n            C(i , Ny + 2)%u = 2 * V_top  - C(i , Ny + 1)%u\n            C(i , 1    )%ul = -C(i , 2     )%ul\n            C(i , Ny + 2)%ul = 2 * V_top - C(i , Ny + 1)%ul\n        end do\n\nend subroutine boundary_conditions\n\n\n\n\n\nsubroutine velocity_solver()\n    use global\n    implicit none\n\n    if(what_velocity_simulation == 2)then\n    ! IMPLICITY SOLVER\n    print*, \"implicit\"\n\n        !Initial value\n        do i = 2 , Nx + 1\n            do ii = 2 , Ny + 1\n\n                C(i , ii)%ul = 0\n                C(i , ii)%vl = 0\n\n            end do\n        end do\n\n        velo_step = 0\n\n        !Implicit preassure line creation\n        C(3, 3)%div = 10\n        C(3, 3)%nu = 10\n        do while( MAXVAL(C%div) > increment .or. MAXVAL(C%nu) > increment)\n\n            do i = 2 , Nx + 1\n                do ii = 2 , Ny + 1\n\n                    C(i, ii)%div = C(i, ii)%ul      !div é utilizado para se ver o incremento da velocidade\n                    C(i, ii)%nu = C(i, ii)%vl       !Nu é utilizado para se ver o incremento da velocidade\n\n                end do\n            end do\n\n            do i = 3 , Nx + 1\n                do ii = 2 , Ny + 1\n\n                    C(i, ii)%ul = (C(i , ii)%u * (C(i , ii)%dx ** 2) *(C(i , ii)%dy ** 2))/((C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dy ** 2) + (C(i , ii)%dx ** 2) ) ) &\n                        - ( (   &\n                            ((C(i , ii)%v + C(i - 1 , ii)%v  + C(i , ii + 1)%v  + C(i - 1, ii + 1)%v )/4)&\n                            * (C(i , ii)%dx ** 2) *(C(i , ii)%dy) * dt)/( 2 * (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 4 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) ) * &\n                        (C(i , ii + 1)%u - C(i , ii - 1)%u ) &\n                        - ( (C(i , ii)%u * (C(i , ii)%dx) *(C(i , ii)%dy**2) * dt)/( 2 * (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 4 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )  *&\n                        (C(i + 1, ii)%u - C(i - 1 , ii)%u ) &\n                        - ( ( (C(i , ii)%dx) *(C(i , ii)%dy**2) * dt)/( rho * (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * rho * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&\n                        (C(i , ii)%P - C(i - 1, ii)%P) &\n                        +( ( (C(i , ii)%dx ** 2) *(C(i , ii)%dy**2) * dt * (C(i,ii)%rho - rho) * gx)/( rho * &\n                            (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * rho * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )&\n                        + ( ( nu *(C(i , ii)%dy**2) * dt)/( (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&\n                        (C(i + 1, ii)%ul + C(i - 1, ii)%ul)&\n                        + ( ( nu *(C(i , ii)%dx**2) * dt)/( (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&\n                        (C(i , ii + 1)%ul + C(i, ii - 1)%ul)\n                end do\n            end do\n\n            call boundary_conditions()\n\n            do i = 2 , Nx + 1\n                do ii = 3 , Ny + 1\n                    C(i, ii)%vl = (C(i , ii)%v * (C(i , ii)%dx ** 2) *(C(i , ii)%dy ** 2))/((C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dy ** 2) + (C(i , ii)%dx ** 2) ) ) &\n                        - ( (C(i , ii)%v * (C(i , ii)%dx ** 2) *(C(i , ii)%dy) * dt)/( 2 * (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 4 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) ) * &\n                        (C(i , ii + 1)%v - C(i , ii - 1)%v ) &\n                        - ( ( &\n                            (C(i , ii)%u + C(i , ii - 1)%u + C(i + 1, ii)%u + C(i + 1 , ii - 1)%u)/4 &\n                                * (C(i , ii)%dx) *(C(i , ii)%dy**2) * dt)/( 2 * (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 4 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )  *&\n                        (C(i + 1, ii)%v - C(i - 1 , ii)%v ) &\n                        - ( ( (C(i , ii)%dx**2) *(C(i , ii)%dy) * dt)/( rho * (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * rho * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&\n                        (C(i , ii)%P - C(i, ii - 1)%P) &\n                        +( ( (C(i , ii)%dx ** 2) *(C(i , ii)%dy**2) * dt * (C(i,ii)%rho - rho) * gy)/( rho * &\n                            (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * rho * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )&\n                        + ( ( nu *(C(i , ii)%dy**2) * dt)/( (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&\n                        (C(i + 1, ii)%vl + C(i - 1, ii)%vl)&\n                        + ( ( nu *(C(i , ii)%dy**2) * dt)/( (C(i , ii)%dx ** 2) * &\n                        (C(i , ii)%dy ** 2) + 2 * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&\n                        (C(i , ii + 1)%vl + C(i , ii - 1)%vl)\n\n                end do\n            end do\n\n            call boundary_conditions()\n\n            velo_step = velo_step + 1\n\n            do i = 2 , Nx + 1\n                do ii = 2 , Ny + 1\n\n                    C(i, ii)%div = abs ( C(i, ii)%div - C(i, ii)%ul )\n                    C(i, ii)%nu = abs ( C(i, ii)%nu - C(i, ii)%vl )\n\n                end do\n            end do\n\n        end do\n\n        print*, C(2 , 2)%vl , C(2 , 3)%vl , C(2 , 4)%vl , C(2 , 5)%vl\n\n    else if(what_velocity_simulation == 1)then\n    !EXPLICIT SOLVER\n    print*, \"explicit\"\n\n        do i = 3 , Nx + 1\n            do ii = 2 , Ny + 1\n\n                C(i , ii)%ul = C(i, ii)%u &\n                    - C(i, ii)%u * ((dt)/(C(i,ii)%dx)) *(C(i+1, ii)%u - C(i, ii)%u) &\n                    - ( C(i , ii)%v + C(i - 1 , ii)%v  + C(i , ii + 1)%v  + C(i - 1, ii + 1)%v )/4 &\n                    * ((dt)/(C(i,ii)%dy)) *(C(i, ii + 1)%u - C(i, ii)%u)&\n                    - ((dt)/(rho * C(i,ii)%dx )) * (C(i , ii)%P - C(i - 1 , ii)%P)&\n                    + dt * gx * (C(i,ii)%rho - rho)/(rho) &\n                    + (nu * dt / (C(i,ii)%dx ** 2) ) * (C(i+1, ii)%u - 2 * C(i , ii)%u + C(i-1, ii)%u) &\n                    + (nu * dt / (C(i,ii)%dy ** 2) ) * (C(i, ii+ 1)%u - 2 * C(i , ii)%u + C(i, ii-1)%u)\n            end do\n        end do\n\n        call boundary_conditions()\n\n        do i = 2 , Nx + 1\n            do ii = 3 , Ny + 1\n                C(i , ii)%vl = C(i, ii)%v &\n                    - (C(i , ii)%u + C(i , ii - 1)%u + C(i + 1, ii)%u + C(i + 1 , ii - 1)%u)/4 &\n                    * ((dt)/(C(i,ii)%dx)) *(C(i+1, ii)%v - C(i, ii)%v) &\n                    - C(i, ii)%v * ((dt)/(C(i,ii)%dy)) *(C(i, ii + 1)%v - C(i, ii)%v) &\n                    - ((dt)/(rho * C(i,ii)%dy)) * (C(i , ii)%P - C(i , ii - 1)%P)&\n                    + dt * gy * (C(i , ii)%rho - rho)/(rho) &\n                    + (nu * dt / (C(i , ii)%dx ** 2) ) * (C(i+1, ii)%v - 2 * C(i , ii)%v + C(i-1, ii)%v) &\n                    + (nu * dt / (C(i , ii)%dy ** 2) ) * (C(i, ii+ 1)%v - 2 * C(i , ii)%v + C(i, ii-1)%v)\n\n            end do\n        end do\n\n        call boundary_conditions()\n\n    end if\n\nend subroutine velocity_solver\n\n\n\n\n\n\nsubroutine preassure_definition()\n    use global\n    implicit none\n\n    !Pressure initial gaus saidel value (zero)\n    do i = 2 , Nx + 1\n        do ii = 2 , Ny + 1\n\n                C(i , ii)%Pl = 0\n\n        end do\n    end do\n    pressure_step = 0\n\n    !Implicit preassure line creation\n    C(3, 3)%div = 10\n    do while( MAXVAL(C%div) > increment)\n\n        do i = 2 , Nx + 1\n            do ii = 2 , Ny + 1\n\n                C(i, ii)%div = C(i, ii)%Pl\n\n            end do\n        end do\n\n        do i = 2 , Nx + 1\n            do ii = 2 , Ny + 1\n\n                C(i, ii)%Pl = -1 * ( (rho * C(i , ii)%dx * C(i , ii)%dy**2)/(2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2) * dt )) &\n                * ( C(i + 1, ii)%ul - C(i, ii)%ul) &\n                -1 * ( (rho * C(i , ii)%dx**2 * C(i , ii)%dy)/(2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2) * dt )) &\n                * ( C(i, ii+ 1)%vl - C(i, ii)%vl) &\n                + ( (C(i , ii)%dy**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i + 1, ii)%Pl + C(i - 1, ii)%Pl) &\n                + ( (C(i , ii)%dx**2)/ (2 * (C(i , ii)%dx**2 + C(i , ii)%dy**2)))*( C(i, ii + 1)%Pl + C(i, ii - 1)%Pl)\n\n            end do\n        end do\n\n        call boundary_conditions()\n\n        pressure_step = pressure_step + 1\n\n        C(Nx / 2, Ny / 2)%Pl = 0;\n\n        do i = 2 , Nx + 1\n            do ii = 2 , Ny + 1\n\n                C(i, ii)%div = abs ( C(i, ii)%div - C(i, ii)%Pl )\n\n            end do\n        end do\n    end do\n\nend subroutine preassure_definition\n\n\n\n\n\n\nsubroutine velocity_corrector()\n    use global\n    implicit none\n\n    do i = 3 , Nx + 1\n        do ii = 2 , Ny + 1\n\n                C(i , ii)%u = C(i , ii)%ul - (dt/(C(i , ii)%dx * rho)) * (C(i , ii)%Pl - C(i - 1 , ii)%Pl)\n\n        end do\n    end do\n\n\n    do i = 2 , Nx + 1\n        do ii = 3 , Ny + 1\n\n                C(i , ii)%v =  C(i , ii)%vl - (dt/(C(i , ii)%dy * rho)) * (C(i , ii)%Pl - C(i , ii - 1)%Pl)\n\n        end do\n    end do\n\n    print*, C(2 , 2)%v , C(2 , 3)%v , C(2 , 4)%v , C(2 , 5)%v\n\nend subroutine velocity_corrector\n\n\n\n\n\nsubroutine divergent_calculator()\n    use global\n    implicit none\n\n    do i = 2 , Nx + 1\n        do ii = 2 , Ny + 1\n\n            C(i , ii)%div = (C(i + 1 , ii)%u - C(i , ii)%u)/ C(i , ii)%dx + (C(i , ii + 1)%v - C(i, ii)%v)/ C(i , ii)%dy\n\n        end do\n    end do\n\nend subroutine divergent_calculator\n\n\n\n\n\n\nsubroutine preassure_atualization()\n    use global\n    implicit none\n\n\n    !Pressure atualization\n    do i = 2 , Nx + 1\n        do ii = 2 , Ny + 1\n\n            C(i , ii)%P = C(i , ii)%Pl +  C(i , ii)%P\n\n        end do\n    end do\n\n\nend subroutine preassure_atualization\n\n\n\n\n\n\nsubroutine save_this_image()\n    implicit none\nend subroutine save_this_image",
 			"file": "Teorico/src/main3.f90",
-			"file_size": 24455,
-			"file_write_time": 132155268344707260,
 			"settings":
 			{
-				"buffer_size": 24451,
+				"buffer_size": 24932,
 				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "program cavidade"
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -237,124 +189,40 @@
 			"settings":
 			{
 				"buffer_size": 10883,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Teorico/Tento/Referencias/main_1.f90",
+			"settings":
+			{
+				"buffer_size": 11979,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Teorico/src/main.f90",
+			"file": "/C/Users/USUARIO/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
 			"settings":
 			{
-				"buffer_size": 14973,
+				"buffer_size": 414,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Teorico/Tento/OpenGl/mouse_bola_pinga.cpp",
-			"settings":
-			{
-				"buffer_size": 7804,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "/*"
-			}
-		},
-		{
-			"file": "Teorico/Tento/OpenGl/piloto.c",
-			"settings":
-			{
-				"buffer_size": 3498,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/felipe/Trabalho/ProjetoCebeci/genetic_fit.f90",
-			"settings":
-			{
-				"buffer_size": 27015,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		}
 	],
-	"build_system": "Packages/User/epta_sta_cpp.sublime-build",
+	"build_system": "Packages/Python/Python.sublime-build",
 	"build_system_choices":
 	[
 		[
 			[
 				[
-					"Packages/C++/C Single File.sublime-build",
-					""
-				],
-				[
-					"Packages/C++/C Single File.sublime-build",
-					"Run"
-				],
-				[
-					"Packages/User/epta_sta_cpp.sublime-build",
-					""
-				],
-				[
-					"Packages/User/fortran2win.sublime-build",
-					""
-				],
-				[
-					"Packages/User/mpi2winfort.sublime-build",
-					""
-				],
-				[
-					"Packages/User/OpenGlf90.sublime-build",
-					""
-				]
-			],
-			[
-				"Packages/User/OpenGlf90.sublime-build",
-				""
-			]
-		],
-		[
-			[
-				[
 					"Packages/C++/C++ Single File.sublime-build",
 					""
 				],
 				[
 					"Packages/C++/C++ Single File.sublime-build",
 					"Run"
-				]
-			],
-			[
-				"Packages/C++/C++ Single File.sublime-build",
-				""
-			]
-		],
-		[
-			[
-				[
-					"Packages/C++/C++ Single File.sublime-build",
-					""
-				],
-				[
-					"Packages/C++/C++ Single File.sublime-build",
-					"Run"
-				],
-				[
-					"Packages/User/epta_sta_cpp.sublime-build",
-					""
-				],
-				[
-					"Packages/User/fortran2win.sublime-build",
-					""
-				],
-				[
-					"Packages/User/mpi2winfort.sublime-build",
-					""
-				],
-				[
-					"Packages/User/OpenGlf90.sublime-build",
-					""
 				]
 			],
 			[
@@ -765,6 +633,58 @@
 					"Run"
 				],
 				[
+					"Packages/User/fortran_win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mpi2winfort.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/mpi2winfort.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/fortran_win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mpi2winfort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/opengl_fort.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/opengl_fort.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					"Run"
+				],
+				[
 					"Packages/User/fortrandif.sublime-build",
 					""
 				]
@@ -1025,6 +945,58 @@
 					"Syntax Check"
 				],
 				[
+					"Packages/User/fortran_win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mpi2winfort.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
+					"Packages/User/fortran_win.sublime-build",
+					""
+				],
+				[
+					"Packages/User/mpi2winfort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/opengl_fort.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				],
+				[
 					"Packages/User/fortrandif.sublime-build",
 					""
 				]
@@ -1085,30 +1057,6 @@
 		[
 			[
 				[
-					"Packages/User/epta_sta_cpp.sublime-build",
-					""
-				],
-				[
-					"Packages/User/fortran2win.sublime-build",
-					""
-				],
-				[
-					"Packages/User/mpi2winfort.sublime-build",
-					""
-				],
-				[
-					"Packages/User/OpenGlf90.sublime-build",
-					""
-				]
-			],
-			[
-				"Packages/User/epta_sta_cpp.sublime-build",
-				""
-			]
-		],
-		[
-			[
-				[
 					"Packages/User/gplusplusPiloto.sublime-build",
 					""
 				],
@@ -1131,16 +1079,12 @@
 		"selected_items":
 		[
 			[
+				"package",
+				"PackageResourceViewer: Open Resource"
+			],
+			[
 				"install",
 				"Package Control: Install Package"
-			],
-			[
-				"package contr",
-				"Package Control: Install Package"
-			],
-			[
-				"package",
-				"Preferences: Browse Packages"
 			],
 			[
 				"packa",
@@ -1185,21 +1129,24 @@
 	},
 	"expanded_folders":
 	[
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl"
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias"
 	],
 	"file_history":
 	[
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/TEX/presentation.tex",
-		"/home/felipe/Downloads/16_Games/16 Asteroids/main.cpp",
-		"/home/felipe/Downloads/16_Games/01 Tetris/main.cpp",
-		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
-		"/usr/bin/ld.bfd",
-		"/usr/bin/ld",
-		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
-		"/home/felipe/.config/sublime-text-3/Packages/User/Python2.sublime-build",
+		"/C/Users/USUARIO/AppData/Roaming/Sublime Text 3/Packages/User/mpi2winfort.sublime-build",
+		"/C/Users/USUARIO/AppData/Roaming/Sublime Text 3/Packages/Python/Python.sublime-build",
+		"/C/Users/USUARIO/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
+		"/C/Users/USUARIO/AppData/Roaming/Sublime Text 3/Packages/User/fortran_win.sublime-build",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/MPI/mpi1.f90",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main.f90",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/visualization.f90",
+		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main3.f90",
+		"/home/felipe/Trabalho/ProjetoCebeci/genetic_fit.f90",
 		"/home/felipe/Trabalho/ProjetoCebeci/main.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/src.f90",
@@ -1210,6 +1157,7 @@
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/flickering_end.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/MPI/mpi1.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/trivial.f90",
+		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Recap.cpp",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Difusion.cpp",
@@ -1228,6 +1176,7 @@
 		"/home/felipe/Downloads/f03gl/trivial.f90",
 		"/home/felipe/Downloads/f03gl/modview.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/main.f90",
+		"/home/felipe/.config/sublime-text-3/Packages/User/Python2.sublime-build",
 		"/home/felipe/Downloads/f03gl/Makefile",
 		"/media/felipe/KINGSTON/arca/sublime/Python2.sublime-build",
 		"/home/felipe/.config/sublime-text-3/Packages/User/mpi2winfort.sublime-build",
@@ -1238,6 +1187,7 @@
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
 		"/home/felipe/Documents/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/expe.f90",
 		"/home/felipe/Documents/ProjetoCebeci/genetic.f90",
+		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
 		"/home/felipe/Documents/ProjetoCebeci/main.f90",
 		"/home/felipe/Documents/ProjetoCebeci/genetic_fit.f90",
 		"/home/felipe/Downloads/0007 STRAKE Strakes.geo",
@@ -1314,16 +1264,11 @@
 		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/setup.py",
 		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtvariVs26.txt",
 		"/home/felipe/Documents/ProjetoCebeci/otimizationvelocity.f90",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_1000.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_395.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_640.txt",
-		"/home/felipe/version",
-		"/home/felipe/Downloads/grafics.py",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/posmoderno/prandtlcontinum.f90"
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_1000.txt"
 	],
 	"find":
 	{
-		"height": 40.0
+		"height": 37.0
 	},
 	"find_in_files":
 	{
@@ -1337,13 +1282,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"print",
-			"time_",
-			"print",
-			"navier",
-			"slee",
-			"step",
-			"max",
+			"mi",
 			"nu",
 			"glut",
 			"gltu",
@@ -1383,6 +1322,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"nu",
+			"mi",
 			"rYY"
 		],
 		"reverse": false,
@@ -1403,26 +1344,34 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24451,
+						"buffer_size": 24932,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7199,
-								7199
+								14061,
+								14061
 							]
 						],
 						"settings":
 						{
-							"auto_name": "program cavidade",
+							"SL.13.region_keys":
+							[
+							],
+							"SL.18.region_keys":
+							[
+							],
+							"SL.89.region_keys":
+							[
+							],
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1485.0,
+						"translation.y": 5584.8,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1441,8 +1390,8 @@
 						"selection":
 						[
 							[
-								9841,
-								9841
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1452,7 +1401,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2394.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1460,19 +1409,19 @@
 				},
 				{
 					"buffer": 2,
-					"file": "Teorico/src/main.f90",
+					"file": "Teorico/Tento/Referencias/main_1.f90",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14973,
+						"buffer_size": 11979,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2498,
-								2498
+								5532,
+								5532
 							]
 						],
 						"settings":
@@ -1482,101 +1431,41 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 278.0,
+						"translation.y": 1851.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "Teorico/Tento/OpenGl/mouse_bola_pinga.cpp",
+					"file": "/C/Users/USUARIO/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7804,
+						"buffer_size": 414,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								928,
-								928
+								414,
+								414
 							]
 						],
 						"settings":
 						{
-							"auto_name": "/*",
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 3,
-							"translate_tabs_to_spaces": true
+							"SL.17.region_keys":
+							[
+							],
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Teorico/Tento/OpenGl/piloto.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3498,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								837,
-								837
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "/home/felipe/Trabalho/ProjetoCebeci/genetic_fit.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 27015,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								22409,
-								22409
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2723.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1584,7 +1473,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -1619,7 +1508,7 @@
 	},
 	"output.exec":
 	{
-		"height": 169.0
+		"height": 40.0
 	},
 	"output.find_results":
 	{
@@ -1629,7 +1518,7 @@
 	"project": "projeto_rayleigh.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 68.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1653,7 +1542,7 @@
 		[
 			[
 				"",
-				"~/Documents/ProjetoCebeci/project.sublime-project"
+				"C:\\Users\\USUARIO\\Desktop\\Work\\ProjetoCebeci\\project.sublime-project"
 			]
 		],
 		"width": 380.0
@@ -1675,7 +1564,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 241.0,
+	"side_bar_width": 227.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
