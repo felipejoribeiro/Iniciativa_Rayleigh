@@ -3,7 +3,7 @@
 ! Professor: Aristeu da Silveira Neto
 ! It is necessary the presence in the same directory of the file visalization.f90
 
-include 'visualization.f90'  !Graphical codes
+include 'main2_visualization.f90'  !Graphical codes
 
 !Main module for global variables
 Module global

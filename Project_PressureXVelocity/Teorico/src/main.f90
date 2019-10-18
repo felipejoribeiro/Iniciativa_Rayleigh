@@ -257,7 +257,7 @@ subroutine Simulation()
     step = 1
 
     ! The T matrix is sent to data ploting
-    call MPI_SEND( P , size(T) , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , ERROR)
+    call MPI_SEND( T , size(T) , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , ERROR)
     !call MPI_RECV(check , 1 , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)
 
     call sleep(1)
