@@ -29,11 +29,15 @@ module graphics
         !Function that is called once per frame. Type 1
         subroutine idle1() bind(C)
 
+            call glClear(ior(GL_COLOR_BUFFER_BIT,GL_DEPTH_BUFFER_BIT))
+            call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame
             Allocate(dBuffer(Nx + 2 , Ny + 2))
             call assimilation()           !Function that get values
             call scatter1()                !Render heatmap
-            !call Legend()                 !Render Legend
+            call Legend()                 !Render Legend
             deallocate(dBuffer)
+            call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing
+            call glflush()               !Process OPENGL precompiled codes
 
         end subroutine idle1
 
@@ -41,12 +45,34 @@ module graphics
         !Function that is called once per frame.Type 2
         subroutine idle2() bind(C)
 
+
+            call glClear(ior(GL_COLOR_BUFFER_BIT,GL_DEPTH_BUFFER_BIT))
+            call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame
             Allocate(dBuffer(Nx + 2 , Ny + 2))
             call scatter2()                !Render heatmap
-            !call Legend()                 !Render Legend
+            call Legend()                 !Render Legend
             deallocate(dBuffer)
+            call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing
+            call glflush()               !Process OPENGL precompiled codes
 
         end subroutine idle2
+
+
+        !Function to text drawning
+        subroutine output(x, y, text)
+
+            real(glfloat) x,y
+            character(len=*) text
+            integer(glcint) p
+
+            call glPushMatrix()
+            call glTranslatef(x, y, 0.0_glfloat)
+            do i=1,len(text)
+                p = ichar(text(i:i))
+                call glutStrokeCharacter(GLUT_STROKE_ROMAN, p)
+            end do
+            call glPopMatrix()
+        end subroutine output
 
 end module graphics
 
@@ -120,6 +146,9 @@ subroutine ConfigureWindow()
     call glloadidentity()                                                  !Identity matrix loaded
     call glortho(0.0d0, 1.0d0, 0.0d0, 1.0d0, -0.5d0, 0.5d0)                !Limits (left, right, down, up, close to the camera, far from the camera)
     call glEnableClientState(GL_VERTEX_ARRAY)                              !Funcionalities
+    call glEnable(GL_BLEND)                                                !Blend
+    call glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)                 !Blend function
+    call glEnable(GL_LINE_SMOOTH)                                          !Smooth edges
 
 end subroutine ConfigureWindow
 
@@ -140,8 +169,6 @@ end subroutine assimilation
 subroutine scatter1()
     use graphics
     implicit none
-
-    call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame
 
     !Draw points:
     call glBlendFunc(GL_DST_ALPHA,GL_ONE_MINUS_DST_ALPHA)
@@ -169,10 +196,6 @@ subroutine scatter1()
     call glEnd()
 
 
-
-    call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing
-    call glflush()               !Process OPENGL precompiled codes
-
 end subroutine scatter1
 
 
@@ -180,8 +203,6 @@ end subroutine scatter1
 subroutine scatter2()
     use graphics
     implicit none
-
-    call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame
 
     !Draw points:
     call glBlendFunc(GL_DST_ALPHA,GL_ONE_MINUS_DST_ALPHA)
@@ -269,7 +290,40 @@ subroutine scatter2()
 
 
 
-    call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing
-    call glflush()               !Process OPENGL precompiled codes
-
 end subroutine scatter2
+
+
+
+
+
+!Rotine that DRAWS the Legend on the screen
+subroutine legend() bind(C)
+    use graphics
+
+  call glPushAttrib(GL_ENABLE_BIT)
+  call glcolor3f(0.0, 0.0 , 0.0)
+  call glMatrixMode(GL_PROJECTION)
+  call glPointSize( 0.2 )                       !Size of points
+  call glLineWidth(0.1)
+  call glLoadIdentity()
+  call gluOrtho2D(0.0_gldouble, 1500.0_gldouble, 0.0_gldouble, 1500.0_gldouble * ypixel/xpixel)
+  call glscalef(.11,.11,.11)
+  call glMatrixMode(GL_MODELVIEW)
+  call glLoadIdentity()
+!  Rotate text slightly to help show jaggies
+  call output(100.0, 60.0, "Aqui temos texto escrito na tela, quem diria algo assim aqui!")
+  call glPopMatrix()
+  call glMatrixMode(GL_PROJECTION)
+  call glPopMatrix()
+    call glscalef(1.0/0.11,1.0/0.11,1.0/0.11)
+  call glPopAttrib()
+
+
+  call glloadidentity()                                                  !Identity matrix loaded
+  call glortho(0.0d0, 1.0d0, 0.0d0, 1.0d0, -0.5d0, 0.5d0)                !Limits (left, right, down, up, close to the camera, far from the camera)
+  call glEnableClientState(GL_VERTEX_ARRAY)                              !Funcionalities
+
+
+
+
+end subroutine legend

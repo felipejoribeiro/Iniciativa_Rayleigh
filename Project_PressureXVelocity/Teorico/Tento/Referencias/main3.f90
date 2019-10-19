@@ -3,7 +3,7 @@
 ! Professor: Aristeu da Silveira Neto
 ! It is necessary the presence in the same directory of the file visalization.f90
 
-include 'visualization.f90'  !Graphical codes
+include 'main3_visualization.f90'  !Graphical codes
 
 !Main module for global variables
 Module global
@@ -265,7 +265,6 @@ subroutine time_steps()
         call boundary_conditions()                                 !Set boundary conditions
         call divergent_calculator()                                !Calcule the divergent of the velocity domain
         call preassure_atualization()                              !Calculate the preassure of new step
-        call boundary_conditions()                                 !Set boundary conditions
 
 
         !At final of a step
