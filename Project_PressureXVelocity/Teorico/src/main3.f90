@@ -25,15 +25,17 @@ Module global
                                 !2 ----> (velocity: dirichlet = (u-ui , v-vi), Temperature: Neumann = 0 , Preassure: Neumann = 0)
     end type cell
 
-    !Other global parameters
+    ! Phisical parameters
     integer:: Nx , Ny                                              !Space discretization
-    integer:: i , ii , iii                                         !Integer counters
-    integer:: step , pressure_step , velo_step                     !Number of iterations in simulation
     double precision:: Lx , Ly , dx , dy                           !Geometry of the space domain
     double precision:: alpha , nu , mi , rho , gx , gy             !physical variables
     double precision:: vi , ui , pi , Ti , Reynolds, V_top         !Initial condition variables
     double precision:: time , dt , cfl , increment                 !Convergence variables
     type(Cell), dimension(:,:) , allocatable :: C                  !Temperature and extra matrix
+
+    !Computational parameters
+    integer:: i , ii , iii                                         !Integer counters
+    integer:: step , pressure_step , velo_step                     !Number of iterations in simulation
     double precision, dimension(:,:) , allocatable :: tr           !Transition variable
     character*100:: dirname , filename                             !Names for file creation and directory structure
     Logical:: save_image , Exist_Thermal_simulation                !Simulation options
