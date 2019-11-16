@@ -46,27 +46,12 @@ subroutine Visualization()                                                      
     use graphics                                                                                                                 !#
     implicit none                                                                                                                !#
 
-    !Initial comunication with simulation
-    call MPI_RECV( Nx , 1 , MPI_INTEGER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in x
-    call MPI_RECV( Ny , 1 , MPI_INTEGER , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in y
-    call MPI_RECV( Windows_name , 200 , MPI_CHARACTER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)            !Name of the window of visualization
-    call MPI_RECV( Type_of_visualization , 1 , MPI_INTEGER , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)       !Type of visualization
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+    return                                                                                                                       !#
                                                                                                                                  !#
 end subroutine Visualization                                                                                                     !#
 !##################################################################################################################################

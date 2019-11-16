@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"in",
+				"in"
+			],
+			[
+				"ident",
+				"identity_directory"
+			],
+			[
+				"identity",
+				"identity_decision"
+			],
+			[
 				"y",
 				"ypixel"
 			],
@@ -38,10 +50,6 @@
 			[
 				"P",
 				"P"
-			],
-			[
-				"in",
-				"increment"
 			],
 			[
 				"u",
@@ -227,7 +235,7 @@
 			"file": "Teorico/src/main3.f90",
 			"settings":
 			{
-				"buffer_size": 24310,
+				"buffer_size": 24397,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "program cavidade"
@@ -237,7 +245,7 @@
 			"file": "Teorico/src/visualization.f90",
 			"settings":
 			{
-				"buffer_size": 12932,
+				"buffer_size": 12978,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -246,34 +254,52 @@
 			"file": "Teorico/src/blender.f90",
 			"settings":
 			{
-				"buffer_size": 2938,
+				"buffer_size": 3030,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Teorico/src/main_4/main.f90",
+			"file": "Teorico/Tento/OpenGl/expe.f90",
 			"settings":
 			{
-				"buffer_size": 2426,
+				"buffer_size": 5906,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Teorico/src/main_4/main.F90",
+			"settings":
+			{
+				"buffer_size": 10787,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Teorico/src/main_4/simulation.f90",
+			"file": "Teorico/src/main_4/simulation.F90",
 			"settings":
 			{
-				"buffer_size": 2843,
+				"buffer_size": 16945,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Teorico/src/main_4/visualization2.f90",
+			"file": "Teorico/src/main_4/visualization.F90",
 			"settings":
 			{
-				"buffer_size": 1801,
+				"buffer_size": 4132,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Teorico/src/main_4/parallel_simu.F90",
+			"settings":
+			{
+				"buffer_size": 2281,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -1190,10 +1216,15 @@
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl"
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias"
 	],
 	"file_history":
 	[
+		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main_1.f90",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main2.f90",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
 		"/home/felipe/Trabalho/ProjetoCebeci/main.f90",
 		"/home/felipe/Trabalho/ProjetoCebeci/results/genetic_scatering.py",
 		"/home/felipe/Trabalho/ProjetoCebeci/results/ajustecebeciclassico.py",
@@ -1206,7 +1237,6 @@
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/TEX/presentation.tex",
 		"/home/felipe/Downloads/16_Games/16 Asteroids/main.cpp",
 		"/home/felipe/Downloads/16_Games/01 Tetris/main.cpp",
-		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/usr/bin/ld.bfd",
 		"/usr/bin/ld",
 		"/home/felipe/.config/sublime-text-3/Packages/User/fortran2win.sublime-build",
@@ -1219,7 +1249,6 @@
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/flickering_end.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/MPI/mpi1.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/trivial.f90",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Recap.cpp",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Difusion.cpp",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_RECAP/recap.cpp",
@@ -1319,9 +1348,7 @@
 		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/Exemplo.py",
 		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/Rosen.txt",
 		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/doc/source/_static/scipy-mathjax/MathJax.js",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/setup.py",
-		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosPrtvariVs26.txt",
-		"/home/felipe/Documents/ProjetoCebeci/otimizationvelocity.f90"
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/setup.py"
 	],
 	"find":
 	{
@@ -1339,6 +1366,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"len",
+			"LEN",
+			"LEN =",
+			"intent",
 			"print",
 			"time_",
 			"print",
@@ -1405,15 +1436,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24310,
+						"buffer_size": 24397,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6600,
-								6600
+								9810,
+								9810
 							]
 						],
 						"settings":
@@ -1424,10 +1455,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1026.0,
+						"translation.y": 1995.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1436,15 +1467,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12932,
+						"buffer_size": 12978,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4538,
-								4538
+								3626,
+								3626
 							]
 						],
 						"settings":
@@ -1454,10 +1485,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 663.0,
+						"translation.y": 1292.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1466,15 +1497,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2938,
+						"buffer_size": 3030,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1551,
-								1551
+								1510,
+								1510
 							]
 						],
 						"settings":
@@ -1484,27 +1515,57 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 571.0,
+						"translation.y": 429.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "Teorico/src/main_4/main.f90",
+					"file": "Teorico/Tento/OpenGl/expe.f90",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2426,
+						"buffer_size": 5906,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								660,
-								660
+								1405,
+								1405
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Teorico/src/main_4/main.F90",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10787,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3442,
+								3442
 							]
 						],
 						"settings":
@@ -1521,48 +1582,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "Teorico/src/main_4/simulation.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2843,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2842,
-								2842
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
 					"buffer": 5,
-					"file": "Teorico/src/main_4/visualization2.f90",
+					"file": "Teorico/src/main_4/simulation.F90",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1801,
+						"buffer_size": 16945,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								351,
-								351
+								10852,
+								10852
 							]
 						],
 						"settings":
@@ -1570,10 +1603,67 @@
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1355.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "Teorico/src/main_4/visualization.F90",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4132,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3600,
+								3600
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "Teorico/src/main_4/parallel_simu.F90",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2281,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1753,
+								1753
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1616,7 +1706,7 @@
 	},
 	"output.exec":
 	{
-		"height": 226.0
+		"height": 172.0
 	},
 	"output.find_results":
 	{
@@ -1672,7 +1762,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 257.0,
+	"side_bar_width": 266.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

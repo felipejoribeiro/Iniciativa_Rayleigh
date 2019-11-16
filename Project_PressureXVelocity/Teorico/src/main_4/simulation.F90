@@ -43,14 +43,15 @@ Module global                                                                   
     double precision, dimension(:,:) , allocatable :: tr           !Transition variable
 
     !Computational parameters
-    character(LEN=200):: dirname , filename , string               !Names for file creation and directory structure
+    character(LEN=200):: OS, dirname , filename ,string,bar,logg   !Names for file creation and directory structure
+    character(LEN=200) :: windows_name                             !Name of the window
+    character(LEN=200):: date_os , time_os                         !Time and date
     Logical:: save_image , Exist_Thermal_simulation                !Simulation options
     integer:: what_thermal_simulation, what_velocity_simulation &  !Simulation options
             , image_frequence
     integer:: i , ii , iii                                         !Integer counters
     integer:: step , pressure_step , velo_step                     !Number of iterations in simulation
     integer :: ERROR , numprocs, ID                                !MPI integers
-    integer :: Type_of_visualization                               !Type of visualization
     logical :: interface, parrallel_implicit                       !MPI arguments
                                                                                                                                  !#
 end Module                                                                                                                       !#
@@ -67,7 +68,6 @@ end Module                                                                      
 subroutine Simulation()                                                                                                          !#
     use global                                                                                                                   !#
     implicit none                                                                                                                !#
-    character(LEN=200) :: windows_name                             !Name of the window
 
     !Parameters of the simulation:
     Nx = 30                                                        !Space cells in x direction
@@ -79,7 +79,7 @@ subroutine Simulation()                                                         
     !Physical determination of fluid flow:
     alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
     mi = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
-    rho = 8.2d0 !997.7d0                                                  !Specific mass (water with 25 degree Celcius) (N/m**3)
+    rho = 8.2d0 !997.7d0                                           !Specific mass (water with 25 degree Celcius) (N/m**3)
     nu = mi/rho                                                    !Knematic viscosity
     V_top = 0.02d0                                                 !Velocity of top plate
     Reynolds = V_top*Lx/(nu)                                       !Reynolds number
@@ -90,7 +90,7 @@ subroutine Simulation()                                                         
     pi = 0.0d0                                                     !Initial condition parameter for preassure
     ti = 25.0d0                                                    !Initial condition parameter for temperature
     !Simulation convergence parameters:
-    cfl = 0.01                                                     !Relation betwen time and space steps
+    cfl = 0.25                                                     !Relation betwen time and space steps
     dt = (cfl * dx**2 )/ nu                                        !Time step length (s)
     time = 2500                                                    !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
@@ -98,47 +98,154 @@ subroutine Simulation()                                                         
     save_image = .FALSE.                                           !Save file is wanted?
     image_frequence = 100                                          !In how many iterations the image must be saved?
     filename = "simulacao_piloto"                                  !Name of saved file
-    Windows_name = "Program Cavidade"                              !Name of the window of graphical representation
+    Windows_name = "ProgramCavidade_4.0.0"                         !Name of the window of graphical representation
     what_thermal_simulation = 2                                    !Type of thermal numerical solution (1 = explicit / 2 = implicit)
     Exist_Thermal_simulation = .FALSE.                             !If there is thermal simulation, or isotermic hipotesis
     what_velocity_simulation = 2                                   !Type of velocity numerical solution (1 = explicit / 2 = implicit)
-    Type_of_visualization = 2                                      !Type og graphics in the screen from simulation
 
 
-    !Data from the present simulation
-    Print*, "Simulation " , filename
-    Print*, "Reynolds = " , Reynolds
-    Print*, "dt= " , dt
-    Print*, "dx= " , dx
+    !Print data from the present simulation
+    logg = "inicio"
+    call LOG(logg)                                                 !Function of comunication with the terminal
 
-
-    !First Contact with visualization process, for initial parametrization and window creation.
-    call MPI_SEND( Nx  , 1 , MPI_INTEGER , 1 , 1 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in x
-    call MPI_SEND( Ny  , 1 , MPI_INTEGER , 1 , 0 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in y
-    call MPI_SEND( Windows_name  , 200 , MPI_CHARACTER, 1 , 1 , MPI_COMM_WORLD , ERROR)           !Name of the window of visualization
-    call MPI_SEND( Type_of_visualization  , 1 , MPI_INTEGER, 1 , 0 , MPI_COMM_WORLD , ERROR)      !Name of the window of visualization
-
+    !First comunication with Graphics
+    logg = "inicio"
+    call Graph(logg)                                               !Function of comunication with graphycall interface
 
     !Allocation of simulations buffers:
     allocate(C(Nx + 2  , Ny + 2))                                  !   1 extra cell   |wall|      N cells      |wall| 1 extra cell
-    allocate(tr(Nx + 2  , Ny + 2))
+    allocate(tr(Nx + 2  , Ny + 2))                                 !   1 extra cell   |wall|      N cells      |wall| 1 extra cell
 
 
     !Simulation Routines:
+     call Simu_routines()                                          !The protocolls are called for simulation development
 
-     !call Simu_routines()                                          !The protocolls are called for simulation development
-
-    !Simulation Statistics:
-
-    print*, "------------------------------------------------------"
-    print*, "-                                                    -"
-    print*, "-                  Fim da simulação                  -"
-    print*, "-                                                    -"
-    print*, "------------------------------------------------------"
 
     !Dellocation of simulations buffers:
     deallocate(C)
     deallocate(tr)
+
+    !Last LOG, for finish the routine
+    logg = "fim"
+    call LOG(logg)
+
+    return                                                                                                                       !#
                                                                                                                                  !#
 end subroutine simulation                                                                                                        !#
+!##################################################################################################################################
+
+
+
+
+
+
+!##################################################################################################################################
+!Simulation development, with DATA creation, saving and manipulation                                                             !#
+subroutine Simu_routines()                                                                                                       !#
+    use global                                                                                                                   !#
+    implicit none                                                                                                                !#
+
+
+
+    return                                                                                                                       !#
+                                                                                                                                 !#
+end subroutine Simu_routines                                                                                                     !#
+!##################################################################################################################################
+
+
+
+
+
+
+!##################################################################################################################################
+!Routine that prints stuf in the terminal                                                                                        !#
+subroutine LOG(what_case)                                                                                                        !#
+    use global                                                                                                                   !#
+    implicit none                                                                                                                !#
+    character(LEN=200), intent (in) :: what_case                       !Variable for selecting what text is to print
+
+
+    !The subroutine see what is the context
+    if (interface) then
+
+        select case(what_case)
+
+            case("inicio")! First print on the screen, presenting the program.
+
+                Print*, ""
+                Print*, ""
+                Print*, ""
+                Print*, "#########################################################################################"
+                Print*, "#                                                                                       #"
+                Print*, "#   Program for bidimensional simulations                                               #"
+                Print*, "#                                                                                       #"
+                Print*, "#   student: Felipe Jose Oliveira Ribeiro                                               #"
+                Print*, "#   Professor: Aristeu Silveira Neto                                                    #"
+                Print*, "#                                                                                       #"
+                Print*, "#########################################################################################"
+                Print*, trim(filename)
+                Print*, trim(date_os) , "   (" , trim(time_os) , ")"
+                Print*, "Reynolds = " , Reynolds
+                Print*, "dt = " , dt
+                Print*, "dx = " , dx
+                Print*, "CFL =" , cfl
+
+            case("iterações")! Print tha is called once a time step
+
+                !WRITE(*,101) char(13), MAXVAL(C%div) , pressure_step , velo_step
+                101 FORMAT(1a1,ES7.1, I5, I5,$)
+
+            case("fim") !End of simulation, last log
+
+            print*, "######################################################"
+            print*, "#                                                    #"
+            print*, "#                  Fim da simulação                  #"
+            print*, "#                                                    #"
+            print*, "######################################################"
+
+        end select
+    end if
+
+
+        return                                                                                                                   !#
+                                                                                                                                 !#
+end subroutine LOG                                                                                                               !#
+!##################################################################################################################################
+
+
+
+
+
+
+!##################################################################################################################################
+!Routine that prints stuf in the terminal                                                                                        !#
+subroutine Graph(what_case)                                                                                                      !#
+    use global                                                                                                                   !#
+    implicit none                                                                                                                !#
+    character(LEN=200), intent (in) :: what_case                       !Variable for selecting what text is to print
+
+
+    !The subroutine see what is the context
+    if (interface) then
+
+        select case(what_case)
+
+            case("inicio")!First comunication with visulaization process, with valuable information
+
+                !Initial parametrization and window creation.
+                call MPI_SEND( Nx  , 1 , MPI_INTEGER , 1 , 1 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in x
+                call MPI_SEND( Ny  , 1 , MPI_INTEGER , 1 , 0 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in y
+                call MPI_SEND( Windows_name  , 200 , MPI_CHARACTER, 1 , 1 , MPI_COMM_WORLD , ERROR)           !Name of the window of visualization
+
+
+            case("iterações")!DATA from the phisicall iterations
+
+
+        end select
+    end if
+
+
+        return                                                                                                                   !#
+                                                                                                                                 !#
+end subroutine Graph                                                                                                             !#
 !##################################################################################################################################

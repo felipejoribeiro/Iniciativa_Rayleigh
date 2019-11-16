@@ -32,6 +32,7 @@ Module global
     double precision:: vi , ui , pi , Ti , Reynolds, V_top         !Initial condition variables
     double precision:: time , dt , cfl , increment                 !Convergence variables
     type(Cell), dimension(:,:) , allocatable :: C                  !Temperature and extra matrix
+    CHARACTER :: CR = CHAR(13)
 
     !Computational parameters
     integer:: i , ii , iii                                         !Integer counters
@@ -272,8 +273,9 @@ subroutine time_steps()
 
         !At final of a step
 
+        WRITE(*,101) char(13), MAXVAL(C%div) , pressure_step , velo_step
+        101 FORMAT(1a1,ES7.1, I5, I5,$)
 
-        print*, MAXVAL(C%div) , pressure_step , velo_step
         call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%P)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
@@ -346,7 +348,7 @@ subroutine velocity_solver()
 
     if(what_velocity_simulation == 2)then
     ! IMPLICITY SOLVER
-    print*, "implicit velocity"
+    !print*, "implicit velocity"
 
         !Initial value
         do i = 2 , Nx + 1
@@ -447,7 +449,7 @@ subroutine velocity_solver()
 
     else if(what_velocity_simulation == 1)then
     !EXPLICIT SOLVER
-    print*, "explicit velocity"
+    !print*, "explicit velocity"
 
         do i = 3 , Nx + 1
             do ii = 2 , Ny + 1
