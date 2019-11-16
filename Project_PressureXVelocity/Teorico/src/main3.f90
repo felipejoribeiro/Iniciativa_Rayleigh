@@ -114,7 +114,7 @@ subroutine Simulation()
     pi = 0.0d0                                                     !Initial condition parameter for preassure
     ti = 25.0d0                                                    !Initial condition parameter for temperature
     !Simulation convergence parameters:
-    cfl = 0.01                                                      !Relation betwen time and space steps
+    cfl = 0.25                                                     !Relation betwen time and space steps
     dt = (cfl * dx**2 )/ nu                                        !Time step length (s)
     time = 2500                                                    !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions

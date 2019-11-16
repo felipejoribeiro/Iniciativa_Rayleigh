@@ -65,11 +65,12 @@ module graphics
             character(len=*) text
             integer(glcint) p
 
+            call glRasterPos2i(50, 60)
             call glPushMatrix()
             call glTranslatef(x, y, 0.0_glfloat)
             do i=1,len(text)
                 p = ichar(text(i:i))
-                call glutStrokeCharacter(GLUT_STROKE_ROMAN, p)
+                call glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, p)
             end do
             call glPopMatrix()
         end subroutine output
@@ -110,6 +111,12 @@ subroutine Visualization()
 
 
 end subroutine Visualization
+
+
+
+
+
+
 
 
 

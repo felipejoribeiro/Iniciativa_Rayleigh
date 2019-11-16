@@ -27,7 +27,7 @@ subroutine idle1() bind(C)
   call glMatrixMode(GL_MODELVIEW)
   call glLoadIdentity()
 !  Rotate text slightly to help show jaggies
-  call output(0.0, 0.0, "This is aátialíased.")
+  call output(0.0, 0.0, "This is antialiased.")
   call glPopMatrix()
   call glMatrixMode(GL_PROJECTION)
   call glPopMatrix()
@@ -59,9 +59,11 @@ integer(glcint) p
 
   call glPushMatrix()
   call glTranslatef(x, y, 0.0_glfloat)
+  call glRasterPos2i(100, 120)
   do i=1,len(text)
     p = ichar(text(i:i))
-    call glutStrokeCharacter(GLUT_STROKE_ROMAN, p)
+    !call glutStrokeCharacter(GLUT_STROKE_ROMAN, p)
+    call glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, p)
   end do
   call glPopMatrix()
 end subroutine output
