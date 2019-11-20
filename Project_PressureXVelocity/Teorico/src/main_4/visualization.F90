@@ -12,40 +12,20 @@
 
 
 !##################################################################################################################################
-! Main module for global variables                                                                                               !#
-module graphics                                                                                                                  !#
-    !OPENGL libraries                                                                                                            !#
-    use, intrinsic :: ISO_C_BINDING
-    use mpi
-    use opengl_gl
-    use opengl_glu
-    use opengl_glut
-    implicit none
-
-    !Parameters for graphical global variables:
-    integer :: window ,  xpixel , ypixel                                                   !window id , size of window
-    double precision , dimension(:,:), allocatable :: dBuffer,dBuffer1,dBuffer2,dBuffer3   !Screen data buffer
-    character*200 :: windows_name                                                          !Name of the window
-    integer:: ERROR , status(MPI_STATUS_SIZE)                                              !MPI stuf
-    integer:: i , ii , iii                                                                 !Integer counters
-    integer:: Nx, Ny                                                                       !Simulation buffer size
-    integer:: Type_of_visualization                                                        !Type of graphics
-                                                                                                                                 !#
-end module graphics                                                                                                              !#
-!##################################################################################################################################
-
-
-
-
-
-
-
-!##################################################################################################################################
 ! Rotine of creation, configuration and data assimilation of simulation results                                                  !#
 subroutine Visualization()                                                                                                       !#
-    use graphics                                                                                                                 !#
+    use global                                                                                                                   !#
     implicit none                                                                                                                !#
 
+    !First comunication with Simulation
+    logg = "inicio_receive"
+    call Graph(logg)                                                !Function of comunication
+                                                                    ! > Nx , Ny , Windows_name
+
+    !Main visualization subroutines
+    call NewWindow()         !Window creation
+    call ConfigureWindow()   !Window configuration
+    call glutmainloop()      !Enter IDLE protocol
 
 
 
@@ -54,4 +34,68 @@ subroutine Visualization()                                                      
     return                                                                                                                       !#
                                                                                                                                  !#
 end subroutine Visualization                                                                                                     !#
+!##################################################################################################################################
+
+
+
+
+
+
+!##################################################################################################################################
+!Subroutine to create a window                                                                                                   !#
+subroutine NewWindow()                                                                                                           !#
+    use global                                                                                                                   !#
+    implicit none                                                                                                                !#
+
+    !Initial parametrization determinations
+    ypixel = 300                                                           !vertical size of window in pixels
+    xpixel = int(ypixel * real(Nx + 2)/real(Ny + 2))                       !horizontal size of window in pixels
+
+
+    call glutinit()
+    call glutinitdisplaymode(GLUT_DOUBLE+GLUT_RGB+GLUT_DEPTH)              !Exibicion mode
+    call glutInitWindowSize(xpixel, ypixel)                                !Determine window width in pixels
+    window = glutcreatewindow(trim(Windows_name))                          !A name is given to the window
+
+    select case(Type_of_visualization)                                     !Select type of visualization (single of multiple)
+        case(1)
+            call glutIdleFunc(idle1)                                       !single window
+        case(2)
+            call glutIdleFunc(idle2)                                       !multi window
+    end select
+
+
+
+    return                                                                                                                       !#
+                                                                                                                                 !#
+end subroutine NewWindow                                                                                                         !#
+!##################################################################################################################################
+
+
+
+
+
+
+
+!##################################################################################################################################
+! Configuring the window                                                                                                         !#
+subroutine ConfigureWindow()                                                                                                     !#
+    use global                                                                                                                   !#
+    implicit none                                                                                                                !#
+
+    call glclearcolor(1.0, 1.0, 1.0, 0.0)                                  !seta cor no background.
+    call glmatrixmode(GL_PROJECTION)                                       !Matrix context of operations
+    call glloadidentity()                                                  !Identity matrix loaded
+    call glortho(0.0d0, 1.0d0, 0.0d0, 1.0d0, -0.5d0, 0.5d0)                !Limits (left, right, down, up, close to the camera, far from the camera)
+    call glEnableClientState(GL_VERTEX_ARRAY)                              !Funcionalities
+    call glEnable(GL_BLEND)                                                !Blend
+    call glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)                 !Blend function
+    call glEnable(GL_LINE_SMOOTH)                                          !Smooth edges
+
+
+
+
+    return                                                                                                                       !#
+                                                                                                                                 !#
+end subroutine ConfigureWindow                                                                                                   !#
 !##################################################################################################################################

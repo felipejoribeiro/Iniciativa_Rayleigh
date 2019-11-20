@@ -274,7 +274,7 @@ subroutine time_steps()
         !At final of a step
 
         WRITE(*,101) char(13), MAXVAL(C%div) , pressure_step , velo_step
-        101 FORMAT(1a1,ES7.1, I5, I5,$)
+        101 FORMAT(1a1,ES7.1, I5, I5, $)
 
         call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)

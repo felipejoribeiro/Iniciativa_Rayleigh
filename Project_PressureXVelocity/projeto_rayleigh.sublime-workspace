@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"graph",
+				"graphics"
+			],
+			[
 				"in",
 				"in"
 			],
@@ -235,7 +239,7 @@
 			"file": "Teorico/src/main3.f90",
 			"settings":
 			{
-				"buffer_size": 24397,
+				"buffer_size": 24398,
 				"encoding": "UTF-8",
 				"line_ending": "Unix",
 				"name": "program cavidade"
@@ -272,7 +276,7 @@
 			"file": "Teorico/src/main_4/main.F90",
 			"settings":
 			{
-				"buffer_size": 10787,
+				"buffer_size": 21238,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -281,7 +285,7 @@
 			"file": "Teorico/src/main_4/simulation.F90",
 			"settings":
 			{
-				"buffer_size": 16945,
+				"buffer_size": 7758,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -290,7 +294,7 @@
 			"file": "Teorico/src/main_4/visualization.F90",
 			"settings":
 			{
-				"buffer_size": 4132,
+				"buffer_size": 6846,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -1213,11 +1217,7 @@
 	[
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias"
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento"
 	],
 	"file_history":
 	[
@@ -1427,7 +1427,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -1436,15 +1436,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 24397,
+						"buffer_size": 24398,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9810,
-								9810
+								10037,
+								10037
 							]
 						],
 						"settings":
@@ -1455,10 +1455,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1995.0,
+						"translation.y": 2112.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1474,8 +1474,8 @@
 						"selection":
 						[
 							[
-								3626,
-								3626
+								4586,
+								4586
 							]
 						],
 						"settings":
@@ -1485,10 +1485,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1292.0,
+						"translation.y": 1409.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1518,7 +1518,7 @@
 						"translation.y": 429.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1548,7 +1548,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1557,15 +1557,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10787,
+						"buffer_size": 21238,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3442,
-								3442
+								20025,
+								20025
 							]
 						],
 						"settings":
@@ -1578,7 +1578,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1587,15 +1587,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16945,
+						"buffer_size": 7758,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10852,
-								10852
+								5423,
+								5423
 							]
 						],
 						"settings":
@@ -1603,10 +1603,10 @@
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1355.0,
+						"translation.y": 507.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1615,15 +1615,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4132,
+						"buffer_size": 6846,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3600,
-								3600
+								3726,
+								3726
 							]
 						],
 						"settings":
@@ -1634,7 +1634,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1663,7 +1663,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1706,7 +1706,7 @@
 	},
 	"output.exec":
 	{
-		"height": 172.0
+		"height": 44.0
 	},
 	"output.find_results":
 	{

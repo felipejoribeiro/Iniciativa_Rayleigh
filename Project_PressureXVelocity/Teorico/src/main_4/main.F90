@@ -13,6 +13,60 @@ include 'simulation.F90'      !Codes for 2D CFD solving (version 1.0.0 required)
 include 'parallel_simu.F90'   !Code for parallelisation of the physical routines.
 
 !##################################################################################################################################
+! Main module for global variables                                                                                               !#
+Module global                                                                                                                    !#
+    use mpi                                                                                                                      !#
+    use, intrinsic :: ISO_C_BINDING                                                                                              !#
+    use opengl_gl                                                                                                                !#
+    use opengl_glu                                                                                                               !#
+    use opengl_glut                                                                                                              !#
+    implicit none                                                                                                                !#
+
+    ! Definition of the CELL entity
+    type Cell
+        double precision:: T , Ti                      !Temperature variables
+        double precision:: P , Pi , Pl                 !Double precision
+        double precision:: v , u , vl , ul             !velocities variables
+        double precision:: dx , dy                     !Size variables
+        double precision:: x , y                       !Absolute coordinates location
+        double precision:: alpha , nu , rho , mi       !Local physical variables
+        double precision:: div , divi                  !Divergent of velocity in this cell
+        LOGICAL:: Wall                                 !Is Wall?
+        integer:: type_Wall                            !What type of wall?
+                                !Temerature - velocity - Preassure : 101 (example)
+                                !1 ----> (velocity: dirichlet = (u=ud , v=vd), Temperature: Neumann = 0 , Preassure: Neumann = 0)
+                                !0 ----> (Neumann: )
+    end type
+
+    !Phisical parameters
+    integer:: Nx , Ny                                              !Space discretization
+    double precision:: Lx , Ly , dx , dy                           !Geometry of the space domain
+    double precision:: alpha , nu , mi , rho , gx , gy             !physical variables
+    double precision:: vi , ui , pi , Ti , Reynolds, V_top         !Initial condition variables
+    double precision:: time , dt , cfl , increment                 !Convergence variables
+    type(Cell), dimension(:,:) , allocatable :: C                  !Temperature and extra matrix
+    double precision, dimension(:,:) , allocatable :: tr           !Transition variable
+
+    !Computational parameters
+    character(LEN=200):: OS, dirname , filename ,string,bar,logg   !Names for file creation and directory structure
+    character(LEN=200) :: windows_name                             !Name of the window
+    character(LEN=200):: date_os , time_os                         !Time and date
+    Logical:: save_image , Exist_Thermal_simulation                !Simulation options
+    integer:: what_thermal_simulation, what_velocity_simulation &  !Simulation options
+            , image_frequence
+    integer:: i , ii , iii                                         !Integer counters
+    integer:: step , pressure_step , velo_step                     !Number of iterations in simulation
+    integer :: ERROR , numprocs, ID , status(MPI_STATUS_SIZE)      !MPI integers
+    logical :: interface, parrallel_implicit                       !MPI arguments
+    integer :: window ,  xpixel , ypixel                           !window id , size of window
+                                                                                                                                 !#
+end Module                                                                                                                       !#
+!##################################################################################################################################
+
+
+
+
+!##################################################################################################################################
 !Main program, responsible for distributin mpi jobs                                                                               #
 program main                                                                                                                     !#
 	use global                                                                                                                   !#
@@ -198,4 +252,108 @@ subroutine identity_directory()                                                 
     return                                                                                                                       !#
                                                                                                                                  !#
 end subroutine identity_directory                                                                                                !#
+!##################################################################################################################################
+
+
+
+
+
+
+!##################################################################################################################################
+!Routine that prints stuf in the terminal                                                                                        !#
+subroutine LOG(what_case)                                                                                                        !#
+    use global                                                                                                                   !#
+    implicit none                                                                                                                !#
+    character(LEN=200), intent (in) :: what_case                       !Variable for selecting what text is to print
+
+
+    !The subroutine see what is the context
+    if (interface .eqv. .TRUE.) then
+
+        select case(what_case)
+
+            case("inicio")! First print on the screen, presenting the program.
+
+                Print*, ""
+                Print*, ""
+                Print*, ""
+                Print*, "#########################################################################################"
+                Print*, "#                                                                                       #"
+                Print*, "#   Program for bidimensional simulations                                               #"
+                Print*, "#                                                                                       #"
+                Print*, "#   student: Felipe Jose Oliveira Ribeiro                                               #"
+                Print*, "#   Professor: Aristeu Silveira Neto                                                    #"
+                Print*, "#                                                                                       #"
+                Print*, "#########################################################################################"
+                Print*, trim(filename)
+                Print*, trim(date_os) , "   (" , trim(time_os) , ")"
+                Print*, "Reynolds = " , Reynolds
+                Print*, "dt = " , dt
+                Print*, "dx = " , dx
+                Print*, "CFL =" , cfl
+
+            case("iterações")! Print tha is called once a time step
+
+                !WRITE(*,101) char(13), MAXVAL(C%div) , pressure_step , velo_step
+                101 FORMAT(1a1,ES7.1, I5, I5,$)
+
+            case("fim") !End of simulation, last log
+
+            print*, "######################################################"
+            print*, "#                                                    #"
+            print*, "#                  Fim da simulação                  #"
+            print*, "#                                                    #"
+            print*, "######################################################"
+
+        end select
+    end if
+
+
+    return                                                                                                                       !#
+                                                                                                                                 !#
+end subroutine LOG                                                                                                               !#
+!##################################################################################################################################
+
+
+
+
+
+
+!##################################################################################################################################
+!Routine that prints stuf in the terminal                                                                                        !#
+subroutine Graph(what_case)                                                                                                      !#
+    use global                                                                                                                   !#
+    implicit none                                                                                                                !#
+    character(LEN=200), intent (in) :: what_case                       !Variable for selecting what text is to print
+
+
+    !The subroutine see what is the context
+    if (interface) then
+
+        select case(what_case)
+
+            case("inicio_send")!First comunication with visulaization process, with valuable information
+
+                !Initial parametrization and window creation.
+                call MPI_SEND( Nx  , 1 , MPI_INTEGER , 1 , 1 , MPI_COMM_WORLD , ERROR)                                   !Size of simulation data buffer in x
+                call MPI_SEND( Ny  , 1 , MPI_INTEGER , 1 , 0 , MPI_COMM_WORLD , ERROR)                                   !Size of simulation data buffer in y
+                call MPI_SEND( Windows_name  , 200 , MPI_CHARACTER, 1 , 1 , MPI_COMM_WORLD , ERROR)                      !Name of the window of visualization
+
+            case("inicio_receive")!!First comunication with visulaization process, with valuable information
+
+                call MPI_RECV( Nx , 1 , MPI_INTEGER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in x
+                call MPI_RECV( Ny , 1 , MPI_INTEGER , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in y
+                call MPI_RECV( Windows_name , 200 , MPI_CHARACTER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)            !Name of the window of visualization
+
+
+            case("iterações")!DATA from the phisicall iterations
+
+
+        end select
+    end if
+
+
+    return                                                                                                                       !#
+                                                                                                                                 !#
+end subroutine Graph                                                                                                             !#
 !##################################################################################################################################
