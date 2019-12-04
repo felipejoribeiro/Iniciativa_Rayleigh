@@ -32,10 +32,10 @@ Module global                                                                   
         double precision:: alpha , nu , rho , mi       !Local physical variables
         double precision:: div , divi                  !Divergent of velocity in this cell
         LOGICAL:: Wall                                 !Is Wall?
-        integer:: type_Wall                            !What type of wall?
-                                !Temerature - velocity - Preassure : 101 (example)
-                                !1 ----> (velocity: dirichlet = (u=ud , v=vd), Temperature: Neumann = 0 , Preassure: Neumann = 0)
-                                !0 ----> (Neumann: )
+        integer,dimension(3):: type_Wall               !What type of wall?
+                                !Temerature - velocity - Preassure : (1,0,1) (example)
+                                !1 ----> (velocity: dirichlet = (u=ud , v=vd), Temperature:dirichlet = (T=td) , Preassure: dirichlet = (p=pd))
+                                !0 ----> (velocity: Neumann = 0 Temperature: Neumann = 0 , Preassure: Neumann = 0)
     end type
 
     !Phisical parameters
@@ -48,6 +48,7 @@ Module global                                                                   
     double precision, dimension(:,:) , allocatable :: tr           !Transition variable
 
     !Computational parameters
+    double precision, dimension(:,:,:) , allocatable :: Dbuffer    !Transition variable
     character(LEN=200):: OS, dirname , filename ,string,bar,logg   !Names for file creation and directory structure
     character(LEN=200) :: windows_name                             !Name of the window
     character(LEN=200):: date_os , time_os                         !Time and date
@@ -59,6 +60,29 @@ Module global                                                                   
     integer :: ERROR , numprocs, ID , status(MPI_STATUS_SIZE)      !MPI integers
     logical :: interface, parrallel_implicit                       !MPI arguments
     integer :: window ,  xpixel , ypixel                           !window id , size of window
+
+
+    !Function for dysplaing data (IDLE function)
+    contains
+
+        !Function that is called once per frame.
+        subroutine idle() bind(C)
+
+            call glClear(ior(GL_COLOR_BUFFER_BIT,GL_DEPTH_BUFFER_BIT))        !Clear screen for new frame
+            call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame
+
+            ! Prearing for DATA aquisition, there is 10 slots for physical matrixes, but can be increased
+            Allocate(Dbuffer(10 , Nx + 2 , Ny + 2))       ! DATA allocation
+            
+            !Rendering routines:
+            call RENDERING_ENGINE()                       ! code with all rendering and interaction routines
+
+            deallocate(Dbuffer)                           ! DATA deallocation after shown
+            
+            call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing
+            call glflush()               !Process OPENGL precompiled codes
+
+        end subroutine idle
                                                                                                                                  !#
 end Module                                                                                                                       !#
 !##################################################################################################################################

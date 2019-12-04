@@ -10,6 +10,7 @@ typedef struct
 {
 	GLfloat x, y, z;       //position
 	GLfloat r, g, b, a;    //color and alpha channels
+
 }Vertex;
 
 

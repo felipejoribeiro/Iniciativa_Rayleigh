@@ -140,7 +140,7 @@
 %insere o logotipo da ufu em todos os slides
 % \logo{\includegraphics[height=0.8cm]{figuras/layout_slide/petrobras.png}}
 
-\title{Uma análise bidimensional de escoamentos em cavidade.}
+\title{Uma análise bidimensional de escoamentos incompressíveis.}
 
 \author{ Felipe J. O. Ribeiro \\ \and \\ Orientador: Prof. Dr. Aristeu da Silveira Neto}
 
@@ -207,66 +207,65 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introdução}
-%
-%	\begin{frame}
-%		\frametitle{Objetivos}
-%
-%		\centering
-%		O presente texto procura documentar o desenvolvimento deste trabalho de pesquisa com o máximo de detalhes nas metodologias possível. Dês dos desenvolvimentos matemáticos e teóricos aos andamentos nos aspectos técnicos e organizacionais.
-%
-%		\vspace{0.5cm}
-%
-%		\flushleft
-%		Os tópicos centrais deste estudo são:\\
-%		\quad $\bullet$ Desenvolvimento teórico e matemático do escoamento bidimensional em cavidade.\\
-%		\quad $\bullet$ Implementação de modelo de turbulência baseado na hipótese de Boussinesq. \\
-%		\quad $\bullet$ Desenvolvimento das conversões dos parâmetros do Poiseuille para a cavidade.\\
-%		\quad $\bullet$ Aperfeiçoamento dos protocolos de visualização de dados com OpenGL.\\
-%		\quad $\bullet$ Desenvolvimento das rotinas em MPI no domínio bidimensional.\\
-%
-%	\end{frame}
+
+	\begin{frame}
+		\frametitle{Objetivos}
+
+		\centering
+		O presente texto procura documentar o desenvolvimento deste trabalho de pesquisa com o máximo de detalhes nas metodologias possível. Dês dos desenvolvimentos matemáticos e teóricos aos andamentos nos aspectos técnicos e organizacionais.
+
+		\vspace{0.5cm}
+
+		\flushleft
+		Os tópicos centrais deste estudo são:\\
+		\quad $\bullet$ Desenvolvimento teórico e matemático do escoamento bidimensional em cavidade.\\
+		\quad $\bullet$ Desenvolvimento das conversões dos parâmetros do Poiseuille para a cavidade.\\
+		\quad $\bullet$ Aperfeiçoamento dos protocolos de visualização de dados com OpenGL.\\
+		\quad $\bullet$ Desenvolvimento das rotinas em MPI no domínio bidimensional.\\
+
+	\end{frame}
 
 
 
 
 
-%	\begin{frame}
-%		\frametitle{Estrutura de arquivos}
-%		\begin{tabular}{c c}
-%			{
-%				\begin{minipage}[h!]{0.15\textwidth}
-%					\centering
-%					\small
-%					Neste projeto, dês do início, será dada uma atenção especial à organização dos documentos, de forma a simplificar o andamento das atividades de documentação e prosseguimento.
-%					\vspace{6cm}
-%				\end{minipage}
-%			}&{
-%				\includegraphics[trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.435]{../../arquivos.pdf}
-%			}
-%		\end{tabular}
-%
-%	\end{frame}
+	\begin{frame}
+		\frametitle{Estrutura de arquivos}
+		\begin{tabular}{c c}
+			{
+				\begin{minipage}[h!]{0.15\textwidth}
+					\centering
+					\small
+					Neste projeto, dês do início, será dada uma atenção especial à organização dos documentos, de forma a simplificar o andamento das atividades de documentação.
+					\vspace{6cm}
+				\end{minipage}
+			}&{
+				\includegraphics[trim={0.0cm 0.0cm 0.0cm 0.0cm},clip=true, scale = 0.435]{../../arquivos.pdf}
+			}
+		\end{tabular}
+
+	\end{frame}
 
 
 
 
 
-%	\begin{frame}
-%		\frametitle{Documento "Registro.tex"}
-%		\begin{tabular}{c c}
-%			{
-%				\begin{minipage}[h!]{0.4\textwidth}
-%					\centering
-%					\small
-%					Por questões de adequações á formatação em textos científicos, além desta apresentação também serão registrados os andamentos nesse documento em inglês. Ele segue o template da ASME para textos científicos. Assim, pretende-se já desenvolver as rotinas de visualização dos resultados de acordo com estas convenções. De forma a facilitar a criação de documentos para submissão em artigos e tornando este processo mais ágil.
-%					\vspace{6cm}
-%				\end{minipage}
-%			}&{
-%				\includegraphics[page = 1,trim={0.0cm 12.0cm 0.0cm 0.0cm},clip=true, scale = 0.4]{registro.pdf}
-%			}
-%		\end{tabular}
-%
-%	\end{frame}
+	\begin{frame}
+		\frametitle{Documento "Registro.tex"}
+		\begin{tabular}{c c}
+			{
+				\begin{minipage}[h!]{0.4\textwidth}
+					\centering
+					\small
+					Por questões de adequações á formatação em textos científicos, além desta apresentação também serão registrados os andamentos nesse documento em inglês. Ele segue o template da ASME para textos científicos. Assim, pretende-se já desenvolver as rotinas de visualização dos resultados de acordo com estas convenções. De forma a facilitar a criação de documentos para submissão em artigos e tornando este processo mais ágil.
+					\vspace{6cm}
+				\end{minipage}
+			}&{
+				\includegraphics[page = 1,trim={0.0cm 12.0cm 0.0cm 0.0cm},clip=true, scale = 0.4]{registro.pdf}
+			}
+		\end{tabular}
+
+	\end{frame}
 
 
 
@@ -338,7 +337,7 @@
 				\begin{minipage}{0.4\textwidth}
 					\small
 					\centering
-					O problema fluidodinâmico escolhido foi o da cavidade. Ele consiste em uma quantidade de fluido confinada a um sistema termodinâmico como na Fig.\ref{sistema_termico_1}:
+					O problema escolhido fora o da cavidade. Ele consiste em uma quantidade de fluido confinada, como na Fig.\ref{sistema_termico_1}:
 
 					\vspace{0.2cm}
 
@@ -375,24 +374,24 @@
 
 
 
-%	\begin{frame}
-%		\frametitle{Domínio bidimensional com advecção imposta}
-%		\begin{minipage}[h!]{0.49\textwidth}
-%			$\bullet$ Converter código bidimensional antigo em MatLab para c++.\\
-%			$\bullet$ Desenvolver advecção, com velocidades em $x$ e $y$ impostas para todo o domínio.\\
-%			$\bullet$ Desenvolver biblioteca visual para este estudo com openGL.\\
-%			$\bullet$ Converter para o fortran os códigos.\\
-%			$\bullet$ Experimentar plataforma openGL com fortran.\\
-%			$\bullet$ Estudar acoplamento velocidade pressão.\\
-%		\end{minipage}
-%		\begin{minipage}[h!]{0.49\textwidth}
-%			\begin{figure}[h!]
-%				\centering
-%				\includegraphics[trim = {0cm 1cm 0 1cm}, clip , angle=0, scale=0.15]{images/ImagemProfessor1}
-%				\caption{Esquema do professor.}
-%			\end{figure}
-%		\end{minipage}
-%	\end{frame}
+	\begin{frame}
+		\frametitle{Domínio bidimensional com advecção imposta}
+		\begin{minipage}[h!]{0.49\textwidth}
+			$\bullet$ Converter código bidimensional antigo em MatLab para c++.\\
+			$\bullet$ Desenvolver advecção, com velocidades em $x$ e $y$ impostas para todo o domínio.\\
+			$\bullet$ Desenvolver biblioteca visual para este estudo com openGL.\\
+			$\bullet$ Converter para o fortran os códigos.\\
+			$\bullet$ Experimentar plataforma openGL com fortran.\\
+			$\bullet$ Estudar acoplamento velocidade pressão.\\
+		\end{minipage}
+		\begin{minipage}[h!]{0.49\textwidth}
+			\begin{figure}[h!]
+				\centering
+				\includegraphics[trim = {0cm 1cm 0 1cm}, clip , angle=0, scale=0.15]{images/ImagemProfessor1}
+				\caption{Esquema do professor.}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
 
 
 
@@ -815,7 +814,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Desenvolvimento matemático}
+\section{Desenvolvimento matemático dinâmico}
 
 	\begin{frame}
 		\frametitle{Equações representativas}
@@ -925,11 +924,9 @@
 
 					\path[line](step2) -- node [above, text width=4em] {Resolução implicita.} node (line2) [below, text width=4em] {Eq.\ref{eqlabel2}} (step3);
 
-					\path[line](step3) -- node [right, near start,  text width=4em] {Resolução explícita.} node [right, near end, text width=4em] {Eq.\ref{eqlabel3}} (step5);
+					\path[line](step3) -- node [right, near start,  text width=4em] {Resolução dinâmica.} node [right, near end, text width=4em] {Eq.\ref{eqlabel3}} (step5);
 
-					\path[line](step5) -| node [right, near end, text width=6em] {Mais tempo na correção de pressão.} (line2);
-
-					\path[line](step5) -| node [right, near end, text width=6em] {Atualiza\\domínio.} node [below, near start, text width=12em] {Checa continuidade.} (step1);
+					\path[line](step5) -| node [right, near end, text width=6em] {Atualiza\\domínio\\dinâmico.} node [below, near start, text width=12em] {Checa continuidade.} (step1);
 				\end{tikzpicture}
 			\end{center}
 		\caption{Fluxograma do loop principal do algoritmo.}
@@ -1169,7 +1166,7 @@
 		\frametitle{Efetuando a correção na pressão}
 		A partir desta etapa, basta checar se o divergente do campo de velocidades está próximo de zero, de forma a se obedecer a equação da continuidade:
 		\begin{equation}
-		\frac{u_{i + 1 , ii}^{k + 1} - u_{i, ii}^{k + 1} }{\Delta x} + \frac{v_{i , ii + 1}^{k + 1} - v_{i, ii}^{k + 1} }{\Delta y} = 0
+		\frac{u_{i + 1 , ii}^{k + 1} - u_{i, ii}^{k + 1} }{\Delta x} + \frac{v_{i , ii + 1}^{k + 1} - v_{i, ii}^{k + 1} }{\Delta y} \simeq 0
 		\end{equation}
 
 	\end{frame}
@@ -1182,7 +1179,7 @@
 			\begin{figure}
 				\animategraphics[scale = 0.2 , loop , autoplay]{10}{images/temperature_1/frame-}{3}{120}
 				\label{gif1}
-				\caption{Temperatura.}
+				\caption{Velocidade vertical.}
 			\end{figure}
 		\end{minipage}
 		\begin{minipage}[h!]{0.31\textwidth}
@@ -1199,6 +1196,8 @@
 				\caption{Pressão.}
 			\end{figure}
 		\end{minipage}
+	
+	Houveram problemas, após uma revisão cuidados encontrou-se um erro nas equações dinâmicas.
 
 	\end{frame}
 
@@ -1206,52 +1205,163 @@
 
 
 	\begin{frame}
-	\frametitle{Resultados atuais}
-	\vspace{1cm}
-	\begin{minipage}[h!]{0.31\textwidth}
+		\frametitle{Resultados parciais}
+		\vspace{1cm}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[ angle=0, scale=0.2]{images/velocidade_vertical}
+				\label{ee}
+				\caption{Velocidade vertical.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[ angle=0, scale=0.2]{images/velocidade_horizontal}
+				\label{eee}
+				\caption{Velocidade horizontal.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[ angle=0, scale=0.2]{images/campo_pressao}
+				\label{eeeee}
+				\caption{Pressão.}
+			\end{figure}
+		\end{minipage}
+	
+	O divergente ainda estava muito alto, revisou-se cuidadosamente o código e encontrou-se um erro na correção de pressão. Nesse momento, os valores de resíduo na continuidade diminuíram à ordem de grandeza do critério de parada da solução implícita.
+	
+	\end{frame}
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Resultados Finais}
+		\vspace{1cm}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[ trim = {8.25cm 0cm 8.25cm 0cm}, clip , angle=0, scale=0.55]{images/resultados_finais_so_dinamicos}
+				\label{ee}
+				\caption{Velocidade vertical.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[ trim = {0cm 0cm 16.7cm 0cm}, clip , angle=0, scale=0.55]{images/resultados_finais_so_dinamicos}
+				\label{ee}
+				\caption{Velocidade horizontal.}
+			\end{figure}
+		\end{minipage}
+		\begin{minipage}[h!]{0.31\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[ trim = {16.7cm 0cm 0cm 0cm}, clip , angle=0, scale=0.55]{images/resultados_finais_so_dinamicos}
+				\label{ee}
+				\caption{Pressão.}
+			\end{figure}
+		\end{minipage}
+		
+	\end{frame}
+
+
+
+
+
+
+	\begin{frame}
+		\frametitle{Implementação térmica}
+		Dessa forma, utilizou-se a formulação anteriormente desenvolvida para introduzir a convecção no código. Antes, a velocidade foi colocada como constante por todo o domínio, agora ela virá da simulação dinâmica. A partir da temperatura final se calculará a variação do $\rho$, que no próximo passo de tempo influenciará a solução dinâmica. Assim o acoplamento temperatura-velocidade-pressão ocorrerá da seguinte forma:
+		
+		\begin{figure}[h]
+			\begin{center}
+				\begin{tikzpicture}[node distance = 1.5cm, auto]
+				\node[rect, rounded corners](step1) {$\vec{V}^n $};
+				\node[rect,rounded corners , right of=step1, node distance=4.5cm] (step2) {$\vec{V}^{* n + 1} $};
+				\node[rect, right of=step2, node distance=6.5cm] (step3) {$P^\prime$};
+				\node[rect, rounded corners, below of=step3, node distance=2.5cm](step5){$ \vec{V}^{n+1}$};
+				\node[rect, rounded corners, left of=step5, node distance=4cm](step6){$ \vec{T}^{n+1} $};
+				\node[rect, rounded corners, left of=step6, node distance=4cm](step7){$ \rho^{n+1} $};
+					
+				\path[line](step1) -- node [above, text width=4em] {Resolução explicita.} node [below, text width=4em] {Eq.\ref{eqlabel1}} (step2);
+					
+				\path[line](step2) -- node [above, text width=4em] {Resolução implicita.} node (line2) [below, text width=4em] {Eq.\ref{eqlabel2}} (step3);
+					
+				\path[line](step3) -- node [right, near start,  text width=4em] {Explícito \\ /implícito} node [right, near end, text width=4em] {Eq.\ref{eqlabel3}} (step5);
+				
+				\path[line](step5) -- node [above, near start, text width=6em] {Explícito} node [below, near start, text width=6em] {/Implícito} (step6);
+				
+				\path[line](step6) -- node [above, near start, text width=6em] {Explícito} node [below, near start, text width=12em] {} (step7);
+					
+				\path[line](step7) -| node [right, near end, text width=6em] {Atualiza\\domínio\\dinâmico.} node [below, near start, text width=12em] {Checa continuidade.} (step1);
+				\end{tikzpicture}
+			\end{center}
+			\caption{Fluxograma do loop principal do algoritmo.}
+		\end{figure}
+		
+	\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Desenvolvimento do programa}
+
+	\begin{frame}
+		\frametitle{Ideia geral do Software}
+		
 		\begin{figure}
 			\centering
-			\includegraphics[ angle=0, scale=0.2]{images/velocidade_vertical}
-			\label{ee}
-			\caption{Temperatura.}
+			\includegraphics[ trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.38]{../src/main_4/Plano_de_projeto}
 		\end{figure}
-	\end{minipage}
-	\begin{minipage}[h!]{0.31\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[ angle=0, scale=0.2]{images/velocidade_horizontal}
-			\label{eee}
-			\caption{Velocidade horizontal.}
-		\end{figure}
-	\end{minipage}
-	\begin{minipage}[h!]{0.31\textwidth}
-		\begin{figure}
-			\centering
-			\includegraphics[ angle=0, scale=0.2]{images/campo_pressao}
-			\label{eeeee}
-			\caption{Pressão.}
-		\end{figure}
-	\end{minipage}
+
+	\end{frame}
+
+
+\begin{frame}
+	\frametitle{Arquitetura da interface}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[ trim = {0cm 0cm 0cm 0cm}, clip , angle=0, scale=0.38]{../src/main_4/Interface}
+	\end{figure}
 	
 \end{frame}
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Modelo computacional}
+\begin{frame}
+	\frametitle{Ciclo de renderização}
+	Foi necessário se desenvolver um loop de renderização, que é uma rotina chamada uma vez por frame, que tem como objetivos a aquisição de dados via protocolos MPI do processo responsável por gerir as simulações, renderização de toda ferramenta gráfica exibida na tela, assimilação de input do usuário e enviar estes dados, se necessário, a outros processos.
+	
+	\begin{figure}[h]
+		\begin{center}
+			\begin{tikzpicture}[node distance = 1.5cm, auto]
+			\node[rect, rounded corners](step1) {$MPI DATA aquisition $};
+			\node[rect,rounded corners , right of=step1, node distance=9cm] (step2) {$Rendering scene$};
+			\node[rect, below of=step2, node distance=2.5cm] (step3) {$Acquires user input$};
+			\node[rect, rounded corners, left of=step3, node distance=9cm](step5){$MPI Send user input$};
+			
+			
+			\path[line](step1) -- node [above, text width=4em] {} node [below, text width=4em] {} (step2);
+			
+			\path[line](step2) -- node [above, text width=4em] {} node (line2) [below, text width=4em] {} (step3);
+			
+			\path[line](step3) -- node [right, near start,  text width=4em] {} node [right, near end, text width=4em] {} (step5);
+			
+			\path[line](step5) -- node [above, near start, text width=6em] {} node [below, near start, text width=6em] {} (step1);
 
-	\begin{frame}
-		\frametitle{Condições iniciais}
-
-
-
-
-
-	\end{frame}
-
-
-
-
+			\end{tikzpicture}
+		\end{center}
+		\caption{Fluxograma do loop principal do algoritmo.}
+	\end{figure}
+	
+\end{frame}
 
 
 

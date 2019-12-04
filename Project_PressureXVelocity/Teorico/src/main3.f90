@@ -16,7 +16,7 @@ Module global
         double precision:: P , Pi , Pl                 !Double precision
         double precision:: v , u , vl , ul             !velocities variables
         double precision:: dx , dy                     !Size variables
-        double precision:: x , y                       !Absolute coordinates location
+        double precision:: x , y                       !Absolute cobordinates location
         double precision:: alpha , nu , rho , mi       !Local physical variables
         double precision:: div , divi                  !Divergent of velocity in this cell
         LOGICAL:: Wall                                 !Is Wall?
@@ -95,7 +95,7 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 30                                                        !Space cells in x direction
+    Nx = 60                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)

@@ -27,10 +27,6 @@ subroutine Visualization()                                                      
     call ConfigureWindow()   !Window configuration
     call glutmainloop()      !Enter IDLE protocol
 
-
-
-
-
     return                                                                                                                       !#
                                                                                                                                  !#
 end subroutine Visualization                                                                                                     !#
@@ -48,23 +44,16 @@ subroutine NewWindow()                                                          
     implicit none                                                                                                                !#
 
     !Initial parametrization determinations
-    ypixel = 300                                                           !vertical size of window in pixels
+    ypixel = 600                                                           !vertical size of window in pixels
     xpixel = int(ypixel * real(Nx + 2)/real(Ny + 2))                       !horizontal size of window in pixels
 
-
+    !Windows creation
     call glutinit()
     call glutinitdisplaymode(GLUT_DOUBLE+GLUT_RGB+GLUT_DEPTH)              !Exibicion mode
     call glutInitWindowSize(xpixel, ypixel)                                !Determine window width in pixels
     window = glutcreatewindow(trim(Windows_name))                          !A name is given to the window
 
-    select case(Type_of_visualization)                                     !Select type of visualization (single of multiple)
-        case(1)
-            call glutIdleFunc(idle1)                                       !single window
-        case(2)
-            call glutIdleFunc(idle2)                                       !multi window
-    end select
-
-
+    call glutIdleFunc(idle)                                                !Function called during the routine continuasly.
 
     return                                                                                                                       !#
                                                                                                                                  !#
@@ -83,7 +72,7 @@ subroutine ConfigureWindow()                                                    
     use global                                                                                                                   !#
     implicit none                                                                                                                !#
 
-    call glclearcolor(1.0, 1.0, 1.0, 0.0)                                  !seta cor no background.
+    call glclearcolor(0.0, 0.0, 0.0, 0.0)                                  !seta cor no background.
     call glmatrixmode(GL_PROJECTION)                                       !Matrix context of operations
     call glloadidentity()                                                  !Identity matrix loaded
     call glortho(0.0d0, 1.0d0, 0.0d0, 1.0d0, -0.5d0, 0.5d0)                !Limits (left, right, down, up, close to the camera, far from the camera)
@@ -93,9 +82,25 @@ subroutine ConfigureWindow()                                                    
     call glEnable(GL_LINE_SMOOTH)                                          !Smooth edges
 
 
+    return                                                                                                                       !#
+                                                                                                                                 !#
+end subroutine ConfigureWindow                                                                                                   !#
+!##################################################################################################################################
+
+
+
+
+
+!##################################################################################################################################
+! What is drawed and observed trhowout the frame                                                                                 !#
+subroutine RENDERING_ENGINE()                                                                                                    !#
+    use global                                                                                                                   !#
+
+
+    
 
 
     return                                                                                                                       !#
                                                                                                                                  !#
-end subroutine ConfigureWindow                                                                                                   !#
+end subroutine RENDERING_ENGINE                                                                                                  !#
 !##################################################################################################################################
