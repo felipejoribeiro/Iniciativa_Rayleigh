@@ -11,6 +11,16 @@ module graphics
     use opengl_glut
     implicit none
 
+
+    ! Definition of vertez entity for line rendering
+    type Line
+
+        Real :: x , y
+
+    end type
+
+
+
     !Parameters for graphical global variables:
     integer :: window ,  xpixel , ypixel                                                   !window id , size of window
     double precision , dimension(:,:), allocatable :: dBuffer,dBuffer1,dBuffer2,dBuffer3   !Screen data buffer
@@ -48,12 +58,13 @@ module graphics
 
             call glClear(ior(GL_COLOR_BUFFER_BIT,GL_DEPTH_BUFFER_BIT))
             call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame
-            Allocate(dBuffer(Nx + 2 , Ny + 2))
+            Allocate(dBuffer(Nx + 2 , Ny + 2) , dBuffer1(Nx + 2 , Ny + 2))
             call scatter2()                !Render heatmap
-            call Legend()                 !Render Legend
-            deallocate(dBuffer)
-            call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing
-            call glflush()               !Process OPENGL precompiled codes
+            call Legend()                  !Render Legend
+            call Flux_line()               !Create flux lines
+            deallocate(dBuffer , dBuffer1)
+            call glutSwapBuffers()         !send new buffer of collors simutaneusly for rendering, prevent tearing
+            call glflush()                 !Process OPENGL precompiled codes
 
         end subroutine idle2
 
@@ -204,6 +215,103 @@ subroutine scatter1()
 
 
 end subroutine scatter1
+
+
+
+
+
+
+!Heatmap rendering engine
+subroutine Flux_line()
+    use graphics
+    implicit none
+
+    type(Line), dimension(:,:) , allocatable :: Lines
+    integer:: Numero_linhas , Numero_pontos , nnn
+    Real:: uu , vv
+
+    !Allocate allocatables
+    call MPI_RECV( dBuffer , size(dBuffer) , MPI_DOUBLE_PRECISION , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                   !u
+
+    !Allocate allocatables
+    call MPI_RECV( dBuffer1 , size(dBuffer) , MPI_DOUBLE_PRECISION , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                  !v
+
+
+    Numero_linhas = 10
+    Numero_pontos = 50
+
+    allocate(Lines(Numero_linhas , Numero_pontos))
+
+    !Prepare renderer
+
+    !initial point do
+    do i = 1 , size( Lines(:,1) )
+
+        Lines(i,1)%x = 0.5
+
+        Lines(i,1)%y =  0.05 + 0.9 * ( real(i) /real(size( Lines(:,1) ) ))
+        print*, Lines(i,1)%y , Lines(i,1)%x
+
+    end do
+
+    !Constructing Space information
+
+    do i = 1 , dBuffer(: , 1)
+        do ii = 1 , dBuffer(1 , :)
+
+
+
+        end do
+    end do
+
+
+
+    !RungeKutta Line creation:
+    do i = 1 , size( Lines(:,1) )
+
+        !Primeira tentativa: Euler
+        do ii = 2 , size( Lines(1,:) )
+
+            !Deinição das velocidades u e v da coordenada em questão POR VIAS DE INTERPOLAÇÃO:
+            uu = dBuffer(  size(dBuffer(:,1)) , size(dBuffer(1,:))  )
+            vv = dBuffer1(  size(dBuffer1(:,1)) , size(dBuffer1(1,:))  )
+
+            !Definição do ponto seguinte
+            Lines(i,ii)%x = 1
+            Lines(i,ii)%y = 1
+
+        end do
+
+    end do
+
+
+
+    !Render each line for each group of points
+    do i = 1 , size( Lines(:,1) )
+        call glBegin(GL_LINE_LOOP)
+
+            ! vertex definition of all points.
+            do ii = 1 , size( Lines(1,:) )
+
+            call glVertex2f( Lines(i , ii)%x , Lines(i , ii)%y )
+
+            end do
+
+        call glEnd()
+    end do
+
+
+    deallocate(Lines)
+    return
+
+
+end subroutine Flux_line
+
+
+
+
+
+
 
 
 !Heatmap rendering engine
