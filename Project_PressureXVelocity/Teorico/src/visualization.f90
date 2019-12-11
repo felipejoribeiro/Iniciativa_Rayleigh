@@ -29,6 +29,7 @@ module graphics
     integer:: i , ii , iii                                                                 !Integer counters
     integer:: Nx, Ny                                                                       !Simulation buffer size
     integer:: Type_of_visualization                                                        !Type of graphics
+    double precision:: Lx , Ly
 
 
 
@@ -102,6 +103,8 @@ subroutine Visualization()
     !Initial comunication with simulation
     call MPI_RECV( Nx , 1 , MPI_INTEGER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in x
     call MPI_RECV( Ny , 1 , MPI_INTEGER , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in y
+    call MPI_RECV( Lx , 1 , MPI_DOUBLE_PRECISION , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in x
+    call MPI_RECV( Ly , 1 , MPI_DOUBLE_PRECISION , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in y
     call MPI_RECV( Windows_name , 200 , MPI_CHARACTER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)            !Name of the window of visualization
     call MPI_RECV( Type_of_visualization , 1 , MPI_INTEGER , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)       !Type of visualization
 
@@ -227,8 +230,8 @@ subroutine Flux_line()
     implicit none
 
     type(Line), dimension(:,:) , allocatable :: Lines
-    integer:: Numero_linhas , Numero_pontos , nnn
-    Real:: uu , vv
+    integer:: Numero_linhas , Numero_pontos , nnn , contx , conty
+    double precision:: uu , vv , dx , dy , leftOverx, leftOvery , veff , ueff
 
     !Allocate allocatables
     call MPI_RECV( dBuffer , size(dBuffer) , MPI_DOUBLE_PRECISION , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                   !u
@@ -240,6 +243,11 @@ subroutine Flux_line()
     Numero_linhas = 10
     Numero_pontos = 50
 
+    dx = Lx/REAL(size(dBuffer(:,1)) - 2)
+
+    dy = Ly/REAL(size(dBuffer(1,:)) - 2)
+
+
     allocate(Lines(Numero_linhas , Numero_pontos))
 
     !Prepare renderer
@@ -249,15 +257,41 @@ subroutine Flux_line()
 
         Lines(i,1)%x = 0.5
 
-        Lines(i,1)%y =  0.05 + 0.9 * ( real(i) /real(size( Lines(:,1) ) ))
-        print*, Lines(i,1)%y , Lines(i,1)%x
+        Lines(i,1)%y = ( real(i)/real(size(Lines(:,1))) - 0.5d0/real(size(Lines(:,1))) )
+        !print*, Lines(i,1)%y , Lines(i,1)%x
 
     end do
 
-    !Constructing Space information
+    !Constructing Space information relativo to dynamic domain
 
-    do i = 1 , dBuffer(: , 1)
-        do ii = 1 , dBuffer(1 , :)
+    do i = 1 , size(Lines(:,1)%x)                                    ! for each line, calculate the path
+
+        do ii = 2 , size(Lines(1,:)%x)                               ! Path integration, folowing 2, because 1 is alread defined
+
+        !interpolation for this point
+        contx = INT( ((Lines(i , ii - 1)%x) * Lx + dx  )/ dx )                               ! Number of cells including the wall cell (x)
+        leftOverx = abs( (Lines(i , ii - 1)%x) * Lx + dx - REAL(contx)* dx )/dx              ! position in the cell (0 --> begining, 1--> end) (x)
+        conty = INT( ((Lines(i , ii - 1)%y) * Ly + dy  )/ dy )                               ! Number of cells including the wall cell (y)
+        leftOvery = abs( (Lines(i , ii - 1)%y) * Ly + dy - REAL(conty)* dy )/dy              ! position in the cell (0 --> begining, 1--> end) (y)
+
+        print*, dx , contx , contx * dx, leftOverx
+
+        if(leftOverx > 0.5d0)then
+
+            veff =1
+
+
+        else
+
+            veff =1
+
+        end if
+        if(leftOvery > 0.5d0)then
+
+        else
+
+        end if
+
 
 
 

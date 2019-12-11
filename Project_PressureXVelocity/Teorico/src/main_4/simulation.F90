@@ -19,7 +19,7 @@ subroutine Simulation()                                                         
     implicit none                                                                                                                !#
 
     !Parameters of the simulation:
-    Nx = 30                                                        !Space cells in x direction
+    Nx = 100                                                       !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
@@ -39,9 +39,9 @@ subroutine Simulation()                                                         
     pi = 0.0d0                                                     !Initial condition parameter for preassure
     ti = 25.0d0                                                    !Initial condition parameter for temperature
     !Simulation convergence parameters:
-    cfl = 0.25                                                     !Relation betwen time and space steps
+    cfl = 0.25d0                                                   !Relation betwen time and space steps
     dt = (cfl * dx**2 )/ nu                                        !Time step length (s)
-    time = 2500                                                    !Total time of simulation (s)
+    time = 2500.0d0                                                !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
     !Simulation Pannel control:
     save_image = .FALSE.                                           !Save file is wanted?

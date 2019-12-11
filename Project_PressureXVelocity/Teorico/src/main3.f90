@@ -95,9 +95,9 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 60                                                        !Space cells in x direction
+    Nx = 51                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
-    Lx = 1.d0                                                      !Size of space domain in x  (m)
+    Lx = 10.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
     dx =  Lx / (Nx)                                                !Cells length in x (m)
     dy =  Ly / (Ny)                                                !Cells length in y (m)
@@ -138,8 +138,10 @@ subroutine Simulation()
 
 
     !First Contact with visualization process, for initial parametrization and window creation.
-    call MPI_SEND( Nx  , 1 , MPI_INTEGER , 1 , 1 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in x
-    call MPI_SEND( Ny  , 1 , MPI_INTEGER , 1 , 0 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in y
+    call MPI_SEND( Nx , 1 , MPI_INTEGER , 1 , 1 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in x
+    call MPI_SEND( Ny , 1 , MPI_INTEGER , 1 , 0 , MPI_COMM_WORLD , ERROR)                        !Size of simulation data buffer in y
+    call MPI_SEND( Lx  , 1 , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)               !Size of simulation data buffer in x
+    call MPI_SEND( Ly  , 1 , MPI_DOUBLE_PRECISION , 1 , 0 , MPI_COMM_WORLD , ERROR)               !Size of simulation data buffer in y
     call MPI_SEND( Windows_name  , 200 , MPI_CHARACTER, 1 , 1 , MPI_COMM_WORLD , ERROR)           !Name of the window of visualization
     call MPI_SEND( Type_of_visualization  , 1 , MPI_INTEGER, 1 , 0 , MPI_COMM_WORLD , ERROR)      !Name of the window of visualization
 

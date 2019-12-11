@@ -73,12 +73,12 @@ Module global                                                                   
 
             ! Prearing for DATA aquisition, there is 10 slots for physical matrixes, but can be increased
             Allocate(Dbuffer(10 , Nx + 2 , Ny + 2))       ! DATA allocation
-            
+
             !Rendering routines:
             call RENDERING_ENGINE()                       ! code with all rendering and interaction routines
 
             deallocate(Dbuffer)                           ! DATA deallocation after shown
-            
+
             call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing
             call glflush()               !Process OPENGL precompiled codes
 
@@ -102,7 +102,7 @@ program main                                                                    
     call MPI_COMM_SIZE(MPI_COMM_WORLD, numprocs, ERROR)            !Asks for the total number of affiliated processes
 
     !Parameters for the number of processes
-    interface =  .TRUE.                                           !There will be a graphicall interface?
+    interface =  .TRUE.                                            !There will be a graphicall interface?
     parrallel_implicit = .FALSE.                                   !The implicit iterations must be divided by various prosesses?
 
     !The courent directory is identified for file creation and get OS
@@ -370,7 +370,16 @@ subroutine Graph(what_case)                                                     
                 call MPI_RECV( Windows_name , 200 , MPI_CHARACTER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)            !Name of the window of visualization
 
 
-            case("iterações")!DATA from the phisicall iterations
+            case("iteracoes_plot_send")!DATA from the phisicall iterations
+
+
+                !Information to print
+
+
+            case("iteracoes_plot_receive")!DATA from the phisicall iterations
+
+
+                !Information to print
 
 
         end select

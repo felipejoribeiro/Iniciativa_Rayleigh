@@ -236,59 +236,22 @@
 	"buffers":
 	[
 		{
-			"file": "Teorico/src/main3.f90",
-			"settings":
-			{
-				"buffer_size": 24835,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "program cavidade"
-			}
-		},
-		{
-			"contents": "! Code for the creation of visualization native in fortran.\n! Version 1.0.0\n\n! Main module for global variables\nmodule graphics\n    !OPENGL libraries\n    use, intrinsic :: ISO_C_BINDING\n    use mpi\n    use opengl_gl\n    use opengl_glu\n    use opengl_glut\n    implicit none\n\n\n    ! Definition of vertez entity for line rendering\n    type Line\n\n        Real :: x , y\n\n    end type\n\n\n\n    !Parameters for graphical global variables:\n    integer :: window ,  xpixel , ypixel                                                   !window id , size of window\n    double precision , dimension(:,:), allocatable :: dBuffer,dBuffer1,dBuffer2,dBuffer3   !Screen data buffer\n    character*200 :: windows_name                                                          !Name of the window\n    integer:: ERROR , status(MPI_STATUS_SIZE)                                              !MPI stuf\n    integer:: i , ii , iii                                                                 !Integer counters\n    integer:: Nx, Ny                                                                       !Simulation buffer size\n    integer:: Type_of_visualization                                                        !Type of graphics\n\n\n\n\n    !Functions for dysplaing data\n    contains\n\n        !Function that is called once per frame. Type 1\n        subroutine idle1() bind(C)\n\n            call glClear(ior(GL_COLOR_BUFFER_BIT,GL_DEPTH_BUFFER_BIT))\n            call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame\n            Allocate(dBuffer(Nx + 2 , Ny + 2))\n            call assimilation()           !Function that get values\n            call scatter1()                !Render heatmap\n            call Legend()                 !Render Legend\n            deallocate(dBuffer)\n            call glutSwapBuffers()       !send new buffer of collors simutaneusly for rendering, prevent tearing\n            call glflush()               !Process OPENGL precompiled codes\n\n        end subroutine idle1\n\n\n        !Function that is called once per frame.Type 2\n        subroutine idle2() bind(C)\n\n\n            call glClear(ior(GL_COLOR_BUFFER_BIT,GL_DEPTH_BUFFER_BIT))\n            call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame\n            Allocate(dBuffer(Nx + 2 , Ny + 2) , dBuffer1(Nx + 2 , Ny + 2))\n            call scatter2()                !Render heatmap\n            call Legend()                  !Render Legend\n            call Flux_line()               !Create flux lines\n            deallocate(dBuffer , dBuffer1)\n            call glutSwapBuffers()         !send new buffer of collors simutaneusly for rendering, prevent tearing\n            call glflush()                 !Process OPENGL precompiled codes\n\n        end subroutine idle2\n\n\n        !Function to text drawning\n        subroutine output(x, y, text)\n\n            real(glfloat) x,y\n            character(len=*) text\n            integer(glcint) p\n\n            call glRasterPos2i(50, 60)\n            call glPushMatrix()\n            call glTranslatef(x, y, 0.0_glfloat)\n            do i=1,len(text)\n                p = ichar(text(i:i))\n                call glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, p)\n            end do\n            call glPopMatrix()\n        end subroutine output\n\nend module graphics\n\n\n\n\n\n\n\n! Rotine of creation, configuration and data assimilation of simulation results\nsubroutine Visualization()\n    use graphics\n    implicit none\n\n    !Initial comunication with simulation\n    call MPI_RECV( Nx , 1 , MPI_INTEGER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in x\n    call MPI_RECV( Ny , 1 , MPI_INTEGER , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)                          !Size of simulation data buffer in y\n    call MPI_RECV( Windows_name , 200 , MPI_CHARACTER , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)            !Name of the window of visualization\n    call MPI_RECV( Type_of_visualization , 1 , MPI_INTEGER , 0 , 0 , MPI_COMM_WORLD , STATUS  , ERROR)       !Type of visualization\n\n    !Initial parametrization determinations\n    ypixel = 300                                             !vertical size of window in pixels\n\n    select case (Type_of_visualization)\n        case(1)\n            xpixel = int(ypixel * real(Nx + 2)/real(Ny + 2))                      !horizontal size of window in pixels for type 1\n        case(2)\n            xpixel = real(4.25) * int(ypixel * real(Nx + 2)/real(Ny + 2))         !horizontal size of window in pixels for type 2\n    end select\n\n    !Main visualization subroutines\n    call NewWindow()         !Window creation\n    call ConfigureWindow()   !Window configuration\n    call glutmainloop()      !Enter IDLE protocol\n\n\nend subroutine Visualization\n\n\n\n\n\n\n\n\n\n!Subroutine to create a window\nsubroutine NewWindow()\n    use graphics\n    implicit none\n\n    call glutinit()\n    call glutinitdisplaymode(GLUT_DOUBLE+GLUT_RGB+GLUT_DEPTH)              !Exibicion mode\n    call glutInitWindowSize(xpixel, ypixel)                                !Determine window width in pixels\n    window = glutcreatewindow(trim(Windows_name))                          !A name is given to the window\n\n    select case(Type_of_visualization)                                     !Select type of visualization (single of multiple)\n        case(1)\n            call glutIdleFunc(idle1)                                       !single window\n        case(2)\n            call glutIdleFunc(idle2)                                       !multi window\n    end select\n\n    return\n\nend subroutine NewWindow\n\n\n\n! Configuring the window\nsubroutine ConfigureWindow()\n    use graphics\n    implicit none\n\n    call glclearcolor(1.0, 1.0, 1.0, 0.0)                                  !seta cor no background.\n    call glmatrixmode(GL_PROJECTION)                                       !Matrix context of operations\n    call glloadidentity()                                                  !Identity matrix loaded\n    call glortho(0.0d0, 1.0d0, 0.0d0, 1.0d0, -0.5d0, 0.5d0)                !Limits (left, right, down, up, close to the camera, far from the camera)\n    call glEnableClientState(GL_VERTEX_ARRAY)                              !Funcionalities\n    call glEnable(GL_BLEND)                                                !Blend\n    call glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)                 !Blend function\n    call glEnable(GL_LINE_SMOOTH)                                          !Smooth edges\n\nend subroutine ConfigureWindow\n\n\n\n!Assimilation of DATA from simulation routine\nsubroutine assimilation()\n    use graphics\n    implicit none\n\n    !Allocate allocatables\n    call MPI_RECV( dBuffer , size(dBuffer) , MPI_DOUBLE_PRECISION , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                  !DATA from simulation routine\n\nend subroutine assimilation\n\n\n!Heatmap rendering engine\nsubroutine scatter1()\n    use graphics\n    implicit none\n\n    !Draw points:\n    call glBlendFunc(GL_DST_ALPHA,GL_ONE_MINUS_DST_ALPHA)\n    call glPointSize( 1 +  real( ypixel/(Ny + 2) ) )                       !Size of points\n\n\n\n    !Drawing points in the screen\n    call glBegin(GL_POINTS)\n    do i = 1 , size(dBuffer(: , 1))\n        do ii = 1 , size(dBuffer(1 , :))\n            if(dBuffer(i , ii) < 0)then\n                call glcolor3f(0.1, 1.0 - real(abs(dBuffer(i , ii)))/MAXVAL(real(abs(dBuffer(:,:)))), 0.1 + &\n                    abs(real((dBuffer(i , ii))/MAXVAL(real(abs(dBuffer(:,:)))))))\n                call glVertex2f( real(0.05) + real(0.9)*(real(i-0.5))/real(size(dBuffer(:,1))), &\n                            real(0.05) + real(0.9)*(real(ii - 0.5))/real(size(dBuffer(1 , :))) )\n            else\n                call glcolor3f(real(dBuffer(i , ii)/MAXVAL(real(abs(dBuffer(:,:)))) )+ 0.1, 1 - real(dBuffer(i , ii)/&\n                        MAXVAL(real(abs(dBuffer(:,:))))), 0.1)\n                call glVertex2f( real(0.05) + real(0.9)*(real(i-0.5))/real(size(dBuffer(:,1))), &\n                            real(0.05) + real(0.9)*(real(ii - 0.5))/real(size(dBuffer(1 , :))) )\n            end if\n        end do\n    end do\n    call glEnd()\n\n\nend subroutine scatter1\n\n\n\n\n\n\n!Heatmap rendering engine\nsubroutine Flux_line()\n    use graphics\n    implicit none\n\n    type(Line), dimension(:,:) , allocatable :: Lines\n    integer:: Numero_linhas , Numero_pontos , nnn\n    Real:: uu , vv , dx , dy \n\n    !Allocate allocatables\n    call MPI_RECV( dBuffer , size(dBuffer) , MPI_DOUBLE_PRECISION , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                   !u\n\n    !Allocate allocatables\n    call MPI_RECV( dBuffer1 , size(dBuffer) , MPI_DOUBLE_PRECISION , 0 , 1 , MPI_COMM_WORLD , STATUS  , ERROR)                  !v\n\n\n    Numero_linhas = 10\n    Numero_pontos = 50\n\n\n    dx = 1/{size(dBuffer(:,1)) - 2}\n\n    dy = 1/{size(dBuffer(1,:)) - 2}\n\n    \n    allocate(Lines(Numero_linhas , Numero_pontos))\n\n    !Prepare renderer\n\n    !initial point do\n    do i = 1 , size( Lines(:,1) )\n\n        Lines(i,1)%x = 0.5\n\n        Lines(i,1)%y =  0.05 + 0.9 * ( real(i) /real(size( Lines(:,1) ) ))\n        print*, Lines(i,1)%y , Lines(i,1)%x\n\n    end do\n\n    !Constructing Space information\n\n    do i = 1 , dBuffer(: , 1)\n        do ii = 1 , dBuffer(1 , :)\n\n\n\n        end do\n    end do\n\n\n\n    !RungeKutta Line creation:\n    do i = 1 , size( Lines(:,1) )\n\n        !Primeira tentativa: Euler\n        do ii = 2 , size( Lines(1,:) )\n\n            !Deinição das velocidades u e v da coordenada em questão POR VIAS DE INTERPOLAÇÃO:\n            uu = dBuffer(  size(dBuffer(:,1)) , size(dBuffer(1,:))  )\n            vv = dBuffer1(  size(dBuffer1(:,1)) , size(dBuffer1(1,:))  )\n\n            !Definição do ponto seguinte\n            Lines(i,ii)%x = 1\n            Lines(i,ii)%y = 1\n\n        end do\n\n    end do\n\n\n\n    !Render each line for each group of points\n    do i = 1 , size( Lines(:,1) )\n        call glBegin(GL_LINE_LOOP)\n\n            ! vertex definition of all points.\n            do ii = 1 , size( Lines(1,:) )\n\n            call glVertex2f( Lines(i , ii)%x , Lines(i , ii)%y )\n\n            end do\n\n        call glEnd()\n    end do\n\n\n    deallocate(Lines)\n    return\n\n\nend subroutine Flux_line\n\n\n\n\n\n\n\n\n!Heatmap rendering engine\nsubroutine scatter2()\n    use graphics\n    implicit none\n\n    !Draw points:\n    call glBlendFunc(GL_DST_ALPHA,GL_ONE_MINUS_DST_ALPHA)\n    call glPointSize( real(1 +  ypixel/(Ny + 2) ) )                       !Size of points\n\n    call assimilation()           !Function that get values\n\n    !Drawing points in the screen 1\n    call glBegin(GL_POINTS)\n    do i = 1 , size(dBuffer(: , 1))\n        do ii = 1 , size(dBuffer(1 , :))\n            if(dBuffer(i , ii) < 0)then\n                call glcolor3f(0.1, 1.0 - real(abs(dBuffer(i , ii)))/MAXVAL(real(abs(dBuffer(:,:)))), 0.1 + &\n                    abs(real((dBuffer(i , ii))/MAXVAL(real(abs(dBuffer(:,:)))))))\n            else\n                call glcolor3f(real(dBuffer(i , ii)/MAXVAL(real(abs(dBuffer(:,:)))) )+ 0.1, 1 - real(dBuffer(i , ii)/&\n                        MAXVAL(real(abs(dBuffer(:,:))))), 0.1)\n            end if\n\n            call glVertex2f( real(0.0117647059) + real(0.2352941176) * (real(i))/real(size(dBuffer(:,1))), &\n                            real(0.05)      + real(0.9) * (real(ii))/real(size(dBuffer(1,:)))  )\n        end do\n    end do\n    call glEnd()\n\n    call assimilation()           !Function that get values\n\n    !Drawing points in the screen 2\n    call glBegin(GL_POINTS)\n    do i = 1 , size(dBuffer(: , 1))\n        do ii = 1 , size(dBuffer(1 , :))\n            if(dBuffer(i , ii) < 0)then\n                call glcolor3f(0.1, 1.0 - real(abs(dBuffer(i , ii)))/MAXVAL(real(abs(dBuffer(:,:)))), 0.1 + &\n                    abs(real((dBuffer(i , ii))/MAXVAL(real(abs(dBuffer(:,:)))))))\n            else\n                call glcolor3f(real(dBuffer(i , ii)/MAXVAL(real(abs(dBuffer(:,:)))) )+ 0.1, 1 - real(dBuffer(i , ii)/&\n                        MAXVAL(real(abs(dBuffer(:,:))))), 0.1)\n            end if\n\n            call glVertex2f( real(0.2588235294) + real(0.2352941176) * (real(i))/real(size(dBuffer(:,1))), &\n                            real(0.05)      + real(0.9) * (real(ii))/real(size(dBuffer(1,:)))  )\n        end do\n    end do\n    call glEnd()\n\n    call assimilation()           !Function that get values\n\n    !Drawing points in the screen 3\n    call glBegin(GL_POINTS)\n    do i = 1 , size(dBuffer(: , 1))\n        do ii = 1 , size(dBuffer(1 , :))\n            if(dBuffer(i , ii) < 0)then\n                call glcolor3f(0.1, 1.0 - real(abs(dBuffer(i , ii)))/MAXVAL(real(abs(dBuffer(:,:)))), 0.1 + &\n                    abs(real((dBuffer(i , ii))/MAXVAL(real(abs(dBuffer(:,:)))))))\n            else\n                call glcolor3f(real(dBuffer(i , ii)/MAXVAL(real(abs(dBuffer(:,:)))) )+ 0.1, 1 - real(dBuffer(i , ii)/&\n                        MAXVAL(real(abs(dBuffer(:,:))))), 0.1)\n            end if\n\n            call glVertex2f( real(0.5058823529) + real(0.2352941176) * (real(i))/real(size(dBuffer(:,1))), &\n                            real(0.05)      + real(0.9) * (real(ii))/real(size(dBuffer(1,:)))  )\n        end do\n    end do\n    call glEnd()\n\n    call assimilation()           !Function that get values\n\n    !Drawing points in the screen 4\n    call glBegin(GL_POINTS)\n    do i = 1 , size(dBuffer(: , 1))\n        do ii = 1 , size(dBuffer(1 , :))\n            if(dBuffer(i , ii) < 0)then\n                call glcolor3f(0.1, 1.0 - real(abs(dBuffer(i , ii)))/MAXVAL(real(abs(dBuffer(:,:)))), 0.1 + &\n                    abs(real((dBuffer(i , ii))/MAXVAL(real(abs(dBuffer(:,:)))))))\n            else\n                call glcolor3f(real(dBuffer(i , ii)/MAXVAL(real(abs(dBuffer(:,:)))) )+ 0.1, 1 - real(dBuffer(i , ii)/&\n                        MAXVAL(real(abs(dBuffer(:,:))))), 0.1)\n            end if\n\n            call glVertex2f( real(0.7529411765) + real(0.2352941176) * (real(i))/real(size(dBuffer(:,1))), &\n                            real(0.05)      + real(0.9) * (real(ii))/real(size(dBuffer(1,:)))  )\n        end do\n    end do\n    call glEnd()\n\n\n\nend subroutine scatter2\n\n\n\n\n\n!Rotine that DRAWS the Legend on the screen\nsubroutine legend() bind(C)\n    use graphics\n\n  call glPushAttrib(GL_ENABLE_BIT)\n  call glcolor3f(0.0, 0.0 , 0.0)\n  call glMatrixMode(GL_PROJECTION)\n  call glPointSize( 0.2 )                       !Size of points\n  call glLineWidth(0.1)\n  call glLoadIdentity()\n  call gluOrtho2D(0.0_gldouble, 1500.0_gldouble, 0.0_gldouble, 1500.0_gldouble * ypixel/xpixel)\n  call glscalef(.11,.11,.11)\n  call glMatrixMode(GL_MODELVIEW)\n  call glLoadIdentity()\n!  Rotate text slightly to help show jaggies\n  call output(100.0, 60.0, \"Aqui temos texto escrito na tela, quem diria algo assim aqui!\")\n  call glPopMatrix()\n  call glMatrixMode(GL_PROJECTION)\n  call glPopMatrix()\n    call glscalef(1.0/0.11,1.0/0.11,1.0/0.11)\n  call glPopAttrib()\n\n\n  call glloadidentity()                                                  !Identity matrix loaded\n  call glortho(0.0d0, 1.0d0, 0.0d0, 1.0d0, -0.5d0, 0.5d0)                !Limits (left, right, down, up, close to the camera, far from the camera)\n  call glEnableClientState(GL_VERTEX_ARRAY)                              !Funcionalities\n\n\n\n\nend subroutine legend\n",
-			"file": "Teorico/src/visualization.f90",
-			"file_size": 15112,
-			"file_write_time": 132199540280413556,
-			"settings":
-			{
-				"buffer_size": 15196,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Teorico/src/blender.f90",
-			"settings":
-			{
-				"buffer_size": 3030,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Teorico/Tento/OpenGl/expe.f90",
-			"settings":
-			{
-				"buffer_size": 5906,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "Teorico/src/main_4/main.F90",
 			"settings":
 			{
-				"buffer_size": 22425,
+				"buffer_size": 22572,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
+			"contents": "!##################################################################################################################################\n! Undergraduate: Felipe J. O. Ribeiro                                                                                            !#\n! Professor: Aristeu da Silveira Neto                                                                                            !#\n! Institution: MfLab - FEMEC - UFU                                                                                               !#\n! Code for the creation of the simulation native in fortran.                                                                     !#\n! Version 1.0.0                                                                                                                  !#\n! MPI directives are necessary! (install mpifor and mpirun)                                                                      !#\n!##################################################################################################################################\n\n\n\n\n\n\n!##################################################################################################################################\n!Routine for the simulation                                                                                                      !#\nsubroutine Simulation()                                                                                                          !#\n    use global                                                                                                                   !#\n    implicit none                                                                                                                !#\n\n    !Parameters of the simulation:\n    Nx = 30                                                        !Space cells in x direction\n    Ny = Nx                                                        !Space cells in y direction\n    Lx = 1.d0                                                      !Size of space domain in x  (m)\n    Ly = Lx                                                        !Size of space domain in y  (m)\n    dx =  Lx / (Nx)                                                !Cells length in x (m)\n    dy =  Ly / (Ny)                                                !Cells length in y (m)\n    !Physical determination of fluid flow:\n    alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)\n    mi = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)\n    rho = 8.2d0 !997.7d0                                           !Specific mass (water with 25 degree Celcius) (N/m**3)\n    nu = mi/rho                                                    !Knematic viscosity\n    V_top = 0.02d0                                                 !Velocity of top plate\n    Reynolds = V_top*Lx/(nu)                                       !Reynolds number\n    gx = 0.0d0                                                     !Gravity in x direction (m/s**2)\n    gy = 0.0d0                                                     !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)\n    vi = 0.0d0                                                     !Initial condition parameter for vertical velocity\n    ui = 0.0d0                                                     !Initial condition parameter for horizontal velocity\n    pi = 0.0d0                                                     !Initial condition parameter for preassure\n    ti = 25.0d0                                                    !Initial condition parameter for temperature\n    !Simulation convergence parameters:\n    cfl = 0.25d0                                                   !Relation betwen time and space steps\n    dt = (cfl * dx**2 )/ nu                                        !Time step length (s)\n    time = 2500.0d0                                                !Total time of simulation (s)\n    increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions\n    !Simulation Pannel control:\n    save_image = .FALSE.                                           !Save file is wanted?\n    image_frequence = 100                                          !In how many iterations the image must be saved?\n    filename = \"simulacao_piloto\"                                  !Name of saved file\n    Windows_name = \"ProgramCavidade_4.0.0\"                         !Name of the window of graphical representation\n    what_thermal_simulation = 2                                    !Type of thermal numerical solution (1 = explicit / 2 = implicit)\n    Exist_Thermal_simulation = .FALSE.                             !If there is thermal simulation, or isotermic hipotesis\n    what_velocity_simulation = 2                                   !Type of velocity numerical solution (1 = explicit / 2 = implicit)\n\n\n    !Print data from the present simulation\n    logg = \"inicio\"\n    call LOG(logg)                                                 !Function of comunication with the terminal\n\n    !First comunication with Graphics\n    logg = \"inicio_send\"\n    call Graph(logg)                                               !Function of comunication with graphycall interface\n\n    !Allocation of simulations buffers:\n    allocate(C(Nx + 2  , Ny + 2))                                  !   1 extra cell   |wall|      N cells      |wall| 1 extra cell\n    allocate(tr(Nx + 2  , Ny + 2))                                 !   1 extra cell   |wall|      N cells      |wall| 1 extra cell\n\n\n    !Simulation Routines:\n     call Simu_routines()                                          !The protocolls are called for simulation development\n\n\n    !Dellocation of simulations buffers:\n    deallocate(C)\n    deallocate(tr)\n\n    !Last LOG, for finish the routine\n    logg = \"fim\"\n    call LOG(logg)\n\n    return                                                                                                                       !#\n                                                                                                                                 !#\nend subroutine simulation                                                                                                        !#\n!##################################################################################################################################\n\n\n\n\n\n\n!##################################################################################################################################\n!Simulation development, with DATA creation, saving and manipulation                                                             !#\nsubroutine Simu_routines()                                                                                                       !#\n    use global                                                                                                                   !#\n    implicit none                                                                                                                !#\n\n\n\n    return                                                                                                                       !#\n                                                                                                                                 !#\nend subroutine Simu_routines                                                                                                     !#\n!##################################################################################################################################\n\n",
 			"file": "Teorico/src/main_4/simulation.F90",
+			"file_size": 7758,
+			"file_write_time": 132204976617027501,
 			"settings":
 			{
 				"buffer_size": 7758,
-				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -1219,10 +1182,15 @@
 	[
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento"
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/ParaView_integration",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/ParaView_integration/exemplo_de_dat"
 	],
 	"file_history":
 	[
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/Plano_de_projeto.odg",
 		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main_1.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main2.f90",
@@ -1349,8 +1317,7 @@
 		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/scipy/optimize/_differentialevolution.py",
 		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/Exemplo.py",
 		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/Rosen.txt",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/doc/source/_static/scipy-mathjax/MathJax.js",
-		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/setup.py"
+		"/home/felipe/Documents/ProjetoCebeci/referencias/ED/python/scipy-1.1.0/doc/source/_static/scipy-mathjax/MathJax.js"
 	],
 	"find":
 	{
@@ -1368,6 +1335,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"time",
 			"assimilation",
 			"len",
 			"LEN",
@@ -1435,140 +1403,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "Teorico/src/main3.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 24835,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2108,
-								2108
-							]
-						],
-						"settings":
-						{
-							"auto_name": "program cavidade",
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3392.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Teorico/src/visualization.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 15196,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8837,
-								8837
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2886.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "Teorico/src/blender.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3030,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1510,
-								1510
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 429.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "Teorico/Tento/OpenGl/expe.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5906,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1405,
-								1405
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "Teorico/src/main_4/main.F90",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22425,
+						"buffer_size": 22572,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3718,
-								3718
+								10300,
+								10300
 							]
 						],
 						"settings":
@@ -1578,14 +1425,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1599.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 1,
 					"file": "Teorico/src/main_4/simulation.F90",
 					"semi_transient": false,
 					"settings":
@@ -1597,8 +1444,8 @@
 						"selection":
 						[
 							[
-								5423,
-								5423
+								1768,
+								1768
 							]
 						],
 						"settings":
@@ -1606,14 +1453,14 @@
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 179.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 2,
 					"file": "Teorico/src/main_4/visualization.F90",
 					"semi_transient": false,
 					"settings":
@@ -1631,17 +1478,19 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
+							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 663.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 3,
 					"file": "Teorico/src/main_4/parallel_simu.F90",
 					"semi_transient": false,
 					"settings":
@@ -1653,8 +1502,8 @@
 						"selection":
 						[
 							[
-								1753,
-								1753
+								1192,
+								1192
 							]
 						],
 						"settings":
@@ -1666,7 +1515,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1765,7 +1614,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 266.0,
+	"side_bar_width": 280.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
