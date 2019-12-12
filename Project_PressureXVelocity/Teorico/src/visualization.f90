@@ -61,7 +61,7 @@ module graphics
             call glclear(GL_COLOR_BUFFER_BIT+GL_DEPTH_BUFFER_BIT)             !Clear screen for new frame
             Allocate(dBuffer(Nx + 2 , Ny + 2) , dBuffer1(Nx + 2 , Ny + 2))
             call scatter2()                !Render heatmap
-            call Legend()                  !Render Legend
+            !call Legend()                  !Render Legend
             call Flux_line()               !Create flux lines
             deallocate(dBuffer , dBuffer1)
             call glutSwapBuffers()         !send new buffer of collors simutaneusly for rendering, prevent tearing
@@ -274,7 +274,7 @@ subroutine Flux_line()
         conty = INT( ((Lines(i , ii - 1)%y) * Ly + dy  )/ dy )                               ! Number of cells including the wall cell (y)
         leftOvery = abs( (Lines(i , ii - 1)%y) * Ly + dy - REAL(conty)* dy )/dy              ! position in the cell (0 --> begining, 1--> end) (y)
 
-        print*, dx , contx , contx * dx, leftOverx
+        !print*, dx , contx , contx * dx, leftOverx
 
         if(leftOverx > 0.5d0)then
 
@@ -327,7 +327,7 @@ subroutine Flux_line()
             ! vertex definition of all points.
             do ii = 1 , size( Lines(1,:) )
 
-            call glVertex2f( Lines(i , ii)%x , Lines(i , ii)%y )
+            !call glVertex2f( Lines(i , ii)%x , Lines(i , ii)%y )
 
             end do
 

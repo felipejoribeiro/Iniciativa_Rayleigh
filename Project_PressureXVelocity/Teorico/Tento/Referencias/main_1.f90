@@ -280,17 +280,17 @@ subroutine Simulation()
         end do
 
 
-        do i = 2 , N + 1
-            do ii = 2 , N + 1
+        ! do i = 2 , N + 1
+        !     do ii = 2 , N + 1
 
-                Ti(i , ii) = T(i , ii) * (1 - 4 * alpha * dt/(ds**2)) &
-                + T(i + 1, ii) * (alpha * dt / (ds**2) - u(i , ii) * dt/(2 * ds)) &
-                + T(i , ii + 1) * (alpha * dt /(ds**2) - v(i , ii) * dt / (2 * ds))&
-                + T(i -1, ii) * ((alpha * dt) / (ds * ds) + u(i , ii) * dt /(2 * ds)) &
-                + T(i, ii - 1) *((alpha * dt) /(ds * ds) + v(i , ii) * dt/(2 * ds))
+        !         Ti(i , ii) = T(i , ii) * (1 - 4 * alpha * dt/(ds**2)) &
+        !         + T(i + 1, ii) * (alpha * dt / (ds**2) - u(i , ii) * dt/(2 * ds)) &
+        !         + T(i , ii + 1) * (alpha * dt /(ds**2) - v(i , ii) * dt / (2 * ds))&
+        !         + T(i -1, ii) * ((alpha * dt) / (ds * ds) + u(i , ii) * dt /(2 * ds)) &
+        !         + T(i, ii - 1) *((alpha * dt) /(ds * ds) + v(i , ii) * dt/(2 * ds))
 
-            end do
-        end do
+        !     end do
+        ! end do
 
 
         !Boundary conditions

@@ -26,12 +26,12 @@ Module global
     end type cell
 
     ! Phisical parameters
-    integer:: Nx , Ny                                              !Space discretization
-    double precision:: Lx , Ly , dx , dy                           !Geometry of the space domain
-    double precision:: alpha , nu , mi , rho , gx , gy             !physical variables
-    double precision:: vi , ui , pi , Ti , Reynolds, V_top         !Initial condition variables
-    double precision:: time , dt , cfl , increment                 !Convergence variables
-    type(Cell), dimension(:,:) , allocatable :: C                  !Temperature and extra matrix
+    integer:: Nx , Ny                                                    !Space discretization
+    double precision:: Lx , Ly , dx , dy                                 !Geometry of the space domain
+    double precision:: alpha , nu , mi , rho , gx , gy                   !physical variables
+    double precision:: vi , ui , pi , Ti , Reynolds, V_top,ta,tb, dil    !Initial condition variables
+    double precision:: time , dt , cfl , increment                       !Convergence variables
+    type(Cell), dimension(:,:) , allocatable :: C                        !Temperature and extra matrix
     CHARACTER :: CR = CHAR(13)
 
     !Computational parameters
@@ -95,27 +95,30 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 51                                                        !Space cells in x direction
+    Nx = 100                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
-    Lx = 10.d0                                                      !Size of space domain in x  (m)
+    Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
     dx =  Lx / (Nx)                                                !Cells length in x (m)
     dy =  Ly / (Ny)                                                !Cells length in y (m)
     !Physical determination of fluid flow:
-    alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
+    alpha =  1.43d-4                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
     mi = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
     rho = 8.2d0 !997.7d0                                                  !Specific mass (water with 25 degree Celcius) (N/m**3)
     nu = mi/rho                                                    !Knematic viscosity
-    V_top = 0.02d0                                                 !Velocity of top plate
+    V_top = 0.0d0!2d0                                                 !Velocity of top plate
     Reynolds = V_top*Lx/(nu)                                       !Reynolds number
     gx = 0.0d0                                                     !Gravity in x direction (m/s**2)
-    gy = 0.0d0                                                     !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
+    gy = 10.0d0                                                     !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
     vi = 0.0d0                                                     !Initial condition parameter for vertical velocity
     ui = 0.0d0                                                     !Initial condition parameter for horizontal velocity
     pi = 0.0d0                                                     !Initial condition parameter for preassure
     ti = 25.0d0                                                    !Initial condition parameter for temperature
+    ta = 5.0d0                                                    !Temperature on the left wall
+    tb = 50.0d0                                                    !Temperature on the right wall
+    dil = 0.0001d0                                                    !Thermal dilatation linear coefficient
     !Simulation convergence parameters:
-    cfl = 0.25                                                     !Relation betwen time and space steps
+    cfl = 0.025d0                                                     !Relation betwen time and space steps
     dt = (cfl * dx**2 )/ nu                                        !Time step length (s)
     time = 2500                                                    !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
@@ -156,7 +159,7 @@ subroutine Simulation()
      call Simu_routines()                                          !The protocolls are called for simulation development
 
     !Simulation Statistics:
-
+    print*, " "
     print*, "------------------------------------------------------"
     print*, "-                                                    -"
     print*, "-                  Fim da simulação                  -"
@@ -272,8 +275,10 @@ subroutine time_steps()
         call boundary_conditions()                                 !Set boundary conditions
         call divergent_calculator()                                !Calcule the divergent of the velocity domain
         call preassure_atualization()                              !Calculate the preassure of new step
+        call temperature_atualization()                            !Calculate new temperature
+        call rho_atualization()                                    !Atualizate the rho variable.
         call boundary_conditions()                                 !Set boundary conditions
-
+        call save_this_image()                                     !Save domain for paraview
 
         !At final of a step
 
@@ -283,7 +288,7 @@ subroutine time_steps()
         call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%P)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
-        call MPI_SEND( DBLE(C%div)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
+        call MPI_SEND( DBLE(C%T)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         step = step + 1
@@ -319,6 +324,9 @@ subroutine boundary_conditions()
             C(1     , i)%ul = 0
             C(2     , i)%ul = 0
             C(Nx+2   , i)%ul = 0
+
+            C(1     , i)%T = ta
+            C(Nx + 2, i)%T = tb
         end do
 
 
@@ -340,6 +348,9 @@ subroutine boundary_conditions()
             C(i , Ny + 2)%u = 2 * V_top  - C(i , Ny + 1)%u
             C(i , 1    )%ul = -C(i , 2     )%ul
             C(i , Ny + 2)%ul = 2 * V_top - C(i , Ny + 1)%ul
+
+            C(i , 1     )%T = C(i , 2     )%T
+            C(i , Ny + 2)%T = C(i , Ny + 1)%T
         end do
 
 end subroutine boundary_conditions
@@ -425,7 +436,7 @@ subroutine velocity_solver()
                         - ( ( (C(i , ii)%dx**2) *(C(i , ii)%dy) * dt)/( rho * (C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 2 * rho * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )*&
                         (C(i , ii)%P - C(i, ii - 1)%P) &
-                        +( ( (C(i , ii)%dx ** 2) *(C(i , ii)%dy**2) * dt * (C(i,ii)%rho - rho) * gy)/( rho * &
+                        +( ( (C(i , ii)%dx ** 2) *(C(i , ii)%dy**2) * dt * (  dil * (C(i , ii)%T - ti) )* gy)/( rho * &
                             (C(i , ii)%dx ** 2) * &
                         (C(i , ii)%dy ** 2) + 2 * rho * nu * dt *( (C(i , ii)%dx ** 2) + (C(i , ii)%dy ** 2) ) ) )&
                         + ( ( nu *(C(i , ii)%dy**2) * dt)/( (C(i , ii)%dx ** 2) * &
@@ -583,6 +594,7 @@ end subroutine velocity_corrector
 
 
 
+
 subroutine divergent_calculator()
     use global
     implicit none
@@ -602,10 +614,10 @@ end subroutine divergent_calculator
 
 
 
+
 subroutine preassure_atualization()
     use global
     implicit none
-
 
     !Pressure atualization
     do i = 2 , Nx + 1
@@ -616,7 +628,6 @@ subroutine preassure_atualization()
         end do
     end do
 
-
 end subroutine preassure_atualization
 
 
@@ -624,6 +635,65 @@ end subroutine preassure_atualization
 
 
 
-subroutine save_this_image()
+
+subroutine temperature_atualization()
+    use global
     implicit none
+
+
+    !Explicit simulation for this step.
+
+        do i = 2 , Nx + 1
+            do ii = 2 , Ny + 1
+
+                C(i , ii)%Ti = C(i , ii)%T * (1 - 4 * alpha * dt/(dx*dy)) &
+                + C(i + 1, ii)%T * (alpha * dt / (dx**2) - C(i + 1 , ii)%u * dt/(2 * dx)) &
+                + C(i , ii + 1)%T * (alpha * dt /(dy**2) - C(i , ii + 1)%v * dt / (2 * dy))&
+                + C(i -1, ii)%T * ((alpha * dt) / (dx * dx) + C(i , ii)%u * dt /(2 * dx)) &
+                + C(i, ii - 1)%T *((alpha * dt) /(dy * dy) + C(i , ii)%v * dt/(2 * dy))
+
+            end do
+        end do
+
+
+
+        do i = 2 , Nx + 1
+            do ii = 2 , Ny + 1
+
+                C(i , ii)%T = C(i , ii)%Ti
+
+            end do
+        end do
+
+
+        call boundary_conditions()
+
+
+end subroutine temperature_atualization
+
+
+
+
+
+
+
+subroutine save_this_image()
+    use global
+    use mpi
+    implicit none
+
+    step
+
+    write(imagename,FMT=187) trim(dirname) , Ret, Pr , N , trim(metodo)
+    187     format( A ,'/results/graficos/image',F5.0,'_', F4.2,'_', I3 , A ,".dat")
+    open(unit=10,file=imagename)
+
+    write(10,*) T(i)
+
+    do i = 1 , N
+        write(10,*) T(i)
+        end do
+    close(10)
+    return
+
 end subroutine save_this_image

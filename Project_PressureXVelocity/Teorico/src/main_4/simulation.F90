@@ -19,7 +19,7 @@ subroutine Simulation()                                                         
     implicit none                                                                                                                !#
 
     !Parameters of the simulation:
-    Nx = 100                                                       !Space cells in x direction
+    Nx = 30                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
