@@ -245,13 +245,11 @@
 			}
 		},
 		{
-			"contents": "!##################################################################################################################################\n! Undergraduate: Felipe J. O. Ribeiro                                                                                            !#\n! Professor: Aristeu da Silveira Neto                                                                                            !#\n! Institution: MfLab - FEMEC - UFU                                                                                               !#\n! Code for the creation of the simulation native in fortran.                                                                     !#\n! Version 1.0.0                                                                                                                  !#\n! MPI directives are necessary! (install mpifor and mpirun)                                                                      !#\n!##################################################################################################################################\n\n\n\n\n\n\n!##################################################################################################################################\n!Routine for the simulation                                                                                                      !#\nsubroutine Simulation()                                                                                                          !#\n    use global                                                                                                                   !#\n    implicit none                                                                                                                !#\n\n    !Parameters of the simulation:\n    Nx = 30                                                        !Space cells in x direction\n    Ny = Nx                                                        !Space cells in y direction\n    Lx = 1.d0                                                      !Size of space domain in x  (m)\n    Ly = Lx                                                        !Size of space domain in y  (m)\n    dx =  Lx / (Nx)                                                !Cells length in x (m)\n    dy =  Ly / (Ny)                                                !Cells length in y (m)\n    !Physical determination of fluid flow:\n    alpha =  1.43d-7                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)\n    mi = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)\n    rho = 8.2d0 !997.7d0                                           !Specific mass (water with 25 degree Celcius) (N/m**3)\n    nu = mi/rho                                                    !Knematic viscosity\n    V_top = 0.02d0                                                 !Velocity of top plate\n    Reynolds = V_top*Lx/(nu)                                       !Reynolds number\n    gx = 0.0d0                                                     !Gravity in x direction (m/s**2)\n    gy = 0.0d0                                                     !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)\n    vi = 0.0d0                                                     !Initial condition parameter for vertical velocity\n    ui = 0.0d0                                                     !Initial condition parameter for horizontal velocity\n    pi = 0.0d0                                                     !Initial condition parameter for preassure\n    ti = 25.0d0                                                    !Initial condition parameter for temperature\n    !Simulation convergence parameters:\n    cfl = 0.25d0                                                   !Relation betwen time and space steps\n    dt = (cfl * dx**2 )/ nu                                        !Time step length (s)\n    time = 2500.0d0                                                !Total time of simulation (s)\n    increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions\n    !Simulation Pannel control:\n    save_image = .FALSE.                                           !Save file is wanted?\n    image_frequence = 100                                          !In how many iterations the image must be saved?\n    filename = \"simulacao_piloto\"                                  !Name of saved file\n    Windows_name = \"ProgramCavidade_4.0.0\"                         !Name of the window of graphical representation\n    what_thermal_simulation = 2                                    !Type of thermal numerical solution (1 = explicit / 2 = implicit)\n    Exist_Thermal_simulation = .FALSE.                             !If there is thermal simulation, or isotermic hipotesis\n    what_velocity_simulation = 2                                   !Type of velocity numerical solution (1 = explicit / 2 = implicit)\n\n\n    !Print data from the present simulation\n    logg = \"inicio\"\n    call LOG(logg)                                                 !Function of comunication with the terminal\n\n    !First comunication with Graphics\n    logg = \"inicio_send\"\n    call Graph(logg)                                               !Function of comunication with graphycall interface\n\n    !Allocation of simulations buffers:\n    allocate(C(Nx + 2  , Ny + 2))                                  !   1 extra cell   |wall|      N cells      |wall| 1 extra cell\n    allocate(tr(Nx + 2  , Ny + 2))                                 !   1 extra cell   |wall|      N cells      |wall| 1 extra cell\n\n\n    !Simulation Routines:\n     call Simu_routines()                                          !The protocolls are called for simulation development\n\n\n    !Dellocation of simulations buffers:\n    deallocate(C)\n    deallocate(tr)\n\n    !Last LOG, for finish the routine\n    logg = \"fim\"\n    call LOG(logg)\n\n    return                                                                                                                       !#\n                                                                                                                                 !#\nend subroutine simulation                                                                                                        !#\n!##################################################################################################################################\n\n\n\n\n\n\n!##################################################################################################################################\n!Simulation development, with DATA creation, saving and manipulation                                                             !#\nsubroutine Simu_routines()                                                                                                       !#\n    use global                                                                                                                   !#\n    implicit none                                                                                                                !#\n\n\n\n    return                                                                                                                       !#\n                                                                                                                                 !#\nend subroutine Simu_routines                                                                                                     !#\n!##################################################################################################################################\n\n",
 			"file": "Teorico/src/main_4/simulation.F90",
-			"file_size": 7758,
-			"file_write_time": 132204976617027501,
 			"settings":
 			{
 				"buffer_size": 7758,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -1185,14 +1183,14 @@
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/ParaView_integration",
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/ParaView_integration/exemplo_de_dat"
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias"
 	],
 	"file_history":
 	[
-		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/Plano_de_projeto.odg",
-		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main_1.f90",
+		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/Plano_de_projeto.odg",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main2.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/update.py",
 		"/home/felipe/Trabalho/ProjetoCebeci/main.f90",
@@ -1414,8 +1412,8 @@
 						"selection":
 						[
 							[
-								10300,
-								10300
+								3400,
+								3400
 							]
 						],
 						"settings":
@@ -1425,10 +1423,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1599.0,
+						"translation.y": 4367.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1453,7 +1451,7 @@
 							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 156.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -1483,7 +1481,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 663.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -1515,7 +1513,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1558,7 +1556,7 @@
 	},
 	"output.exec":
 	{
-		"height": 120.0
+		"height": 26.0
 	},
 	"output.find_results":
 	{
@@ -1614,7 +1612,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 280.0,
+	"side_bar_width": 184.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

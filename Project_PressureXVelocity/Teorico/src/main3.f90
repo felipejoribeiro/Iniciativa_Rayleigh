@@ -38,12 +38,37 @@ Module global
     integer:: i , ii , iii                                         !Integer counters
     integer:: step , pressure_step , velo_step                     !Number of iterations in simulation
     double precision, dimension(:,:) , allocatable :: tr           !Transition variable
-    character*100:: dirname , filename                             !Names for file creation and directory structure
-    Logical:: save_image , Exist_Thermal_simulation                !Simulation options
+    character*200:: dirname , filename , misc                      !Names for file creation and directory structure
+    Logical:: save_image , Exist_Thermal_simulation , folder       !Simulation options
     integer:: what_thermal_simulation, what_velocity_simulation &  !Simulation options
-            , image_frequence
+            , image_frequence , step_image
     integer :: ERROR , numprocs, ID                                !MPI integers
     integer :: Type_of_visualization                               !Type of visualization
+
+    contains
+
+    subroutine StripSpaces(string)
+        character(len=*) :: string
+        integer :: stringLen
+        integer :: last, actual
+
+        stringLen = len (string)
+        last = 1
+        actual = 1
+
+        do while (actual < stringLen)
+            if (string(last:last) == ' ') then
+                actual = actual + 1
+                string(last:last) = string(actual:actual)
+                string(actual:actual) = ' '
+            else
+                last = last + 1
+            if (actual < last) &
+                actual = last
+            endif
+        end do
+
+    end subroutine
 
 end module global
 
@@ -124,8 +149,8 @@ subroutine Simulation()
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
     !Simulation Pannel control:
     save_image = .FALSE.                                           !Save file is wanted?
-    image_frequence = 100                                          !In how many iterations the image must be saved?
-    filename = "simulacao_piloto"                                  !Name of saved file
+    folder = .FALSE.                                               !The results folder is already there?
+    image_frequence = 10                                           !In how many iterations the image must be saved?
     Windows_name = "Program Cavidade"                              !Name of the window of graphical representation
     what_thermal_simulation = 2                                    !Type of thermal numerical solution (1 = explicit / 2 = implicit)
     Exist_Thermal_simulation = .FALSE.                             !If there is thermal simulation, or isotermic hipotesis
@@ -276,9 +301,11 @@ subroutine time_steps()
         call divergent_calculator()                                !Calcule the divergent of the velocity domain
         call preassure_atualization()                              !Calculate the preassure of new step
         call temperature_atualization()                            !Calculate new temperature
-        call rho_atualization()                                    !Atualizate the rho variable.
         call boundary_conditions()                                 !Set boundary conditions
-        call save_this_image()                                     !Save domain for paraview
+
+        if(mod(step , image_frequence) == 0.0)then
+            call save_this_image()                                     !Save domain for paraview
+        end if
 
         !At final of a step
 
@@ -676,24 +703,53 @@ end subroutine temperature_atualization
 
 
 
-
 subroutine save_this_image()
     use global
     use mpi
     implicit none
 
-    step
+    call GETCWD(dirname)
 
-    write(imagename,FMT=187) trim(dirname) , Ret, Pr , N , trim(metodo)
-    187     format( A ,'/results/graficos/image',F5.0,'_', F4.2,'_', I3 , A ,".dat")
-    open(unit=10,file=imagename)
 
-    write(10,*) T(i)
+    if(folder .eqv. .FALSE.)then
+        !Creation of new folder for data saving
+        write(misc,FMT=187)  Nx , "_" , Ny , "_" , Ta ,"_" , Tb , "_" , dil
+        187     format( I3 , A , I3 , A , F6.1 , A , F6.1 , A , e7.1)
+        call StripSpaces (misc)
+        call system("cd results && mkdir " // misc)
+        misc = trim(dirname) // "/results/" //  trim(misc)
+        step_image = 0
+        folder = .TRUE.
+    end if
 
-    do i = 1 , N
-        write(10,*) T(i)
+    ! Step file creation
+    write(filename,FMT=186) trim(misc) , "/step" , step_image , ".dat"
+    186     format(  A , A , I10 , A)
+    call StripSpaces (filename)
+
+    ! Open instance of write
+    open(unit=10,file= filename)
+
+    !Data write
+    write(10,*) "TITLE = " , '"FLOW SAMPLE"'
+    write(10,*) 'Variables="X","Y","P","U","V","T","div"'
+    write(10,*) 'Zone I=', Nx - 2,', J=', Ny - 2 ,', F=POINT'
+
+
+    do i = 2 , Nx - 1
+        do ii = 2 , Ny - 1
+
+            write(10,*) (dx * i - 1.5 * dx) , (dy * ii - 1.5 * dy) , C(i , ii)%P , &
+            (C(i + 1 , ii)%u + C(i , ii)%u)/2 , (C(i , ii + 1)%v + C(i , ii)%v)/2 , &
+            C(i , ii)%T , C(i , ii)%div
+
         end do
+    end do
+
+    ! Close instance of write
     close(10)
+
+    step_image = step_image + 1
     return
 
 end subroutine save_this_image
