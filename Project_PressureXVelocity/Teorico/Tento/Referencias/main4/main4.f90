@@ -29,7 +29,7 @@ Module global
     integer:: Nx , Ny                                                    !Space discretization
     double precision:: Lx , Ly , dx , dy                                 !Geometry of the space domain
     double precision:: alpha , nu , mi , rho , gx , gy                   !physical variables
-    double precision:: vi , ui , pi , Ti , Reynolds, V_top,ta,tb, dil    !Initial condition variables
+    double precision:: vi , ui , pi , Ti , Reynolds, V_top,ta,tb, dil, RA!Initial condition variables
     double precision:: time , dt , cfl , increment                       !Convergence variables
     type(Cell), dimension(:,:) , allocatable :: C                        !Temperature and extra matrix
     CHARACTER :: CR = CHAR(13)
@@ -120,7 +120,7 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 30                                                        !Space cells in x direction
+    Nx = 40                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
@@ -129,21 +129,22 @@ subroutine Simulation()
     !Physical determination of fluid flow:
     alpha =  1.43d-4                                               !Thermal condutivity (water with 25 degree Celcius) (m**2/s)
     mi = 8.891d-4                                                  !viscosity (water with 25 degree Celcius) (n*s/m**2) (https://www.engineeringtoolbox.com/water-dynamic-kinematic-viscosity-d_596.html)
-    rho = 8.2d0 !997.7d0                                                  !Specific mass (water with 25 degree Celcius) (N/m**3)
+    rho = 8.2d0 !997.7d0                                           !Specific mass (water with 25 degree Celcius) (N/m**3)
     nu = mi/rho                                                    !Knematic viscosity
-    V_top = 0.0d0!2d0                                                 !Velocity of top plate
+    V_top = 0.0d0!2d0                                              !Velocity of top plate
     Reynolds = V_top*Lx/(nu)                                       !Reynolds number
     gx = 0.0d0                                                     !Gravity in x direction (m/s**2)
-    gy = 10.0d0                                                     !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
+    gy = 10.0d0                                                    !Gravity in y direction (m/s**2) (http://lilith.fisica.ufmg.br/~dsoares/g/g.htm)
     vi = 0.0d0                                                     !Initial condition parameter for vertical velocity
     ui = 0.0d0                                                     !Initial condition parameter for horizontal velocity
     pi = 0.0d0                                                     !Initial condition parameter for preassure
     ti = 25.0d0                                                    !Initial condition parameter for temperature
-    ta = 5.0d0                                                    !Temperature on the left wall
+    ta = 5.0d0                                                     !Temperature on the left wall
     tb = 50.0d0                                                    !Temperature on the right wall
-    dil = 0.0001d0                                                    !Thermal dilatation linear coefficient
+    dil = 0.0003d0                                                 !Thermal dilatation linear coefficient
+    Ra = (gy * dil * (Tb - Ta) * Lx**2)/(alpha * nu)               !Número de Rayleigh.
     !Simulation convergence parameters:
-    cfl = 0.025d0                                                     !Relation betwen time and space steps
+    cfl = 0.025d0                                                  !Relation betwen time and space steps
     dt = (cfl * dx**2 )/ nu                                        !Time step length (s)
     time = 2500                                                    !Total time of simulation (s)
     increment = 1.d-10                                             !Increment for implicity Gaus-Seidel solutions
@@ -160,9 +161,10 @@ subroutine Simulation()
 
     !Data from the present simulation
     Print*, "Simulation " , filename
-    Print*, "Reynolds = " , Reynolds
+    Print*, "Ra = " , Ra
     Print*, "dt= " , dt
     Print*, "dx= " , dx
+    Print*, "CFl = " , cfl
 
 
     !First Contact with visualization process, for initial parametrization and window creation.
@@ -309,8 +311,8 @@ subroutine time_steps()
 
         !At final of a step
 
-        WRITE(*,101) char(13), MAXVAL(C%div) , pressure_step , velo_step
-        101 FORMAT(1a1,ES7.1, I5, I5, $)
+        WRITE(*,101) char(13), MAXVAL(C%div) , "   " , pressure_step , velo_step
+        101 FORMAT(1a1,ES7.1 , A , I5, I5, $)
 
         call MPI_SEND( DBLE(C%u)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
         call MPI_SEND( DBLE(C%v)  , size(C%type_Wall) , MPI_DOUBLE_PRECISION , 1 , 1 , MPI_COMM_WORLD , ERROR)
@@ -713,8 +715,8 @@ subroutine save_this_image()
 
     if(folder .eqv. .FALSE.)then
         !Creation of new folder for data saving
-        write(misc,FMT=187)  Nx , "_" , Ny , "_" , Ta ,"_" , Tb , "_" , dil
-        187     format( I3 , A , I3 , A , F6.1 , A , F6.1 , A , e7.1)
+        write(misc,FMT=187)  Nx , "_" , Ny , "_" , Ta ,"_" , Tb , "_" , Ra
+        187     format( "cavity_" , I3 , A , I3 , A , F6.1 , A , F6.1 , A , e7.1)
         call StripSpaces (misc)
         call system("cd results && mkdir " // misc)
         misc = trim(dirname) // "/results/" //  trim(misc)
@@ -731,7 +733,7 @@ subroutine save_this_image()
     open(unit=10,file= filename)
 
     !Data write
-    write(10,*) "TITLE = " , '"FLOW SAMPLE"'
+    write(10,*) "TITLE = " , '"Cavity_simu"'
     write(10,*) 'Variables="X","Y","P","U","V","T","div"'
     write(10,*) 'Zone I=', Nx ,', J=', Ny ,', F=POINT'
 
