@@ -5,7 +5,7 @@
 ! Institution: MfLab - FEMEC - UFU                                                                                               !#
 ! It is necessary the presence in the same directory of the file visalization.f90 and simulation.f90.                            !#
 ! MPIRUN and OPEMGL are necessary                                                                                                !#
-! Version 4.0.0                                                                                                                  !#
+! Version 5.0.0                                                                                                                  !#
 !##################################################################################################################################
 
 include 'visualization.F90'   !Graphical codes (version 2.0.0 required)

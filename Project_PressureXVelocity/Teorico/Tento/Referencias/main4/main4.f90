@@ -1,7 +1,7 @@
 ! Program for de bidimensional simulation of a cavity system, using MPI for parallel processing and OPENGL for graphics
 ! Undergraduate: Felipe J. O. Ribeiro
 ! Professor: Aristeu da Silveira Neto
-! It is necessary the presence in the same directory of the file visalization.f90
+! It is necessary the presence in the same directory of the file visalization.f90 da série 2.0.0
 
 include 'visualization.f90'  !Graphical codes
 
@@ -120,7 +120,7 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 100                                                        !Space cells in x direction
+    Nx = 30                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
@@ -733,11 +733,11 @@ subroutine save_this_image()
     !Data write
     write(10,*) "TITLE = " , '"FLOW SAMPLE"'
     write(10,*) 'Variables="X","Y","P","U","V","T","div"'
-    write(10,*) 'Zone I=', Nx - 2,', J=', Ny - 2 ,', F=POINT'
+    write(10,*) 'Zone I=', Nx ,', J=', Ny ,', F=POINT'
 
 
-    do i = 2 , Nx - 1
-        do ii = 2 , Ny - 1
+    do i = 2 , Nx + 1
+        do ii = 2 , Ny + 1
 
             write(10,*) (dx * i - 1.5 * dx) , (dy * ii - 1.5 * dy) , C(i , ii)%P , &
             (C(i + 1 , ii)%u + C(i , ii)%u)/2 , (C(i , ii + 1)%v + C(i , ii)%v)/2 , &
