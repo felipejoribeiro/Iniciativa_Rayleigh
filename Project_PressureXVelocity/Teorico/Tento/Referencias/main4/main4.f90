@@ -120,7 +120,7 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 40                                                        !Space cells in x direction
+    Nx = 100                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
@@ -141,7 +141,7 @@ subroutine Simulation()
     ti = 25.0d0                                                    !Initial condition parameter for temperature
     ta = 5.0d0                                                     !Temperature on the left wall
     tb = 50.0d0                                                    !Temperature on the right wall
-    dil = 0.0003d0                                                 !Thermal dilatation linear coefficient
+    dil = 0.01d0                                                 !Thermal dilatation linear coefficient
     Ra = (gy * dil * (Tb - Ta) * Lx**2)/(alpha * nu)               !Número de Rayleigh.
     !Simulation convergence parameters:
     cfl = 0.025d0                                                  !Relation betwen time and space steps
