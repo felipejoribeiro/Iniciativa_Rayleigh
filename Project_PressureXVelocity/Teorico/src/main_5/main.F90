@@ -29,7 +29,7 @@ Module global                                                                   
         double precision:: v , u , vl , ul             !velocities variables
         double precision:: dx , dy                     !Size variables
         double precision:: x , y                       !Absolute coordinates location
-        double precision:: alpha , nu , rho , mi       !Local physical variables
+        double precision:: alpha ,  nu , rho , mi       !Local physical variables
         double precision:: div , divi                  !Divergent of velocity in this cell
         LOGICAL:: Wall                                 !Is Wall?
         integer,dimension(3):: type_Wall               !What type of wall?
