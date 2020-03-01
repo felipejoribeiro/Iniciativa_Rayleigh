@@ -141,8 +141,8 @@ subroutine Simulation()
     ti = 25.0d0                                                    !Initial condition parameter for temperature
     ta = 5.0d0                                                     !Temperature on the left wall
     tb = 50.0d0                                                    !Temperature on the right wall
-    Ra =  1.89d5                                                   !Número de Rayleigh.
-    dil = alpha * nu * Ra / (gy * (Tb - Ta) * Lx**3 )              !Thermal dilatation linear coefficient
+    dil = 0.01d0                                                 !Thermal dilatation linear coefficient
+    Ra = (gy * dil * (Tb - Ta) * Lx**2)/(alpha * nu)               !Número de Rayleigh.
     !Simulation convergence parameters:
     cfl = 0.025d0                                                  !Relation betwen time and space steps
     dt = (cfl * dx**2 )/ nu                                        !Time step length (s)
