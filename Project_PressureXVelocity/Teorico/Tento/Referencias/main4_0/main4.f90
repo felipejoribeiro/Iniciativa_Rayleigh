@@ -2,6 +2,9 @@
 ! Undergraduate: Felipe J. O. Ribeiro
 ! Professor: Aristeu da Silveira Neto
 ! It is necessary the presence in the same directory of the file visalization.f90 da série 2.0.0
+! In wls of windows, run $echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope in terminal to supress error mensege
+! /proc/sys/kernel/yama
+! /etc/sysctl.d
 
 include 'visualization.f90'  !Graphical codes
 
@@ -22,7 +25,7 @@ Module global
         LOGICAL:: Wall                                 !Is Wall?
         integer:: type_Wall                            !What type of wall?
                                 !1 ----> (velocity: dirichlet = (u-0 , v-0), Temperature: Neumann = 0 , Preassure: Neumann = 0)
-                                !2 ----> (velocity: dirichlet = (u-ui , v-vi), Temperature: Neumann = 0 , Preassure: Neumann = 0)
+                                !2 ----> (velocity: diric--with-cmahlet = (u-ui , v-vi), Temperature: Neumann = 0 , Preassure: Neumann = 0)
     end type cell
 
     ! Phisical parameters
@@ -120,7 +123,7 @@ subroutine Simulation()
     character*200 :: windows_name                                  !Name of the window
 
     !Parameters of the simulation:
-    Nx = 30                                                        !Space cells in x direction
+    Nx = 40                                                        !Space cells in x direction
     Ny = Nx                                                        !Space cells in y direction
     Lx = 1.d0                                                      !Size of space domain in x  (m)
     Ly = Lx                                                        !Size of space domain in y  (m)
@@ -141,7 +144,7 @@ subroutine Simulation()
     ti = 25.0d0                                                    !Initial condition parameter for temperature
     ta = 5.0d0                                                     !Temperature on the left wall
     tb = 50.0d0                                                    !Temperature on the right wall
-    dil = 0.01d0                                                 !Thermal dilatation linear coefficient
+    dil = 0.001d0                                                  !Thermal dilatation linear coefficient
     Ra = (gy * dil * (Tb - Ta) * Lx**2)/(alpha * nu)               !Número de Rayleigh.
     !Simulation convergence parameters:
     cfl = 0.025d0                                                  !Relation betwen time and space steps

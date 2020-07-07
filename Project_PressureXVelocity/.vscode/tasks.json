@@ -1,0 +1,20 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "fortran_opengl",
+            "type": "shell",
+            "command": " mpifort  -fbacktrace -fcheck=all -fno-range-check -c $file_name && mpifort $file_base_name.o GLUT_fonts.o OpenGl_freeglut.o OpenGl_glu.o OpenGl_gl.o -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib/ -lglut -lGL -lGLU -lXext -lX11 -lm -lpthread -ldl -lgfortran -o $file_base_name && start cmd /k bash --debug -i -c \"mpirun --oversubscribe -n 2 $file_base_name\" " ,
+            "windows": {
+                "command": " mpifort  -fbacktrace -fcheck=all -fno-range-check -c $file_name && mpifort $file_base_name.o GLUT_fonts.o OpenGl_freeglut.o OpenGl_glu.o OpenGl_gl.o -L/usr/lib/x86_64-linux-gnu -L/usr/local/lib/ -lglut -lGL -lGLU -lXext -lX11 -lm -lpthread -ldl -lgfortran -o $file_base_name && start cmd /k bash --debug -i -c \"mpirun --oversubscribe -n 2 $file_base_name\" "
+            },
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"u",
+				"u"
+			],
+			[
+				"i",
+				"i"
+			],
+			[
+				"ii",
+				"ii"
+			],
+			[
+				"d",
+				"do"
+			],
+			[
 				"graph",
 				"graphics"
 			],
@@ -56,10 +72,6 @@
 				"P"
 			],
 			[
-				"u",
-				"u"
-			],
-			[
 				"Ny",
 				"Ny"
 			],
@@ -80,20 +92,8 @@
 				"Windows_name"
 			],
 			[
-				"i",
-				"i"
-			],
-			[
 				"v",
 				"v"
-			],
-			[
-				"ii",
-				"ii"
-			],
-			[
-				"d",
-				"dBuffer"
 			],
 			[
 				"flag",
@@ -236,19 +236,28 @@
 	"buffers":
 	[
 		{
-			"file": "Teorico/Tento/Referencias/main4/main4.f90",
+			"file": "Teorico/src/main_5/main.F90",
 			"settings":
 			{
-				"buffer_size": 28787,
+				"buffer_size": 22572,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Teorico/src/main_5/main.F90",
+			"file": "Teorico/Tento/Referencias/main4_0/main4.f90",
 			"settings":
 			{
-				"buffer_size": 22573,
+				"buffer_size": 28955,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
+			"settings":
+			{
+				"buffer_size": 418,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -608,6 +617,26 @@
 					"Run"
 				],
 				[
+					"Packages/User/fortran.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/fortran.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/Fortran/build-systems/GFortran.sublime-build",
+					"Run"
+				],
+				[
 					"Packages/User/fortran2win.sublime-build",
 					""
 				]
@@ -708,6 +737,34 @@
 					"Run"
 				],
 				[
+					"Packages/User/Jupyter_open.sublime-build",
+					""
+				],
+				[
+					"Packages/User/opengl_fort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/simple_fort.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/opengl_fort.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					"Run"
+				],
+				[
 					"Packages/User/epta_sta_cpp.sublime-build",
 					""
 				],
@@ -740,20 +797,12 @@
 					"Run"
 				],
 				[
-					"Packages/User/fortran_win.sublime-build",
-					""
-				],
-				[
-					"Packages/User/mpi2winfort.sublime-build",
-					""
-				],
-				[
-					"Packages/User/opengl_fort.sublime-build",
+					"Packages/User/fortrandif.sublime-build",
 					""
 				]
 			],
 			[
-				"Packages/User/opengl_fort.sublime-build",
+				"Packages/User/fortrandif.sublime-build",
 				""
 			]
 		],
@@ -768,12 +817,52 @@
 					"Run"
 				],
 				[
-					"Packages/User/fortrandif.sublime-build",
+					"Packages/User/opengl_fort.sublime-build",
 					""
 				]
 			],
 			[
-				"Packages/User/fortrandif.sublime-build",
+				"Packages/MinimalFortran/MinimalFortran.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					""
+				],
+				[
+					"Packages/MinimalFortran/MinimalFortran.sublime-build",
+					"Run"
+				],
+				[
+					"Packages/User/opengl_fort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/simple_fort.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/opengl_fort.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
 				""
 			]
 		],
@@ -1028,34 +1117,6 @@
 					"Syntax Check"
 				],
 				[
-					"Packages/User/fortran_win.sublime-build",
-					""
-				],
-				[
-					"Packages/User/mpi2winfort.sublime-build",
-					""
-				],
-				[
-					"Packages/User/opengl_fort.sublime-build",
-					""
-				]
-			],
-			[
-				"Packages/Python/Python.sublime-build",
-				""
-			]
-		],
-		[
-			[
-				[
-					"Packages/Python/Python.sublime-build",
-					""
-				],
-				[
-					"Packages/Python/Python.sublime-build",
-					"Syntax Check"
-				],
-				[
 					"Packages/User/fortrandif.sublime-build",
 					""
 				]
@@ -1082,6 +1143,26 @@
 			],
 			[
 				"Packages/Python/Python.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/User/Jupyter_open.sublime-build",
+					""
+				],
+				[
+					"Packages/User/opengl_fort.sublime-build",
+					""
+				],
+				[
+					"Packages/User/simple_fort.sublime-build",
+					""
+				]
+			],
+			[
+				"Packages/User/opengl_fort.sublime-build",
 				""
 			]
 		],
@@ -1162,16 +1243,16 @@
 		"selected_items":
 		[
 			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
 				"install",
 				"Package Control: Install Package"
 			],
 			[
 				"package contr",
 				"Package Control: Install Package"
-			],
-			[
-				"package",
-				"Preferences: Browse Packages"
 			],
 			[
 				"packa",
@@ -1216,34 +1297,52 @@
 	},
 	"expanded_folders":
 	[
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_5"
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_5"
 	],
 	"file_history":
 	[
-		"/C/Users/USUARIO/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main3.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Recap.cpp",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/main.F90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/visualization.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/parallel_simu.F90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/visualization.F90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/simulation.F90",
-		"/C/Users/USUARIO/Downloads/controle.py",
-		"/C/Users/USUARIO/Desktop/Work/ProjetoCebeci/controle.py",
-		"/C/Users/USUARIO/Desktop/Work/ProjetoCebeci/results/ajustecebeciclassico.py",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Difusion.h",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Graficos.cpp",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/OpenGlcpp/OpenGlcpp/src/Difusion.cpp",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main_1.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/recap.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/modview.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/References/f03gl/Recapf90Opengl.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_RECAP/OpenGlf90/src/Recapf90Opengl.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/blender.f90",
-		"/C/Users/USUARIO/Desktop/Work/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/OpenGl/expe.f90",
+		"/E/Downloads/original.f90",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4/main4.f90",
+		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/simple_fort.sublime-build",
+		"/E/WORK/Programing_front/Persquisa/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_5/parallel_simu.F90",
+		"/E/WORK/Programing_front/Persquisa/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_5/visualization.F90",
+		"/E/WORK/Programing_front/Persquisa/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_5/simulation.F90",
+		"/E/WORK/Programing_front/Persquisa/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_5/main.F90",
+		"/E/WORK/Artist front/blender_criar/blender/3D Modelling in Blender/Read Me.txt",
+		"/E/WORK/Programing_front/Mercado_financeiro/cursos/hcet/planilha online.txt",
+		"/E/WORK/Programing_front/Mercado_financeiro/cursos/hcet/instruções checklist pra investimentos.txt",
+		"/E/Downloads/original (1).f90",
+		"/E/WORK/Programing_front/Persquisa/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/revision/tutor.f90",
+		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
+		"/F/TESTE11_o_brabo.TXT",
+		"/E/main4/main4.f90",
+		"/E/WORK/Programing front/Persquisa/natural_convection/programing/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4/main4.f90",
+		"/E/Downloads/main4/main4.f90",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC_ARISTEU_Fluidos/programas/prandtl foto/resultados/temp_10Ret=150N=400prandtl1_tratado.txt",
+		"/E/Downloads/Sony Vegas Pro 13.0 Build 453 (x64) + Patch DI/ReadMe.txt",
+		"/I/entretenimento/Sony Vegas Pro 11/Tutorial.txt",
+		"/I/entretenimento/7thStreetV10/README.txt",
+		"/E/WORK/Programing front/c/Epta_STA/software/readme.txt",
+		"/I/multimídia/livros/o menino que caçava ratos/igreja, gatos, ratos....txt",
+		"/I/multimídia/livros/o menino que caçava ratos/os anos....txt",
+		"/I/multimídia/livros/o menino que caçava ratos/o catarismo..txt",
+		"/I/multimídia/livros/o menino que caçava ratos/Quéribus... Reino de aragão..txt",
+		"/I/multimídia/livros/-----tuc/Novo Documento de Texto.txt",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4/main4.f90",
+		"/E/WORK/programing/fortran/ProjetoCebeci/results/graficos/amostras_temperature.py",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/parallel_simu.F90",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/visualization.F90",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/simulation.F90",
+		"/C/Users/felip/OneDrive/Documentos/programing/Experimental/IC.ARISTEU - Fluidos !!/natural convection/programing/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/main.F90",
+		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/fortran.sublime-build",
+		"/C/Users/felip/OneDrive/Documentos/trade/dinamica/simulation/imagensfinais/otmsem/otmsemajustadas.txt.txt",
+		"/C/Users/felip/OneDrive/Documentos/trade/dinamica/simulation/Evolução Diferencial/COMamortecimentoPC/result_ultimo.txt",
+		"/C/Users/felip/OneDrive/Documentos/trade/dinamica/simulation/Evolução Diferencial/Evolução Diferencial/15_12_resultados_h11_h12_h22_200_300.txt.txt",
+		"/C/Users/felip/OneDrive/Documentos/trade/dinamica/simulation/Evolução Diferencial/Evolução Diferencial/20_11_primeiro_resultado_primeiro_pico_ruim_massas_02_05kg.txt",
+		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_4/Plano_de_projeto.odg",
 		"/home/felipe/.config/sublime-text-3/Packages/User/OpenGlf90.sublime-build",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main_1.f90",
 		"/home/felipe/Trabalho/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main2.f90",
@@ -1332,33 +1431,15 @@
 		"/home/felipe/Downloads/f03gl/plotfunc.f90",
 		"/home/felipe/Documents/ProjetoCebeci/otimization.f90",
 		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image1020._400_Avelocity.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_150.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/graficos/images/Temperature_150_071_classico.png",
-		"/home/felipe/Documents/ProjetoCebeci/results/graficos/temp.py",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_640_0025.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_395_0025.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/Prt_RE_395_071.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image 395._10.00_400_Prt(Ret)_A26.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image 395._10.00_400_classico.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_10_400_Cefisico.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/Gene150_071_400.txt",
-		"/home/felipe/Documents/ProjetoCebeci/results/Gene395_0025_400_Cefisico.txt",
-		"/home/felipe/Documents/amr3d-paralelo/input/energy.amr3d",
-		"/home/felipe/Downloads/install_prerequisites_ubuntu.sh",
-		"/home/felipe/.bashrc",
-		"/home/felipe/.Xauthority",
-		"/home/felipe/.xsession-errors",
-		"/home/felipe/.config/Code/CachedData/493869ee8e8a846b0855873886fc79d480d342de/unixTerminal-4f0baab02c5eb176b18157b9177d7a58.code",
-		"/usr/share/applications/sublime.desktop",
-		"/usr/share/applications/nautilus-classic.desktop"
+		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_150.txt"
 	],
 	"find":
 	{
-		"height": 37.6
+		"height": 49.0
 	},
 	"find_in_files":
 	{
-		"height": 109.0,
+		"height": 135.0,
 		"where_history":
 		[
 		]
@@ -1368,7 +1449,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"dBuffer",
+			"time",
+			"assimilation",
 			"len",
 			"LEN",
 			"LEN =",
@@ -1435,19 +1517,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "Teorico/Tento/Referencias/main4/main4.f90",
-					"semi_transient": false,
+					"file": "Teorico/src/main_5/main.F90",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 28787,
+						"buffer_size": 22572,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5062,
-								5062
+								2805,
+								2805
 							]
 						],
 						"settings":
@@ -1457,27 +1539,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1756.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "Teorico/src/main_5/main.F90",
+					"file": "Teorico/Tento/Referencias/main4_0/main4.f90",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22573,
+						"buffer_size": 28955,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3085,
-								3085
+								702,
+								702
 							]
 						],
 						"settings":
@@ -1487,10 +1569,38 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 138.4,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 418,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1,
+								1
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 6.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1533,7 +1643,7 @@
 	},
 	"output.exec":
 	{
-		"height": 150.0
+		"height": 244.0
 	},
 	"output.find_results":
 	{
@@ -1567,7 +1677,7 @@
 		[
 			[
 				"",
-				"~/Downloads/16_Games/GAMES_CPP.sublime-project"
+				"E:\\OneDrive\\Academic_front\\Projects\\IC_Aldemir_vibracoes_fadiga\\aldemir_fadiga.sublime-project"
 			]
 		],
 		"width": 380.0
@@ -1589,7 +1699,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 313.0,
+	"side_bar_width": 261.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
