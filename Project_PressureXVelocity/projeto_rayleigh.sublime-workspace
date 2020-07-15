@@ -236,28 +236,10 @@
 	"buffers":
 	[
 		{
-			"file": "Teorico/src/main_5/main.F90",
+			"file": "Teorico/Tento/Referencias/main4/main4.f90",
 			"settings":
 			{
-				"buffer_size": 22572,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Teorico/Tento/Referencias/main4_0/main4.f90",
-			"settings":
-			{
-				"buffer_size": 28955,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
-			"settings":
-			{
-				"buffer_size": 418,
+				"buffer_size": 28789,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -1299,11 +1281,16 @@
 	[
 		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity",
 		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico",
-		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src",
-		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/src/main_5"
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4/results"
 	],
 	"file_history":
 	[
+		"/E/Downloads/s.txt",
+		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
+		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4_0/main4.f90",
 		"/E/Downloads/original.f90",
 		"/E/OneDrive/Academic_front/Projects/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4/main4.f90",
 		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/simple_fort.sublime-build",
@@ -1316,7 +1303,6 @@
 		"/E/WORK/Programing_front/Mercado_financeiro/cursos/hcet/instruções checklist pra investimentos.txt",
 		"/E/Downloads/original (1).f90",
 		"/E/WORK/Programing_front/Persquisa/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/revision/tutor.f90",
-		"/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
 		"/F/TESTE11_o_brabo.TXT",
 		"/E/main4/main4.f90",
 		"/E/WORK/Programing front/Persquisa/natural_convection/programing/Iniciativa_Rayleigh/Project_PressureXVelocity/Teorico/Tento/Referencias/main4/main4.f90",
@@ -1429,9 +1415,7 @@
 		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisdoublePrt.txt",
 		"/home/felipe/Documents/ProjetoCebeci/results/ResultadosGeraisGeneticmolecular.txt",
 		"/home/felipe/Downloads/f03gl/plotfunc.f90",
-		"/home/felipe/Documents/ProjetoCebeci/otimization.f90",
-		"/home/felipe/Documents/ProjetoCebeci/results/graficos/image1020._400_Avelocity.txt",
-		"/home/felipe/Documents/ProjetoCebeci/DNS/DNS_RE_150.txt"
+		"/home/felipe/Documents/ProjetoCebeci/otimization.f90"
 	],
 	"find":
 	{
@@ -1512,24 +1496,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Teorico/src/main_5/main.F90",
+					"file": "Teorico/Tento/Referencias/main4/main4.f90",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 22572,
+						"buffer_size": 28789,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2805,
-								2805
+								5278,
+								5278
 							]
 						],
 						"settings":
@@ -1539,68 +1523,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Teorico/Tento/Referencias/main4_0/main4.f90",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 28955,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								702,
-								702
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/MinimalFortran/MinimalFortran.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2072.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/C/Users/felip/AppData/Roaming/Sublime Text 3/Packages/User/opengl_fort.sublime-build",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 418,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1,
-								1
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
-						},
-						"translation.x": 6.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1699,7 +1625,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 261.0,
+	"side_bar_width": 309.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
